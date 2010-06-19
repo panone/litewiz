@@ -7,6 +7,7 @@ include_once( 'utility.php' );
 class Classifier
 {
     private $fileName;
+    private $codecCount;
     private $itemName;
     private $codecName;
 
@@ -14,18 +15,24 @@ class Classifier
     ***************************************************************************/
     public function __construct()
     {
-        $this->fileName  = array();
-        $this->itemName  = array();
-        $this->codecName = array();
+        $this->Initialize();
+    }
+
+    /***************************************************************************
+    ***************************************************************************/
+    private function Initialize()
+    {
+        $this->fileName   = array();
+        $this->codecCount = array();
+        $this->itemName   = array();
+        $this->codecName  = array();
     }
 
     /***************************************************************************
     ***************************************************************************/
     public function Classify( $fileName )
     {
-        $this->fileName  = array();
-        $this->itemName  = array();
-        $this->codecName = array();
+        $this->Initialize();
 
         foreach ( $fileName as $fn )
         {
@@ -33,6 +40,8 @@ class Classifier
         }
 
         $clusterSizeCount = $this->GetClusterSizeCount();
+
+        $this->DetectClusterSizeStep( array_keys( $clusterSizeCount ) );
 
         return array( $this->itemName, $this->codecName );
     }
@@ -47,7 +56,7 @@ class Classifier
         {
             foreach ( $fn->GetClusterSizeCount() as $size => $count )
             {
-                $result[ $size ] = isset( $result[ $size ] ) ? $result[ $size ] + $count : $count;
+                @$result[ $size ] += $count;
             }
         }
 
@@ -58,6 +67,50 @@ class Classifier
         foreach ( $result as $size => $count )
         {
             print( $size . "\t" . $count . "\n" );
+        }
+
+        return $result;
+    }
+
+    /***************************************************************************
+    ***************************************************************************/
+    private function DetectClusterSizeStep( $clusterSize )
+    {
+        $clusterSize = $this->GetRelevantClusterSizes( $clusterSize );
+        $count       = count( $clusterSize );
+
+        if ( $count > 1 )
+        {
+            $smallest = array_pop( $clusterSize );
+
+            foreach ( $clusterSize as $size )
+            {
+                @$this->codecCount[ gcd( $size, $smallest ) ] += 0.2;
+            }
+        }
+
+        print_r( $this->codecCount );
+    }
+
+    /***************************************************************************
+        Filter-out cluster sizes that differ by 1 from their neighbours
+    ***************************************************************************/
+    private function GetRelevantClusterSizes( $clusterSize )
+    {
+        $result = array();
+        $count  = count( $clusterSize );
+
+        if ( $count > 1 )
+        {
+            for ( $i = $count - 1; $i > 0; $i-- )
+            {
+                $result[] = $clusterSize[ $i ];
+
+                if ( ( $clusterSize[ $i ] - $clusterSize[ $i - 1 ] ) == 1 )
+                {
+                    break;
+                }
+            }
         }
 
         return $result;
@@ -96,7 +149,7 @@ class FileNameMatch
         {
             $size = count( $cluster );
 
-            $result[ $size ] = isset( $result[ $size ] ) ? $result[ $size ] + 1 : 1;
+            @$result[ $size ] += 1;
         }
 
         return $result;
