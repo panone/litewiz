@@ -43,6 +43,7 @@ class Classifier
 
         $this->SelectPopularClusterSizes( $clusterSizeCount );
         $this->DetectClusterSizeStep( array_keys( $clusterSizeCount ) );
+        $this->DetectUniqueItemClusterSize();
 
         return array( $this->itemName, $this->codecName );
     }
@@ -138,6 +139,34 @@ class Classifier
 
         return $result;
     }
+
+    /***************************************************************************
+    ***************************************************************************/
+    private function DetectUniqueItemClusterSize()
+    {
+        $size = $this->GetMaxUnmatchedClusterSize();
+
+        if ( $size > 0 )
+        {
+            @$this->codecCount[ count( $this->fileName ) - $size ] += 0.5;
+        }
+
+        print_r( $this->codecCount );
+    }
+
+    /***************************************************************************
+    ***************************************************************************/
+    private function GetMaxUnmatchedClusterSize()
+    {
+        $result = 0;
+
+        foreach ( $this->fileName as $fn )
+        {
+            $result = max( $result, $fn->GetUnmatchedClusterSize() );
+        }
+
+        return $result;
+    }
 }
 
 /*******************************************************************************
@@ -173,6 +202,20 @@ class FileNameMatch
             $size = count( $cluster );
 
             @$result[ $size ] += 1;
+        }
+
+        return $result;
+    }
+
+    /***************************************************************************
+    ***************************************************************************/
+    public function GetUnmatchedClusterSize()
+    {
+        $result = 0;
+
+        if ( isset( $this->cluster[ 0 ] ) )
+        {
+            $result = count( $this->cluster[ 0 ] );
         }
 
         return $result;
