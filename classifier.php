@@ -21,35 +21,42 @@ class Classifier
     ***************************************************************************/
     public function Classify( $fileName )
     {
-        $this->fileName  = $fileName;
+        $this->fileName  = array();
         $this->itemName  = array();
         $this->codecName = array();
 
-        $match = array();
-
         foreach ( $fileName as $fn )
         {
-            $match[ $fn ] = new FileNameMatch( $fn, $fileName );
+            $this->fileName[ $fn ] = new FileNameMatch( $fn, $fileName );
         }
 
-        $groupSizeCount = array();
+        $groupSizeCount = $this->GetGroupSizeCount();
 
-        foreach ( $match as $m )
+        return array( $this->itemName, $this->codecName );
+    }
+
+    /***************************************************************************
+    ***************************************************************************/
+    private function GetGroupSizeCount()
+    {
+        $result = array();
+
+        foreach ( $this->fileName as $fn )
         {
-            foreach ( $m->GetGroupSizeCount() as $size => $count )
+            foreach ( $fn->GetGroupSizeCount() as $size => $count )
             {
-                $groupSizeCount[ $size ] = isset( $groupSizeCount[ $size ] ) ? $groupSizeCount[ $size ] + $count : $count;
+                $result[ $size ] = isset( $result[ $size ] ) ? $result[ $size ] + $count : $count;
             }
         }
 
-        print_r( $groupSizeCount );
+        print_r( $result );
 
-        foreach ( $groupSizeCount as $size => $count )
+        foreach ( $result as $size => $count )
         {
             print( $size . "\t" . $count . "\n" );
         }
 
-        return array( $this->itemName, $this->codecName );
+        return $result;
     }
 }
 
