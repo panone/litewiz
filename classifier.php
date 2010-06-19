@@ -30,20 +30,20 @@ class Classifier
             $this->fileName[ $fn ] = new FileNameMatch( $fn, $fileName );
         }
 
-        $groupSizeCount = $this->GetGroupSizeCount();
+        $clusterSizeCount = $this->GetClusterSizeCount();
 
         return array( $this->itemName, $this->codecName );
     }
 
     /***************************************************************************
     ***************************************************************************/
-    private function GetGroupSizeCount()
+    private function GetClusterSizeCount()
     {
         $result = array();
 
         foreach ( $this->fileName as $fn )
         {
-            foreach ( $fn->GetGroupSizeCount() as $size => $count )
+            foreach ( $fn->GetClusterSizeCount() as $size => $count )
             {
                 $result[ $size ] = isset( $result[ $size ] ) ? $result[ $size ] + $count : $count;
             }
@@ -67,20 +67,20 @@ class Classifier
 class FileNameMatch
 {
     private $fileName;
-    private $matchLength;
+    private $cluster;
 
     /***************************************************************************
     ***************************************************************************/
     public function __construct( $fileName, $list )
     {
-        $this->fileName    = $fileName;
-        $this->matchLength = array();
+        $this->fileName = $fileName;
+        $this->cluster  = array();
 
         foreach ( $list as $fn )
         {
             $offset = $this->FindFirstDifference( $fileName, $fn );
 
-            $this->matchLength[ $offset ][] = $fn;
+            $this->cluster[ $offset ][] = $fn;
         }
     }
 
@@ -103,13 +103,13 @@ class FileNameMatch
 
     /***************************************************************************
     ***************************************************************************/
-    public function GetGroupSizeCount()
+    public function GetClusterSizeCount()
     {
         $result = array();
 
-        foreach( $this->matchLength as $ml )
+        foreach( $this->cluster as $cluster )
         {
-            $size = count( $ml );
+            $size = count( $cluster );
 
             $result[ $size ] = isset( $result[ $size ] ) ? $result[ $size ] + 1 : 1;
         }
@@ -126,13 +126,13 @@ class FileNameMatch
     public function GetMatchesCount( $order )
     {
         $result = 0;
-        $length = array_keys( $this->matchLength );
+        $length = array_keys( $this->cluster );
 
         if ( $order < count( $length ) )
         {
             rsort( $length );
 
-            $result = count( $this->matchLength[ $length[ $order ] ] );
+            $result = count( $this->cluster[ $length[ $order ] ] );
         }
 
         return $result;
