@@ -41,6 +41,7 @@ class Classifier
 
         $clusterSizeCount = $this->GetClusterSizeCount();
 
+        $this->SelectPopularClusterSizes( $clusterSizeCount );
         $this->DetectClusterSizeStep( array_keys( $clusterSizeCount ) );
 
         return array( $this->itemName, $this->codecName );
@@ -74,6 +75,28 @@ class Classifier
 
     /***************************************************************************
     ***************************************************************************/
+    private function SelectPopularClusterSizes( $clusterSizeCount )
+    {
+        if ( isset( $clusterSizeCount[ 1 ] ) )
+        {
+            unset( $clusterSizeCount[ 1 ] );
+        }
+
+        arsort( $clusterSizeCount );
+
+        $clusterSize = array_keys( $clusterSizeCount );
+        $count       = min( count( $clusterSize ), 4 );
+
+        for ( $i = 0; $i < $count; $i++ )
+        {
+            @$this->codecCount[ $clusterSize[ $i ] ] += 1 / pow( 2, $i );
+        }
+
+        print_r( $this->codecCount );
+    }
+
+    /***************************************************************************
+    ***************************************************************************/
     private function DetectClusterSizeStep( $clusterSize )
     {
         $clusterSize = $this->GetRelevantClusterSizes( $clusterSize );
@@ -85,7 +108,7 @@ class Classifier
 
             foreach ( $clusterSize as $size )
             {
-                @$this->codecCount[ gcd( $size, $smallest ) ] += 0.2;
+                @$this->codecCount[ gcd( $size, $smallest ) ] += 0.25;
             }
         }
 
