@@ -30,15 +30,7 @@ class Classifier
         foreach ( $fileName as $fn )
         {
             $match[ $fn ] = new FileNameMatch( $fn, $fileName );
-
-            print( str_pad( $fn, 50 ) . " : " );
-            print( "0 -> " . $match[ $fn ]->GetMatchesCount( 0 ) . ", " );
-            print( "1 -> " . $match[ $fn ]->GetMatchesCount( 1 ) . ", " );
-            print( "2 -> " . $match[ $fn ]->GetMatchesCount( 2 ) . "\n" );
         }
-
-        print_r( $match[ $fileName[ 0 ] ]->GetGroupSizeCount() );
-        print_r( $match[ $fileName[ 69 ] ]->GetGroupSizeCount() );
 
         $groupSizeCount = array();
 
