@@ -34,6 +34,8 @@ class Classifier
     {
         $this->Initialize();
 
+        $this->log = new ClassifierLog();
+
         foreach ( $fileName as $fn )
         {
             $this->fileName[ $fn ] = new FileNameMatch( $fn, $fileName );
@@ -44,6 +46,8 @@ class Classifier
         $this->SelectPopularClusterSizes( $clusterSizeCount );
         $this->DetectClusterSizeStep( array_keys( $clusterSizeCount ) );
         $this->DetectUniqueItemClusterSize();
+
+        $this->log->Dump();
 
         return array( $this->itemName, $this->codecName );
     }
@@ -93,7 +97,7 @@ class Classifier
             @$this->codecCount[ $clusterSize[ $i ] ] += 1 / pow( 2, $i );
         }
 
-        print_r( $this->codecCount );
+        $this->log->LogCodecCount( 'SelectPopularClusterSizes', $this->codecCount );
     }
 
     /***************************************************************************
@@ -113,7 +117,7 @@ class Classifier
             }
         }
 
-        print_r( $this->codecCount );
+        $this->log->LogCodecCount( 'DetectClusterSizeStep', $this->codecCount );
     }
 
     /***************************************************************************
@@ -151,7 +155,7 @@ class Classifier
             @$this->codecCount[ count( $this->fileName ) - $size ] += 0.5;
         }
 
-        print_r( $this->codecCount );
+        $this->log->LogCodecCount( 'DetectUniqueItemClusterSize', $this->codecCount );
     }
 
     /***************************************************************************
@@ -240,5 +244,69 @@ class FileNameMatch
         }
 
         return $result;
+    }
+}
+
+/*******************************************************************************
+*******************************************************************************/
+class ClassifierLog
+{
+    private $label;
+    private $codecCount;
+
+    /***************************************************************************
+    ***************************************************************************/
+    public function __construct()
+    {
+        $this->label      = array();
+        $this->codecCount = array();
+    }
+
+    /***************************************************************************
+    ***************************************************************************/
+    public function LogCodecCount( $label, $codecCount )
+    {
+        $snapshots = count( $this->label );
+
+        foreach ( $codecCount as $count => $weight )
+        {
+            if ( !isset( $this->codecCount[ $count ] ) )
+            {
+                for ( $i = 0; $i < $snapshots; $i++ )
+                {
+                    $this->codecCount[ $count ][ $i ] = 0;
+                }
+            }
+
+            $this->codecCount[ $count ][] = $weight;
+        }
+
+        $this->label[] = $label;
+    }
+
+    /***************************************************************************
+    ***************************************************************************/
+    public function Dump()
+    {
+        ksort( $this->codecCount );
+
+        $snapshots = count( $this->label );
+
+        for ( $i = 0; $i < $snapshots; $i++ )
+        {
+            print( '   ' . str_pad( '', $i * 8 ) . $this->label[ $i ] . "\n" );
+        }
+
+        foreach ( $this->codecCount as $count => $weight )
+        {
+            print( str_pad( $count, 3 ) );
+
+            for ( $i = 0; $i < $snapshots; $i++ )
+            {
+                print( sprintf( '%-8.3f', $weight[ $i ] ) );
+            }
+
+            print( "\n" );
+        }
     }
 }
