@@ -49,6 +49,8 @@ class Classifier
             }
         }
 
+        ksort( $result );
+
         print_r( $result );
 
         foreach ( $result as $size => $count )
