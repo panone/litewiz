@@ -1,5 +1,7 @@
 <?php
 
+include_once( 'utility.php' );
+
 /*******************************************************************************
 *******************************************************************************/
 class Classifier
@@ -78,27 +80,10 @@ class FileNameMatch
 
         foreach ( $list as $fn )
         {
-            $offset = $this->FindFirstDifference( $fileName, $fn );
+            $offset = strdiff( $fileName, $fn );
 
             $this->cluster[ $offset ][] = $fn;
         }
-    }
-
-    /***************************************************************************
-    ***************************************************************************/
-    private function FindFirstDifference( $string1, $string2 )
-    {
-        $length = min( strlen( $string1 ), strlen( $string2 ) );
-
-        for ( $i = 0; $i < $length; $i++ )
-        {
-            if ( $string1{ $i } != $string2{ $i } )
-            {
-                break;
-            }
-        }
-
-        return $i;
     }
 
     /***************************************************************************
