@@ -105,11 +105,13 @@ class Classifier
         arsort( $clusterSizeCount );
 
         $clusterSize = array_keys( $clusterSizeCount );
-        $count       = min( count( $clusterSize ), 4 );
+        $count       = count( $clusterSize );
+        $gain        = min( 0.125 * $count, 1 );
+        $count       = min( $count, 4 );
 
         for ( $i = 0; $i < $count; $i++ )
         {
-            @$this->codecCount[ $clusterSize[ $i ] ] += 1 / pow( 2, $i );
+            @$this->codecCount[ $clusterSize[ $i ] ] += $gain / pow( 2, $i );
         }
 
         $this->log->LogCodecCount( 'SelectPopularClusterSizes', $this->codecCount );
