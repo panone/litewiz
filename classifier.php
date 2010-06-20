@@ -366,12 +366,18 @@ class ClassifierLog
     private function RenderClusterSize( $sink )
     {
         $sink->Write( '<div class="cluster-size">' );
-        $sink->Write( '<h3>Cluster size distribution</h3>' );
+        $sink->Write( '<h3>Cluster size distribution <span class="expand">&laquo;</span></h3>' );
 
+        $max = ceil( max( $this->clusterSize ) / 10 ) * 10;
         $chart[] = 'chs=400x200';
         $chart[] = 'cht=bvs';
         $chart[] = 'chd=t:' . implode( ',', $this->clusterSize );
-        $chart[] = 'chds=0,' . ( ceil( max( $this->clusterSize ) / 10 ) * 10 );
+        $chart[] = "chds=0,$max";
+        $chart[] = 'chco=4D89F9';
+        $chart[] = 'chxt=x,y';
+        $chart[] = "chxr=1,0,$max";
+        $chart[] = 'chxl=0:|' . implode( '|', array_keys( $this->clusterSize ) );
+        $chart[] = 'chm=N,FFFFFF,0,,9,,c';
 
         $image = '<img src="http://chart.apis.google.com/chart?' . implode( '&amp;', $chart ) . '" />';
 
