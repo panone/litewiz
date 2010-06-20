@@ -359,6 +359,9 @@ class ClassifierLog
     public function RenderReport( $sink )
     {
         $this->RenderClusterSize( $sink );
+        $this->RenderCodecCount( $sink );
+
+        $sink->Write( '<div class="clearer"></div>' );
     }
 
     /***************************************************************************
@@ -383,5 +386,58 @@ class ClassifierLog
 
         $sink->Write( $image );
         $sink->Write( '</div>' );
+    }
+
+    /***************************************************************************
+    ***************************************************************************/
+    private function RenderCodecCount( $sink )
+    {
+        static $color = array( '4D89F9', 'FFCEB4', 'BEF3A9', '96DEE4', 'DEB3FF', 'FF94C1', 'DDDB4A', '22C778', 'A6C7E3' );
+
+        $sink->Write( '<div class="codec-count">' );
+        $sink->Write( '<h3>Codecs number probability distribution <span class="expand">&laquo;</span></h3>' );
+
+        ksort( $this->codecCount );
+
+        $snapshots = count( $this->label );
+        $max       = ceil( $this->GetMaxCodecCountWight() + 0.5 );
+
+        for ( $i = 0; $i < $snapshots; $i++ )
+        {
+            $series = array();
+
+            foreach ( $this->codecCount as $weight )
+            {
+                $series[] = $weight[ $i ];
+            }
+
+            $data[] = implode( ',', $series );
+        }
+
+        $chart[] = 'chs=400x200';
+        $chart[] = 'cht=lc';
+        $chart[] = 'chd=t:' . implode( '|', $data );
+        $chart[] = "chds=0,$max";
+        $chart[] = 'chco=' . implode( ',', array_slice( $color, 0, $snapshots ) );
+        $chart[] = 'chxt=x,y';
+        $chart[] = "chxr=1,0,$max";
+        $chart[] = 'chxl=0:|' . implode( '|', array_keys( $this->codecCount ) );
+
+        $image = '<img src="http://chart.apis.google.com/chart?' . implode( '&amp;', $chart ) . '" />';
+
+        $sink->Write( $image );
+        $sink->Write( '</div>' );
+    }
+
+    /***************************************************************************
+    ***************************************************************************/
+    private function GetMaxCodecCountWight()
+    {
+        foreach ( $this->codecCount as $weight )
+        {
+            $max[] = max( $weight );
+        }
+
+        return max( $max );
     }
 }

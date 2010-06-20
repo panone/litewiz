@@ -25,6 +25,7 @@ div.test-case h2 {
     font-weight: bold;
     margin: 0.5em 0 0.5em 0;
     border-bottom: 1px solid #999;
+    clear: both;
 }
 
 div.test-case h2 span.file-name {
@@ -52,6 +53,21 @@ div.test-case h3 span.expand {
     cursor: pointer;
 }
 
+div.test-case div.clearer {
+    clear: both;
+    border: 0;
+    line-height: 0;
+    height: 0;
+    overflow: hidden;
+}
+
 div.cluster-size {
+    float: left;
+    width: 48%;
+}
+
+div.codec-count {
+    float: left;
+    margin-left: 1em;
     width: 48%;
 }
