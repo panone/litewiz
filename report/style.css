@@ -24,3 +24,9 @@ div.test-case h2 {
 div.test-case h2 span.file-name {
     color: #AAA;
 }
+
+div.test-case h3 {
+    font-size: 100%;
+    font-weight: bold;
+    margin: 0;
+}

@@ -101,7 +101,7 @@ class Application extends BaseApplication
             $classifier->Classify( $this->GetFileNames( $fileName ) );
 
             $report->OpenTestCase( $case );
-            //$classifier->RenderHtml( $report );
+            $classifier->RenderReport( $report );
             $report->CloseTestCase();
         }
 

@@ -64,6 +64,16 @@ class Classifier
 
     /***************************************************************************
     ***************************************************************************/
+    public function RenderReport( $sink )
+    {
+        if ( $this->log != NULL )
+        {
+            $this->log->RenderReport( $sink );
+        }
+    }
+
+    /***************************************************************************
+    ***************************************************************************/
     private function GetClusterSizeCount()
     {
         $result = array();
@@ -78,12 +88,7 @@ class Classifier
 
         ksort( $result );
 
-        print_r( $result );
-
-        foreach ( $result as $size => $count )
-        {
-            print( $size . "\t" . $count . "\n" );
-        }
+        $this->log->LogClusterSize( $result );
 
         return $result;
     }
@@ -262,14 +267,23 @@ class FileNameMatch
 class ClassifierLog
 {
     private $label;
+    private $clusterSize;
     private $codecCount;
 
     /***************************************************************************
     ***************************************************************************/
     public function __construct()
     {
-        $this->label      = array();
-        $this->codecCount = array();
+        $this->label       = array();
+        $this->clusterSize = array();
+        $this->codecCount  = array();
+    }
+
+    /***************************************************************************
+    ***************************************************************************/
+    public function LogClusterSize( $clusterSize )
+    {
+        $this->clusterSize = $clusterSize;
     }
 
     /***************************************************************************
@@ -298,6 +312,26 @@ class ClassifierLog
     ***************************************************************************/
     public function Dump()
     {
+        $this->DumpClusterSize();
+        $this->DumpCodecCount();
+    }
+
+    /***************************************************************************
+    ***************************************************************************/
+    private function DumpClusterSize()
+    {
+        print( "GetClusterSizeCount\n" );
+
+        foreach ( $this->clusterSize as $size => $count )
+        {
+            print( $size . "\t" . $count . "\n" );
+        }
+    }
+
+    /***************************************************************************
+    ***************************************************************************/
+    private function DumpCodecCount()
+    {
         ksort( $this->codecCount );
 
         $snapshots = count( $this->label );
@@ -318,5 +352,30 @@ class ClassifierLog
 
             print( "\n" );
         }
+    }
+
+    /***************************************************************************
+    ***************************************************************************/
+    public function RenderReport( $sink )
+    {
+        $this->RenderClusterSize( $sink );
+    }
+
+    /***************************************************************************
+    ***************************************************************************/
+    private function RenderClusterSize( $sink )
+    {
+        $sink->Write( '<div class="cluster-size">' );
+        $sink->Write( '<h3>Cluster size distribution</h3>' );
+
+        $chart[] = 'chs=400x200';
+        $chart[] = 'cht=bvs';
+        $chart[] = 'chd=t:' . implode( ',', $this->clusterSize );
+        $chart[] = 'chds=0,' . ( ceil( max( $this->clusterSize ) / 10 ) * 10 );
+
+        $image = '<img src="http://chart.apis.google.com/chart?' . implode( '&amp;', $chart ) . '" />';
+
+        $sink->Write( $image );
+        $sink->Write( '</div>' );
     }
 }
