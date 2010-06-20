@@ -10,6 +10,7 @@ class Classifier
     private $codecCount;
     private $itemName;
     private $codecName;
+    private $log;
 
     /***************************************************************************
     ***************************************************************************/
@@ -26,6 +27,7 @@ class Classifier
         $this->codecCount = array();
         $this->itemName   = array();
         $this->codecName  = array();
+        $this->log        = NULL;
     }
 
     /***************************************************************************
@@ -47,9 +49,17 @@ class Classifier
         $this->DetectClusterSizeStep( array_keys( $clusterSizeCount ) );
         $this->DetectUniqueItemClusterSize();
 
-        $this->log->Dump();
-
         return array( $this->itemName, $this->codecName );
+    }
+
+    /***************************************************************************
+    ***************************************************************************/
+    public function Dump()
+    {
+        if ( $this->log != NULL )
+        {
+            $this->log->Dump();
+        }
     }
 
     /***************************************************************************

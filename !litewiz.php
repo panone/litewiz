@@ -60,6 +60,7 @@ class Application extends BaseApplication
             $classifier = new Classifier();
 
             $classifier->Classify( $this->GetFileNames( $this->input ) );
+            $classifier->Dump();
         }
     }
 
@@ -75,7 +76,13 @@ class Application extends BaseApplication
         {
             $fileName = $testBaseDir . $case[ 'fileName' ];
 
+            print( "\n--------------------\n" );
+            print( "fileName : ${case[ 'fileName' ]}\n" );
+            print( "items    : ${case[ 'items' ]}\n" );
+            print( "codecs   : ${case[ 'codecs' ]}\n\n" );
+
             $classifier->Classify( $this->GetFileNames( $fileName ) );
+            $classifier->Dump();
         }
     }
 
