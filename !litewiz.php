@@ -3,6 +3,7 @@
 include_once( 'spyc.php' );
 include_once( 'application.php' );
 include_once( 'classifier.php' );
+include_once( 'report.php' );
 
 /*******************************************************************************
 *******************************************************************************/
@@ -10,6 +11,8 @@ class Application extends BaseApplication
 {
     private $input;
     private $testSet;
+    private $testReport;
+    private $reportTemplate;
 
     /***************************************************************************
     ***************************************************************************/
@@ -30,6 +33,22 @@ class Application extends BaseApplication
         $arg .= 'default  : <none>;';
 
         $parser->AddArgument( $arg );
+
+        $arg  = 'switch   : tr;';
+        $arg .= 'optional : yes;';
+        $arg .= 'name     : report;';
+        $arg .= 'caption  : Test report;';
+        $arg .= 'default  : report.html;';
+
+        $parser->AddArgument( $arg );
+
+        $arg  = 'switch   : rt;';
+        $arg .= 'optional : yes;';
+        $arg .= 'name     : template;';
+        $arg .= 'caption  : Report template;';
+        $arg .= 'default  : report;';
+
+        $parser->AddArgument( $arg );
     }
 
     /***************************************************************************
@@ -43,8 +62,10 @@ class Application extends BaseApplication
 
         parent::__construct( $parameters );
 
-        $this->testSet = ( $parameters[ 'test' ] != '<none>' );
-        $this->input   = ( $this->testSet ) ? $parameters[ 'test' ] : $parameters[ 'input' ];
+        $this->testSet        = ( $parameters[ 'test' ] != '<none>' );
+        $this->input          = ( $this->testSet ) ? $parameters[ 'test' ] : $parameters[ 'input' ];
+        $this->testReport     = $parameters[ 'report' ];
+        $this->reportTemplate = $parameters[ 'template' ];
     }
 
     /***************************************************************************
@@ -69,6 +90,7 @@ class Application extends BaseApplication
     private function RunTestSet( $input )
     {
         $classifier  = new Classifier();
+        $report      = new Report( $this->reportTemplate );
         $testSet     = Spyc::YAMLLoad( $input );
         $testBaseDir = dirname( realpath( $input ) ) . '/';
 
@@ -76,14 +98,14 @@ class Application extends BaseApplication
         {
             $fileName = $testBaseDir . $case[ 'fileName' ];
 
-            print( "\n--------------------\n" );
-            print( "fileName : ${case[ 'fileName' ]}\n" );
-            print( "items    : ${case[ 'items' ]}\n" );
-            print( "codecs   : ${case[ 'codecs' ]}\n\n" );
-
             $classifier->Classify( $this->GetFileNames( $fileName ) );
-            $classifier->Dump();
+
+            $report->OpenTestCase( $case );
+            //$classifier->RenderHtml( $report );
+            $report->CloseTestCase();
         }
+
+        $report->Save( $this->testReport );
     }
 
     /***************************************************************************
