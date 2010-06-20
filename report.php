@@ -35,8 +35,8 @@ class Report
     public function OpenTestCase( $testCase )
     {
         $fileName = '<span class="file-name">' . $testCase[ 'fileName' ] . '</span>';
-        $items    = $testCase[ 'items' ] . ' item' . ( $testCase[ 'items' ] > 1 ) ? 's' : '';
-        $codecs   = $testCase[ 'codecs' ] . ' codec' . ( $testCase[ 'codecs' ] > 1 ) ? 's' : '';
+        $items    = $testCase[ 'items' ] . ' item' . ( ( $testCase[ 'items' ] > 1 ) ? 's' : '' );
+        $codecs   = $testCase[ 'codecs' ] . ' codec' . ( ( $testCase[ 'codecs' ] > 1 ) ? 's' : '' );
 
         $this->Write( '<div class="test-case">' );
         $this->Write( "<h2>$fileName ($items, $codecs)</h2>" );
