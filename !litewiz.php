@@ -1,5 +1,6 @@
 <?php
 
+include_once( 'spyc.php' );
 include_once( 'application.php' );
 include_once( 'classifier.php' );
 
@@ -8,6 +9,7 @@ include_once( 'classifier.php' );
 class Application extends BaseApplication
 {
     private $input;
+    private $testSet;
 
     /***************************************************************************
     ***************************************************************************/
@@ -18,6 +20,14 @@ class Application extends BaseApplication
         $arg .= 'name     : input;';
         $arg .= 'caption  : Input file;';
         $arg .= 'default  : #input.txt;';
+
+        $parser->AddArgument( $arg );
+
+        $arg  = 'switch   : ts;';
+        $arg .= 'optional : yes;';
+        $arg .= 'name     : test;';
+        $arg .= 'caption  : Test set file;';
+        $arg .= 'default  : <none>;';
 
         $parser->AddArgument( $arg );
     }
@@ -33,14 +43,47 @@ class Application extends BaseApplication
 
         parent::__construct( $parameters );
 
-        $this->input = $parameters[ 'input' ];
+        $this->testSet = ( $parameters[ 'test' ] != '<none>' );
+        $this->input   = ( $this->testSet ) ? $parameters[ 'test' ] : $parameters[ 'input' ];
     }
 
     /***************************************************************************
     ***************************************************************************/
-    private function GetFileNames()
+    public function Main()
     {
-        $temp   = file( $this->input );
+        if ( $this->testSet )
+        {
+            $this->RunTestSet( $this->input );
+        }
+        else
+        {
+            $classifier = new Classifier();
+
+            $classifier->Classify( $this->GetFileNames( $this->input ) );
+        }
+    }
+
+    /***************************************************************************
+    ***************************************************************************/
+    private function RunTestSet( $input )
+    {
+        $classifier  = new Classifier();
+        $testSet     = Spyc::YAMLLoad( $input );
+        $testBaseDir = dirname( realpath( $input ) ) . '/';
+
+        foreach ( $testSet as $case )
+        {
+            $fileName = $testBaseDir . $case[ 'fileName' ];
+
+            $classifier->Classify( $this->GetFileNames( $fileName ) );
+        }
+    }
+
+    /***************************************************************************
+    ***************************************************************************/
+    private function GetFileNames( $input )
+    {
+        $temp   = file( $input );
         $result = array();
 
         foreach ( $temp as $line )
@@ -54,15 +97,6 @@ class Application extends BaseApplication
         }
 
         return $result;
-    }
-
-    /***************************************************************************
-    ***************************************************************************/
-    public function Main()
-    {
-        $classifier = new Classifier();
-
-        $classifier->Classify( $this->GetFileNames() );
     }
 }
 
