@@ -123,3 +123,27 @@ function pairfact( $number )
 
     return $result;
 }
+
+/***************************************************************************
+    Returns a cosine fade-out gain
+***************************************************************************/
+function cosfade( $number, $start, $end )
+{
+    if ( $number <= $start )
+    {
+        $result = 1.0;
+    }
+    else
+    {
+        if ( $number >= $end )
+        {
+            $result = 0.0;
+        }
+        else
+        {
+            $result = 0.5 * ( cos( pi() * ( $number - $start ) / ( $end - $start ) ) + 1.0 );
+        }
+    }
+
+    return $result;
+}

@@ -63,13 +63,33 @@ class Classifier
             $this->fileName[ $fn ] = new FileNameMatch( $fn, $fileName );
         }
 
-        $clusterSizeCount = $this->GetClusterSizeCount();
+        $possibleCodecCount = $this->GetPossibleCodecCounts();
+        $clusterSizeCount   = $this->GetClusterSizeCount();
 
+        $this->SetCodecCountProbability( $possibleCodecCount );
         $this->SelectPopularClusterSizes( $clusterSizeCount );
         $this->DetectClusterSizeStep( array_keys( $clusterSizeCount ) );
         $this->DetectUniqueItemClusterSize();
 
         return array( $this->itemName, $this->codecName );
+    }
+
+    /***************************************************************************
+    ***************************************************************************/
+    private function GetPossibleCodecCounts()
+    {
+        $files  = count( $this->fileName );
+        $factor = pairfact( $files );
+
+        foreach ( $factor as $pair )
+        {
+            $result[] = $pair[ 0 ];
+            $result[] = $pair[ 1 ];
+        }
+
+        asort( $result );
+
+        return $result;
     }
 
     /***************************************************************************
@@ -91,6 +111,32 @@ class Classifier
         $this->log->LogClusterSize( $result );
 
         return $result;
+    }
+
+    /***************************************************************************
+    ***************************************************************************/
+    private function SetCodecCountProbability( $codecCount )
+    {
+        $files = count( $this->fileName );
+
+        foreach ( $codecCount as $codecs )
+        {
+            $items = $files / $codecs;
+
+            $codecsProbability = 0.9 * cosfade( $codecs, 5, 15 ) + 0.1;
+            $itemsProbability  = 0.9 * cosfade( $items, 10, 40 ) + 0.1;
+
+            $weight[ $codecs ] = $codecsProbability * $itemsProbability;
+        }
+
+        $gain = 2.0 / array_sum( $weight );
+
+        foreach ( $weight as $codecs => $w )
+        {
+            $this->codecCount[ $codecs ] = $gain * $w;
+        }
+
+        $this->log->LogCodecCount( 'SetCodecCountProbability', $this->codecCount );
     }
 
     /***************************************************************************
