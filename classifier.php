@@ -66,11 +66,14 @@ class Classifier
         $possibleCodecCount    = $this->GetPossibleCodecCounts();
         $codecCountProbability = $this->GetCodecCountProbability( $possibleCodecCount );
         $clusterSizeCount      = $this->GetClusterSizeCount();
+        $unmatchedClusterSize  = $this->GetUnmatchedClusterSize();
 
         $this->SetCodecCountProbability( $codecCountProbability );
         $this->SelectPopularClusterSizes( $clusterSizeCount );
         $this->DetectClusterSizeStep( array_keys( $clusterSizeCount ) );
-        $this->DetectUniqueItemClusterSize();
+        $this->DetectUniqueItemClusterSize( $unmatchedClusterSize );
+        $this->DetectUnmatchedClusterSize( $unmatchedClusterSize );
+        $this->DetectSingleItem( $unmatchedClusterSize );
 
         $this->ApplyCodecCountProbability( $codecCountProbability );
 
@@ -233,9 +236,21 @@ class Classifier
 
     /***************************************************************************
     ***************************************************************************/
-    private function DetectUniqueItemClusterSize()
+    private function GetUnmatchedClusterSize()
     {
-        $size = $this->GetMaxUnmatchedClusterSize();
+        foreach ( $this->fileName as $fn )
+        {
+            $result[] = $fn->GetUnmatchedClusterSize();
+        }
+
+        return array_values( array_unique( $result ) );
+    }
+
+    /***************************************************************************
+    ***************************************************************************/
+    private function DetectUniqueItemClusterSize( $clusterSize )
+    {
+        $size = max( $clusterSize );
 
         if ( $size > 0 )
         {
@@ -247,16 +262,35 @@ class Classifier
 
     /***************************************************************************
     ***************************************************************************/
-    private function GetMaxUnmatchedClusterSize()
+    private function DetectUnmatchedClusterSize( $clusterSize )
     {
-        $result = 0;
+        $sizes = count( $clusterSize );
 
-        foreach ( $this->fileName as $fn )
+        if ( $sizes > 1 )
         {
-            $result = max( $result, $fn->GetUnmatchedClusterSize() );
+            $size = $clusterSize[ 0 ];
+
+            for ( $i = 1; ( $size > 1 ) && ( $i < $sizes ); $i++ )
+            {
+                $size = gcd( $size, $clusterSize[ $i ] );
+            }
+
+            @$this->codecCount[ $size ] += 0.5;
         }
 
-        return $result;
+        $this->log->LogCodecCount( 'DetectUnmatchedClusterSize', $this->codecCount );
+    }
+
+    /***************************************************************************
+    ***************************************************************************/
+    private function DetectSingleItem( $clusterSize )
+    {
+        if ( ( count( $clusterSize ) == 1 ) && ( $clusterSize[ 0 ] == 0 ) )
+        {
+            @$this->codecCount[ count( $this->fileName ) ] += 0.75;
+        }
+
+        $this->log->LogCodecCount( 'DetectSingleItem', $this->codecCount );
     }
 }
 
