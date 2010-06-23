@@ -67,6 +67,7 @@ class Classifier
         $codecCountProbability = $this->GetCodecCountProbability( $possibleCodecCount );
         $clusterSizeCount      = $this->GetClusterSizeCount();
         $unmatchedClusterSize  = $this->GetUnmatchedClusterSize();
+        $stemClusterCount      = $this->GetStemClusterCount( $fileName );
 
         $this->SetCodecCountProbability( $codecCountProbability );
         $this->SelectPopularClusterSizes( $clusterSizeCount );
@@ -74,6 +75,7 @@ class Classifier
         $this->DetectUniqueItemClusterSize( $unmatchedClusterSize );
         $this->DetectUnmatchedClusterSize( $unmatchedClusterSize );
         $this->DetectSingleItem( $unmatchedClusterSize );
+        $this->DetectItemClusterSize( $fileName );
 
         $this->ApplyCodecCountProbability( $codecCountProbability );
 
@@ -298,6 +300,50 @@ class Classifier
         }
 
         $this->log->LogCodecCount( 'DetectSingleItem', $this->codecCount );
+    }
+
+    /***************************************************************************
+    ***************************************************************************/
+    private function GetStemClusterCount( $fileName )
+    {
+        static $stemLength = array( 1, 3, 5, 10 );
+
+        foreach ( $stemLength as $length )
+        {
+            foreach ( $fileName as $fn )
+            {
+                @$stem[ substr( $fn, 0, $length ) ] += 1;
+            }
+
+            $count   = count( $stem );
+            $cluster = array_values( array_unique( $stem ) );
+
+            $result[] = array( 'length' => $length, 'clusters' => $count, 'cluster' => $cluster );
+        }
+
+        $this->log->Log( print_r( $result, TRUE ) );
+
+        return $result;
+    }
+
+    /***************************************************************************
+    ***************************************************************************/
+    private function DetectItemClusterSize( $stemClusterCount )
+    {
+        foreach ( $stemClusterCount as $stem )
+        {
+            $stemLength  = $stem[ 'length' ];
+            $clusters    = $stem[ 'clusters' ];
+            $clusterSize = $stem[ 'cluster' ];
+
+            if ( count( $clusterSize ) > 1 )
+            {
+                // do gcd
+                // gain gcd based on $clusters
+            }
+        }
+
+        //$this->log->LogCodecCount( 'DetectItemClusterSize', $this->codecCount );
     }
 }
 
