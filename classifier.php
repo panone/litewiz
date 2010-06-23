@@ -261,7 +261,7 @@ class Classifier
 
         if ( $size > 0 )
         {
-            @$this->codecCount[ count( $this->fileName ) - $size ] += 0.5;
+            @$this->codecCount[ count( $this->fileName ) - $size ] += 0.4;
         }
 
         $this->log->LogCodecCount( 'DetectUniqueItemClusterSize', $this->codecCount );
