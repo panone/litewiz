@@ -316,15 +316,6 @@ class Classifier
             $result[] = array( 'length' => $length, 'clusters' => $count, 'cluster' => $cluster );
         }
 
-        foreach ( $result as $stem )
-        {
-            $text  = $stem[ 'length' ] . ': ';
-            $text .= $stem[ 'clusters' ] . ' cluster';
-            if ( $stem[ 'clusters' ] > 1 ) $text .= 's';
-            $text .= ' (' . implode( ', ', $stem[ 'cluster' ] ) . ')';
-            $this->log->Log( $text );
-        }
-
         return $result;
     }
 
@@ -339,8 +330,6 @@ class Classifier
             $stemLength  = $stem[ 'length' ];
             $clusters    = $stem[ 'clusters' ];
             $clusterSize = $stem[ 'cluster' ];
-
-            $this->log->Log( "\nlength : $stemLength" );
 
             if ( $clusters > 1 )
             {
@@ -359,12 +348,6 @@ class Classifier
                 }
 
                 @$weight[ $codecs ] = $weight1 * $weight2 * $weight3;
-
-                $this->log->Log( "gcd : $codecs, weight1 : $weight1, weight2 : $weight2, weight3 : $weight3 => weight : " . ( $weight1 * $weight2 * $weight3 ) );
-            }
-            else
-            {
-                $this->log->Log( 'unreliable gcd' );
             }
         }
 
