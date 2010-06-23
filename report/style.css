@@ -33,10 +33,11 @@ div.test-case h2 span.file-name {
 }
 
 div.test-case div {
+    margin: 0.5em 0 0.5em 0;
     border: 1px solid #CCC;
 }
 
-div.test-case h3 {
+div.test-case div h3 {
     font-size: 110%;
     font-weight: normal;
     padding: 0.2em;
@@ -44,7 +45,7 @@ div.test-case h3 {
     background-color: #DEF;
 }
 
-div.test-case h3 span.expand {
+div.test-case div h3 span.expand {
     font-weight: bold;
     padding: 0 5px 0 5px;
     border: 1px solid #999;
@@ -54,6 +55,7 @@ div.test-case h3 span.expand {
 
 div.test-case div div.content {
     border-width: 1px 0 0 0;
+    margin: 0;
     padding: 0.5em;
 }
 
@@ -65,13 +67,19 @@ div.test-case div.clearer {
     overflow: hidden;
 }
 
-div.cluster-size {
+div.test-case div.cluster-size {
     float: left;
     width: 420px;
 }
 
-div.codec-count {
+div.test-case div.codec-count {
     float: left;
     margin-left: 1em;
     width: 420px;
+}
+
+div.log pre {
+    font-family: "Lucida Console", "Courier New", Courier, monospace;
+    font-size: 80%;
+    margin: 0;
 }

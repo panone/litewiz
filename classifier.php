@@ -375,6 +375,7 @@ class ClassifierLog
     private $label;
     private $clusterSize;
     private $codecCount;
+    private $text;
 
     /***************************************************************************
     ***************************************************************************/
@@ -383,6 +384,14 @@ class ClassifierLog
         $this->label       = array();
         $this->clusterSize = array();
         $this->codecCount  = array();
+        $this->text        = '';
+    }
+
+    /***************************************************************************
+    ***************************************************************************/
+    public function Log( $line )
+    {
+        $this->text .= $line . "\n";
     }
 
     /***************************************************************************
@@ -468,6 +477,11 @@ class ClassifierLog
         $this->RenderCodecCount( $sink );
 
         $sink->Write( '<div class="clearer"></div>' );
+
+        if ( $this->text != '' )
+        {
+            $this->RenderTextLog( $sink );
+        }
     }
 
     /***************************************************************************
@@ -541,5 +555,14 @@ class ClassifierLog
         }
 
         return max( $max );
+    }
+
+    /***************************************************************************
+    ***************************************************************************/
+    private function RenderTextLog( $sink )
+    {
+        $sink->OpenReportBlock( 'Log', 'log' );
+        $sink->Write( "<pre>$this->text</pre>" );
+        $sink->CloseReportBlock();
     }
 }
