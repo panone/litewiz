@@ -310,6 +310,8 @@ class Classifier
 
         foreach ( $stemLength as $length )
         {
+            $stem = array();
+
             foreach ( $fileName as $fn )
             {
                 @$stem[ substr( $fn, 0, $length ) ] += 1;
@@ -321,7 +323,14 @@ class Classifier
             $result[] = array( 'length' => $length, 'clusters' => $count, 'cluster' => $cluster );
         }
 
-        $this->log->Log( print_r( $result, TRUE ) );
+        foreach ( $result as $stem )
+        {
+            $text  = $stem[ 'length' ] . ': ';
+            $text .= $stem[ 'clusters' ] . ' cluster';
+            if ( $stem[ 'clusters' ] > 1 ) $text .= 's';
+            $text .= ' (' . implode( ', ', $stem[ 'cluster' ] ) . ')';
+            $this->log->Log( $text );
+        }
 
         return $result;
     }
