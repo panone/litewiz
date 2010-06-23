@@ -75,7 +75,7 @@ class Classifier
         $this->DetectUniqueItemClusterSize( $unmatchedClusterSize );
         $this->DetectUnmatchedClusterSize( $unmatchedClusterSize );
         $this->DetectSingleItem( $unmatchedClusterSize );
-        $this->DetectItemClusterSize( $fileName );
+        $this->DetectItemClusterSize( $stemClusterCount );
 
         $this->ApplyCodecCountProbability( $codecCountProbability );
 
@@ -277,14 +277,7 @@ class Classifier
 
         if ( $sizes > 1 )
         {
-            $size = $clusterSize[ 0 ];
-
-            for ( $i = 1; ( $size > 1 ) && ( $i < $sizes ); $i++ )
-            {
-                $size = gcd( $size, $clusterSize[ $i ] );
-            }
-
-            @$this->codecCount[ $size ] += 0.5;
+            @$this->codecCount[ gcd( $clusterSize ) ] += 0.5;
         }
 
         $this->log->LogCodecCount( 'DetectUnmatchedClusterSize', $this->codecCount );
@@ -339,20 +332,53 @@ class Classifier
     ***************************************************************************/
     private function DetectItemClusterSize( $stemClusterCount )
     {
+        $weight = array();
+
         foreach ( $stemClusterCount as $stem )
         {
             $stemLength  = $stem[ 'length' ];
             $clusters    = $stem[ 'clusters' ];
             $clusterSize = $stem[ 'cluster' ];
 
-            if ( count( $clusterSize ) > 1 )
+            $this->log->Log( "\nlength : $stemLength" );
+
+            if ( $clusters > 1 )
             {
-                // do gcd
-                // gain gcd based on $clusters
+                $codecs = gcd( $clusterSize );
+
+                $weight1 = 0.7 * ( 1.0 - cosfade( $clusters, 3, 10 ) ) + 0.3;
+                $weight2 = 0.5 * ( 1.0 - cosfade( count( $clusterSize ), 1, 3 ) ) + 0.5;
+
+                if ( $codecs > 1 )
+                {
+                    $weight3 = 0.2 + 0.08 * $stemLength;
+                }
+                else
+                {
+                    $weight3 = 1.0 / $stemLength;
+                }
+
+                @$weight[ $codecs ] = $weight1 * $weight2 * $weight3;
+
+                $this->log->Log( "gcd : $codecs, weight1 : $weight1, weight2 : $weight2, weight3 : $weight3 => weight : " . ( $weight1 * $weight2 * $weight3 ) );
+            }
+            else
+            {
+                $this->log->Log( 'unreliable gcd' );
             }
         }
 
-        //$this->log->LogCodecCount( 'DetectItemClusterSize', $this->codecCount );
+        if ( !empty( $weight ) )
+        {
+            $gain = ( 0.2 + 0.3 * count( $weight ) ) / array_sum( $weight );
+
+            foreach ( $weight as $codecs => $w )
+            {
+                @$this->codecCount[ $codecs ] += $gain * $w;
+            }
+        }
+
+        $this->log->LogCodecCount( 'DetectItemClusterSize', $this->codecCount );
     }
 }
 
