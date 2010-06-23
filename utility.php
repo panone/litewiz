@@ -19,30 +19,41 @@ function strdiff( $string1, $string2 )
 }
 
 /***************************************************************************
-    Returns gretest common divider of two positive integers
+    Returns gretest common divider of positive integers array
 ***************************************************************************/
-function gcd( $number1, $number2 )
+function gcd()
 {
-    $number1 = intval( $number1 );
-    $number2 = intval( $number2 );
-
-    if ( ( $number1 > 0 ) && ( $number2 > 0 ) )
+    if ( ( func_num_args() == 1 ) && is_array( func_get_arg( 0 ) ) )
     {
-        $reminder = $number1 % $number2;
-
-        while ( $reminder != 0 )
-        {
-            $number1  = $number2;
-            $number2  = $reminder;
-            $reminder = $number1 % $number2;
-        }
+        $argument = func_get_arg( 0 );
     }
     else
     {
-        $number2 = 0;
+        $argument = func_get_args();
     }
 
-    return $number2;
+    foreach ( $argument as $a )
+    {
+        $number[] = intval( $a );
+    }
+
+    $result = max( min( $number ), 0 );
+    $count  = count( $number );
+
+    for ( $i = 0; ( $result > 1 ) && ( $i < $count ); $i++ )
+    {
+        $dividend = $number[ $i ];
+        $reminder = $dividend % $result;
+
+        while ( $reminder != 0 )
+        {
+            $dividend = $result;
+            $result   = $reminder;
+            $reminder = $dividend % $result;
+        }
+    }
+
+    return $result;
 }
 
 /***************************************************************************
