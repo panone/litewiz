@@ -40,8 +40,7 @@ div.test-case h3 {
     font-size: 110%;
     font-weight: normal;
     padding: 0.2em;
-    margin: 0 0 0.5em 0;
-    border-bottom: 1px solid #CCC;
+    margin: 0;
     background-color: #DEF;
 }
 
@@ -51,6 +50,11 @@ div.test-case h3 span.expand {
     border: 1px solid #999;
     background-color: #CDE;
     cursor: pointer;
+}
+
+div.test-case div div.content {
+    border-width: 1px 0 0 0;
+    padding: 0.5em;
 }
 
 div.test-case div.clearer {
@@ -63,11 +67,11 @@ div.test-case div.clearer {
 
 div.cluster-size {
     float: left;
-    width: 48%;
+    width: 420px;
 }
 
 div.codec-count {
     float: left;
     margin-left: 1em;
-    width: 48%;
+    width: 420px;
 }

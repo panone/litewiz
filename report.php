@@ -51,6 +51,24 @@ class Report
 
     /***************************************************************************
     ***************************************************************************/
+    public function OpenReportBlock( $title, $class, $expanded = TRUE )
+    {
+        $button = '<span class="expand">&laquo;</span>';
+
+        $this->Write( "<div class=\"$class\">" );
+        $this->Write( "<h3>$title $button</h3>" );
+        $this->Write( '<div class="content">' );
+    }
+
+    /***************************************************************************
+    ***************************************************************************/
+    public function CloseReportBlock()
+    {
+        $this->Write( '</div></div>' );
+    }
+
+    /***************************************************************************
+    ***************************************************************************/
     public function Save( $fileName )
     {
         $template = file_get_contents( $this->templateDir . '/main.html' );

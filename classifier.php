@@ -474,9 +474,6 @@ class ClassifierLog
     ***************************************************************************/
     private function RenderClusterSize( $sink )
     {
-        $sink->Write( '<div class="cluster-size">' );
-        $sink->Write( '<h3>Cluster size distribution <span class="expand">&laquo;</span></h3>' );
-
         $max = ceil( max( $this->clusterSize ) / 10 ) * 10;
         $chart[] = 'chs=400x200';
         $chart[] = 'cht=bvs';
@@ -490,8 +487,9 @@ class ClassifierLog
 
         $image = '<img src="http://chart.apis.google.com/chart?' . implode( '&amp;', $chart ) . '" />';
 
+        $sink->OpenReportBlock( 'Cluster size distribution', 'cluster-size' );
         $sink->Write( $image );
-        $sink->Write( '</div>' );
+        $sink->CloseReportBlock();
     }
 
     /***************************************************************************
@@ -499,9 +497,6 @@ class ClassifierLog
     private function RenderCodecCount( $sink )
     {
         static $color = array( '4D89F9', 'FFCEB4', 'BEF3A9', '96DEE4', 'DEB3FF', 'FF94C1', 'DDDB4A', '22C778', 'A6C7E3' );
-
-        $sink->Write( '<div class="codec-count">' );
-        $sink->Write( '<h3>Codecs number probability distribution <span class="expand">&laquo;</span></h3>' );
 
         ksort( $this->codecCount );
 
@@ -531,8 +526,9 @@ class ClassifierLog
 
         $image = '<img src="http://chart.apis.google.com/chart?' . implode( '&amp;', $chart ) . '" />';
 
+        $sink->OpenReportBlock( 'Codecs number probability distribution', 'codec-count' );
         $sink->Write( $image );
-        $sink->Write( '</div>' );
+        $sink->CloseReportBlock();
     }
 
     /***************************************************************************
