@@ -63,11 +63,12 @@ class Classifier
             $this->fileName[ $fn ] = new FileNameMatch( $fn, $fileName );
         }
 
-        $possibleCodecCount    = $this->GetPossibleCodecCounts();
-        $codecCountProbability = $this->GetCodecCountProbability( $possibleCodecCount );
-        $clusterSizeCount      = $this->GetClusterSizeCount();
-        $unmatchedClusterSize  = $this->GetUnmatchedClusterSize();
-        $stemClusterCount      = $this->GetStemClusterCount( $fileName );
+        $possibleCodecCount     = $this->GetPossibleCodecCounts();
+        $codecCountProbability  = $this->GetCodecCountProbability( $possibleCodecCount );
+        $clusterSizeCount       = $this->GetClusterSizeCount();
+        $unmatchedClusterSize   = $this->GetUnmatchedClusterSize();
+        $stemClusterCount       = $this->GetStemClusterCount( $fileName );
+        $accumulatedClusterSize = $this->GetAccumulatedClusterSize();
 
         $this->SetCodecCountProbability( $codecCountProbability );
         $this->SelectPopularClusterSizes( $clusterSizeCount );
@@ -384,6 +385,20 @@ class Classifier
 
         $this->log->LogCodecCount( 'DetectSingleItem2', $this->codecCount );
     }
+
+    /***************************************************************************
+    ***************************************************************************/
+    public function GetAccumulatedClusterSize()
+    {
+        foreach ( $this->fileName as $f => $fn )
+        {
+            $result[] = $fn->GetAccumulatedClusterSize();
+
+            $this->log->Log( str_pad( $f, 50 ) . ' : ' . implode( ', ', end( $result ) ) );
+        }
+
+        return $result;
+    }
 }
 
 /*******************************************************************************
@@ -406,6 +421,8 @@ class FileNameMatch
 
             $this->cluster[ $offset ][] = $fn;
         }
+
+        krsort( $this->cluster );
     }
 
     /***************************************************************************
@@ -433,6 +450,23 @@ class FileNameMatch
         if ( isset( $this->cluster[ 0 ] ) )
         {
             $result = count( $this->cluster[ 0 ] );
+        }
+
+        return $result;
+    }
+
+    /***************************************************************************
+    ***************************************************************************/
+    public function GetAccumulatedClusterSize()
+    {
+        $result = array();
+        $sum    = 0;
+
+        foreach( $this->cluster as $cluster )
+        {
+            $sum += count( $cluster );
+
+            $result[] = $sum;
         }
 
         return $result;
