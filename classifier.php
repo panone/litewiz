@@ -347,7 +347,7 @@ class Classifier
                     $weight3 = 1.0 / $stemLength;
                 }
 
-                @$weight[ $codecs ] = $weight1 * $weight2 * $weight3;
+                @$weight[ $codecs ] += $weight1 * $weight2 * $weight3;
             }
         }
 
