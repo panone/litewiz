@@ -74,8 +74,9 @@ class Classifier
         $this->DetectClusterSizeStep( array_keys( $clusterSizeCount ) );
         $this->DetectUniqueItemClusterSize( $unmatchedClusterSize );
         $this->DetectUnmatchedClusterSize( $unmatchedClusterSize );
-        $this->DetectSingleItem( $unmatchedClusterSize );
+        $this->DetectSingleItem1( $unmatchedClusterSize );
         $this->DetectItemClusterSize( $stemClusterCount );
+        $this->DetectSingleItem2( $stemClusterCount );
 
         $this->ApplyCodecCountProbability( $codecCountProbability );
 
@@ -285,14 +286,14 @@ class Classifier
 
     /***************************************************************************
     ***************************************************************************/
-    private function DetectSingleItem( $clusterSize )
+    private function DetectSingleItem1( $clusterSize )
     {
         if ( ( count( $clusterSize ) == 1 ) && ( $clusterSize[ 0 ] == 0 ) )
         {
             @$this->codecCount[ count( $this->fileName ) ] += 0.75;
         }
 
-        $this->log->LogCodecCount( 'DetectSingleItem', $this->codecCount );
+        $this->log->LogCodecCount( 'DetectSingleItem1', $this->codecCount );
     }
 
     /***************************************************************************
@@ -362,6 +363,26 @@ class Classifier
         }
 
         $this->log->LogCodecCount( 'DetectItemClusterSize', $this->codecCount );
+    }
+
+    /***************************************************************************
+    ***************************************************************************/
+    private function DetectSingleItem2( $stemClusterCount )
+    {
+        foreach ( $stemClusterCount as $stem )
+        {
+            $stemLength = $stem[ 'length' ];
+            $clusters   = $stem[ 'clusters' ];
+
+            if ( $clusters == 1 )
+            {
+                $codecs = $stem[ 'cluster' ][ 0 ];
+
+                @$this->codecCount[ $codecs ] += 0.005 * $stemLength * $stemLength + 0.1;
+            }
+        }
+
+        $this->log->LogCodecCount( 'DetectSingleItem2', $this->codecCount );
     }
 }
 
