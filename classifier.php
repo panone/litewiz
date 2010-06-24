@@ -615,7 +615,7 @@ class ClassifierLog
 
             foreach ( $this->codecCount as $weight )
             {
-                $series[] = $weight[ $i ];
+                $series[] = sprintf( "%.3f", $weight[ $i ] );
             }
 
             $data[] = implode( ',', $series );
