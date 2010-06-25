@@ -437,7 +437,7 @@ class FileNameMatch
     {
         $result = array();
 
-        foreach( $this->cluster as $cluster )
+        foreach ( $this->cluster as $cluster )
         {
             $size = count( $cluster );
 
@@ -468,32 +468,11 @@ class FileNameMatch
         $result = array();
         $sum    = 0;
 
-        foreach( $this->cluster as $cluster )
+        foreach ( $this->cluster as $cluster )
         {
             $sum += count( $cluster );
 
             $result[] = $sum;
-        }
-
-        return $result;
-    }
-
-    /***************************************************************************
-        Returns number of matches in the order from the longest match to the
-        shortest one.
-        Parameters:
-            $order: 0 - the longest match, 1 - shorter one, and so on.
-    ***************************************************************************/
-    public function GetMatchesCount( $order )
-    {
-        $result = 0;
-        $length = array_keys( $this->cluster );
-
-        if ( $order < count( $length ) )
-        {
-            rsort( $length );
-
-            $result = count( $this->cluster[ $length[ $order ] ] );
         }
 
         return $result;
