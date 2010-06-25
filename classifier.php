@@ -81,6 +81,8 @@ class Classifier
 
         $this->ApplyCodecCountProbability( $codecCountProbability );
 
+        $this->SplitFileNames();
+
         return array( $this->itemName, $this->codecName );
     }
 
@@ -405,6 +407,41 @@ class Classifier
 
         $this->log->LogCodecCount( 'DetectSingleItem2', $this->codecCount );
     }
+
+    /***************************************************************************
+    ***************************************************************************/
+    private function SplitFileNames()
+    {
+        arsort( $this->codecCount );
+        reset( $this->codecCount );
+
+        $codecs = key( $this->codecCount );
+        $codec  = array();
+
+        foreach ( $this->fileName as $fn )
+        {
+            list( $i, $c ) = $fn->Split( $codecs );
+
+            //$this->log->Log( "$i  |  $c" );
+
+            $item[ $i ]  = TRUE;
+            $codec[ $c ] = TRUE;
+        }
+
+        $this->itemName = array_keys( $item );
+
+        if ( count( $codec ) > 1 )
+        {
+            $this->codecName = array_keys( $codec );
+        }
+        else
+        {
+            $this->codecName[ 0 ] = 'ref';
+        }
+
+        $this->log->Log( "\nitems:" ); foreach ( $this->itemName as $i ) $this->log->Log( $i );
+        $this->log->Log( "\ncodecs:" ); foreach ( $this->codecName as $c ) $this->log->Log( $c );
+    }
 }
 
 /*******************************************************************************
@@ -476,6 +513,29 @@ class FileNameMatch
         }
 
         return $result;
+    }
+
+    /***************************************************************************
+    ***************************************************************************/
+    public function Split( $codecs )
+    {
+        $sum = 0;
+
+        foreach ( $this->cluster as $length => $cluster )
+        {
+            $sum += count( $cluster );
+
+            if ( $sum == $codecs )
+            {
+                break;
+            }
+        }
+
+        $fileName = reset( reset( $this->cluster ) );
+        $item     = substr( $fileName, 0, $length );
+        $codec    = substr( $fileName, $length );
+
+        return array( $item, $codec );
     }
 }
 
