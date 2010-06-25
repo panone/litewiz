@@ -81,7 +81,10 @@ class Classifier
 
         $this->ApplyCodecCountProbability( $codecCountProbability );
 
-        $this->SplitFileNames();
+        $this->SplitFileNames( $this->GetCodecsCount() );
+
+        $this->log->Log( "\nitems:" ); foreach ( $this->itemName as $i ) $this->log->Log( $i );
+        $this->log->Log( "\ncodecs:" ); foreach ( $this->codecName as $c ) $this->log->Log( $c );
 
         return array( $this->itemName, $this->codecName );
     }
@@ -410,37 +413,36 @@ class Classifier
 
     /***************************************************************************
     ***************************************************************************/
-    private function SplitFileNames()
+    private function GetCodecsCount()
     {
         arsort( $this->codecCount );
         reset( $this->codecCount );
 
-        $codecs = key( $this->codecCount );
-        $codec  = array();
+        return key( $this->codecCount );
+    }
 
+    /***************************************************************************
+    ***************************************************************************/
+    private function SplitFileNames( $codecs )
+    {
         foreach ( $this->fileName as $fn )
         {
             list( $i, $c ) = $fn->Split( $codecs );
 
-            //$this->log->Log( "$i  |  $c" );
-
-            $item[ $i ]  = TRUE;
-            $codec[ $c ] = TRUE;
+            $itemName[ $i ]  = TRUE;
+            $codecName[ $c ] = TRUE;
         }
 
-        $this->itemName = array_keys( $item );
+        $this->itemName = array_keys( $itemName );
 
-        if ( count( $codec ) > 1 )
+        if ( count( $codecName ) > 1 )
         {
-            $this->codecName = array_keys( $codec );
+            $this->codecName = array_keys( $codecName );
         }
         else
         {
             $this->codecName[ 0 ] = 'ref';
         }
-
-        $this->log->Log( "\nitems:" ); foreach ( $this->itemName as $i ) $this->log->Log( $i );
-        $this->log->Log( "\ncodecs:" ); foreach ( $this->codecName as $c ) $this->log->Log( $c );
     }
 }
 
@@ -531,11 +533,11 @@ class FileNameMatch
             }
         }
 
-        $fileName = reset( reset( $this->cluster ) );
-        $item     = substr( $fileName, 0, $length );
-        $codec    = substr( $fileName, $length );
+        $fileName  = reset( reset( $this->cluster ) );
+        $itemName  = substr( $fileName, 0, $length );
+        $codecName = substr( $fileName, $length );
 
-        return array( $item, $codec );
+        return array( $itemName, $codecName );
     }
 }
 
