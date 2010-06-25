@@ -63,12 +63,12 @@ class Classifier
             $this->fileName[ $fn ] = new FileNameMatch( $fn, $fileName );
         }
 
-        $possibleCodecCount     = $this->GetPossibleCodecCounts();
-        $codecCountProbability  = $this->GetCodecCountProbability( $possibleCodecCount );
-        $clusterSizeCount       = $this->GetClusterSizeCount();
-        $unmatchedClusterSize   = $this->GetUnmatchedClusterSize();
-        $stemClusterCount       = $this->GetStemClusterCount( $fileName );
-        $accumulatedClusterSize = $this->GetAccumulatedClusterSize();
+        $possibleCodecCount1   = $this->GetPossibleCodecCounts1();
+        $possibleCodecCount2   = $this->GetPossibleCodecCounts2();
+        $codecCountProbability = $this->GetCodecCountProbability( $possibleCodecCount1, $possibleCodecCount2 );
+        $clusterSizeCount      = $this->GetClusterSizeCount();
+        $unmatchedClusterSize  = $this->GetUnmatchedClusterSize();
+        $stemClusterCount      = $this->GetStemClusterCount( $fileName );
 
         $this->SetCodecCountProbability( $codecCountProbability );
         $this->SelectPopularClusterSizes( $clusterSizeCount );
@@ -86,7 +86,7 @@ class Classifier
 
     /***************************************************************************
     ***************************************************************************/
-    private function GetPossibleCodecCounts()
+    private function GetPossibleCodecCounts1()
     {
         $files  = count( $this->fileName );
         $factor = pairfact( $files );
@@ -104,9 +104,29 @@ class Classifier
 
     /***************************************************************************
     ***************************************************************************/
-    private function GetCodecCountProbability( $codecCount )
+    private function GetPossibleCodecCounts2()
     {
-        $files = count( $this->fileName );
+        foreach ( $this->fileName as $fn )
+        {
+            $clusterSize[] = $fn->GetAccumulatedClusterSize();
+        }
+
+        $result = array_shift( $clusterSize );
+
+        foreach ( $clusterSize as $size )
+        {
+            $result = array_intersect( $result, $size );
+        }
+
+        return $result;
+    }
+
+    /***************************************************************************
+    ***************************************************************************/
+    private function GetCodecCountProbability( $codecCount1, $codecCount2 )
+    {
+        $codecCount = array_intersect( $codecCount1, $codecCount2 );
+        $files      = count( $this->fileName );
 
         foreach ( $codecCount as $codecs )
         {
@@ -384,20 +404,6 @@ class Classifier
         }
 
         $this->log->LogCodecCount( 'DetectSingleItem2', $this->codecCount );
-    }
-
-    /***************************************************************************
-    ***************************************************************************/
-    public function GetAccumulatedClusterSize()
-    {
-        foreach ( $this->fileName as $f => $fn )
-        {
-            $result[] = $fn->GetAccumulatedClusterSize();
-
-            $this->log->Log( str_pad( $f, 50 ) . ' : ' . implode( ', ', end( $result ) ) );
-        }
-
-        return $result;
     }
 }
 
