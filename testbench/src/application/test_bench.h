@@ -18,14 +18,14 @@ class TestBench : public QObject
 
         TestBench
         (
-            QObject * const parent = 0
+            QObject * const parent
         );
 
     public:
 
         void run
         (
-            void
+            QString const & fileName
         );
 
     signals:

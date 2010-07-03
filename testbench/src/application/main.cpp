@@ -2,6 +2,7 @@
 *******************************************************************************/
 
 #include <QtCore/QCoreApplication>
+#include <QStringList>
 #include <stdio.h>
 #include "test_bench.h"
 
@@ -16,7 +17,7 @@ int main
     QCoreApplication   application( argc, argv );
     TestBench          bench( &application );
 
-    bench.run();
+    bench.run( application.arguments().at( 1 ) );
 
     return application.exec();
 }
