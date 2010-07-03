@@ -2,6 +2,7 @@
 *******************************************************************************/
 
 #include <QTextStream>
+#include "console.h"
 #include "test_bench.h"
 #include "classifier.h"
 
@@ -25,14 +26,10 @@ void TestBench::run
 {
     Classifier classifier;
 
-    QTextStream consoleOutput( stdout );
+    Console::output() << QString( "Test set file: %1" ).arg( fileName ) << endl;
+    Console::output() << QString( "Result: %1" ).arg( classifier.classify() ) << endl;
 
-    consoleOutput << QString( "Test set file: %1" ).arg( fileName ) << endl;
-    consoleOutput << QString( "Result: %1" ).arg( classifier.classify() ) << endl;
-
-    QTextStream consoleInput( stdin );
-
-    consoleInput.readLine();
+    Console::input().readLine();
 
     emit finished();
 }
