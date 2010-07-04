@@ -4,7 +4,7 @@
 TARGET = testbench
 TEMPLATE = app
 
-QT *= core
+QT *= core xml
 QT -= gui
 
 CONFIG += console

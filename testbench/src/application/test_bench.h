@@ -8,6 +8,11 @@
 
 #include <QObject>
 
+/******************************************************************************/
+
+class QDomElement;
+class QSrting;
+
 /*******************************************************************************
 *******************************************************************************/
 class TestBench : public QObject
@@ -26,6 +31,18 @@ class TestBench : public QObject
         void run
         (
             QString const & fileName
+        );
+
+    private:
+
+        void loadTestSet
+        (
+            QString const & fileName
+        );
+
+        void loadTestCases
+        (
+            QDomElement const & testSet
         );
 
     signals:
