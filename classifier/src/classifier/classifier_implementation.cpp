@@ -2,29 +2,29 @@
 *******************************************************************************/
 
 #include <QObject>
+#include <QStringList>
 #include "classifier_implementation.h"
-#include "classifier.h"
 
 /*******************************************************************************
 *******************************************************************************/
-Classifier::Classifier
+ClassifierImplementation::ClassifierImplementation
 (
     QStringList const &       fileNames,
     QObject           * const parent
 ) :
-    QObject( parent )
+    QObject( parent ),
+    fileNames( fileNames )
 {
-    implementation = new ClassifierImplementation( fileNames, this );
 }
 
 /*******************************************************************************
 *******************************************************************************/
-int Classifier::classify
+int ClassifierImplementation::classify
 (
     void
 )
 {
-    return implementation->classify();
+    return 42;
 }
 
 /******************************************************************************/

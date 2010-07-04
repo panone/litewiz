@@ -1,30 +1,26 @@
 /*******************************************************************************
 *******************************************************************************/
 
-#ifndef CLASSIFIER_H
-#define CLASSIFIER_H
+#ifndef CLASSIFIER_IMPLEMENTATION_H
+#define CLASSIFIER_IMPLEMENTATION_H
 
 /******************************************************************************/
 
 #include <QObject>
-
-/******************************************************************************/
-
-class ClassifierImplementation;
-class QStringList;
+#include <QStringList>
 
 /*******************************************************************************
 *******************************************************************************/
-class Classifier : public QObject
+class ClassifierImplementation : public QObject
 {
     Q_OBJECT
 
     public:
 
-        Classifier
+        ClassifierImplementation
         (
             QStringList const &       fileNames,
-            QObject           * const parent = 0
+            QObject           * const parent
         );
 
     public:
@@ -36,9 +32,9 @@ class Classifier : public QObject
 
     private:
 
-        ClassifierImplementation * implementation;
+        QStringList fileNames;
 };
 
 /******************************************************************************/
 
-#endif /* CLASSIFIER_H */
+#endif /* CLASSIFIER_IMPLEMENTATION_H */
