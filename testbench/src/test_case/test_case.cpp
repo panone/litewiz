@@ -21,7 +21,10 @@ TestCase::TestCase
     items    = definition.attribute( "items" ).toInt();
     variants = definition.attribute( "codecs" ).toInt();
 
-    validate( testSetPath );
+    if ( validate() )
+    {
+        loadFileNames( testSetPath );
+    }
 }
 
 /*******************************************************************************
@@ -45,8 +48,6 @@ bool TestCase::run
 
     if ( valid )
     {
-        loadFileNames();
-
         Classifier classifier;
 
         Console::output() << QString( "Result: %1" ).arg( classifier.classify() ) << endl;
@@ -57,29 +58,18 @@ bool TestCase::run
 
 /*******************************************************************************
 *******************************************************************************/
-void TestCase::validate
+bool TestCase::validate
 (
-    QString const & testSetPath
+    void
 )
 {
     valid = true;
 
-    QFileInfo fileInfo( fileName );
-
-    if ( !fileInfo.exists() )
+    if ( fileName.isEmpty() )
     {
-        fileInfo.setFile( QDir( testSetPath ), fileName );
+        Console::output() << "File name list is not specified" << endl;
 
-        if ( !fileInfo.exists() )
-        {
-            Console::output() << QString( "File names list \"%1\" is not found" ).arg( fileName ) << endl;
-
-            valid = false;
-        }
-        else
-        {
-            fileName = fileInfo.canonicalFilePath();
-        }
+        valid = false;
     }
 
     if ( items < 1 )
@@ -95,15 +85,93 @@ void TestCase::validate
 
         valid = false;
     }
+
+    return valid;
 }
 
 /*******************************************************************************
 *******************************************************************************/
 void TestCase::loadFileNames
 (
-    void
+    QString const & testSetPath
 )
 {
+    QString fileName = findFileNameList( testSetPath );
+
+    if ( !fileName.isEmpty() )
+    {
+        fileNames = getTextFileContents( fileName );
+
+        if ( fileNames.isEmpty() )
+        {
+            Console::output() << "The file name list is empty" << endl;
+
+            valid = false;
+        }
+    }
+}
+
+/*******************************************************************************
+*******************************************************************************/
+QString TestCase::findFileNameList
+(
+    QString const & testSetPath
+)
+{
+    QString     result;
+    QFileInfo   fileInfo( fileName );
+    bool        found = true;
+
+    if ( !fileInfo.exists() )
+    {
+        fileInfo.setFile( QDir( testSetPath ), fileName );
+
+        if ( !fileInfo.exists() )
+        {
+            Console::output() << QString( "File name list \"%1\" is not found" ).arg( fileName ) << endl;
+
+            found = false;
+        }
+    }
+
+    if ( found )
+    {
+        result = fileInfo.canonicalFilePath();
+    }
+
+    return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+QStringList TestCase::getTextFileContents
+(
+    QString const & fileName
+)
+{
+    QStringList   result;
+    QFile         file( fileName );
+
+    if ( file.open( QFile::ReadOnly | QFile::Text ) )
+    {
+        QTextStream stream( &file );
+
+        while ( !stream.atEnd() )
+        {
+            QString line = stream.readLine();
+
+            if ( !line.isEmpty() )
+            {
+                result.append( line );
+            }
+        }
+    }
+    else
+    {
+        Console::output() << QString( "Failed to open \"%1\"" ).arg( fileName ) << endl;
+    }
+
+    return result;
 }
 
 /******************************************************************************/

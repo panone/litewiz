@@ -7,6 +7,7 @@
 /******************************************************************************/
 
 #include <QString>
+#include <QStringList>
 
 /******************************************************************************/
 
@@ -38,22 +39,33 @@ class TestCase
 
     private:
 
-        void validate
-        (
-            QString const & testSetPath
-        );
-
-        void loadFileNames
+        bool validate
         (
             void
         );
 
+        void loadFileNames
+        (
+            QString const & testSetPath
+        );
+
+        QString findFileNameList
+        (
+            QString const & testSetPath
+        );
+
+        QStringList getTextFileContents
+        (
+            QString const & fileName
+        );
+
     private:
 
-        bool      valid;
-        QString   fileName;
-        int       items;
-        int       variants;
+        bool          valid;
+        QString       fileName;
+        int           items;
+        int           variants;
+        QStringList   fileNames;
 };
 
 /******************************************************************************/
