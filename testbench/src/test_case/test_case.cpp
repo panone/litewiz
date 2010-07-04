@@ -5,6 +5,7 @@
 #include <QDomElement>
 #include <QFile>
 #include <QFileInfo>
+#include "classifier.h"
 #include "console.h"
 #include "test_case.h"
 
@@ -45,6 +46,10 @@ bool TestCase::run
     if ( valid )
     {
         loadFileNames();
+
+        Classifier classifier;
+
+        Console::output() << QString( "Result: %1" ).arg( classifier.classify() ) << endl;
     }
 
     return result;

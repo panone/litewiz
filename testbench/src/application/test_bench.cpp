@@ -5,7 +5,6 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QTextStream>
-#include "classifier.h"
 #include "console.h"
 #include "test_case.h"
 #include "test_bench.h"
@@ -28,6 +27,8 @@ void TestBench::run
     QString const & fileName
 )
 {
+    Console::output() << QString( "Test set file: %1" ).arg( fileName ) << endl;
+
     loadTestSet( fileName );
 
     if ( !testCases.isEmpty() )
@@ -37,13 +38,6 @@ void TestBench::run
             testCase.run();
         }
     }
-
-    Classifier classifier;
-
-    Console::output() << QString( "Test set file: %1" ).arg( fileName ) << endl;
-    Console::output() << QString( "Result: %1" ).arg( classifier.classify() ) << endl;
-
-    Console::input().readLine();
 
     emit finished();
 }
