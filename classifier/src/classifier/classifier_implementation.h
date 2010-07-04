@@ -14,17 +14,22 @@
 
 /*******************************************************************************
 *******************************************************************************/
-class ClassifierImplementation : public QObject
+class ClassifierData
 {
-    Q_OBJECT
-
     public:
 
-        enum DataIdentifier
+        enum Identifier
         {
             FileNames,
             Clusters
         };
+};
+
+/*******************************************************************************
+*******************************************************************************/
+class ClassifierImplementation : public QObject
+{
+    Q_OBJECT
 
     public:
 
@@ -48,14 +53,14 @@ class ClassifierImplementation : public QObject
 
         QVariantList getData
         (
-            DataIdentifier const identifier
+            ClassifierData::Identifier const identifier
         );
 
     private:
 
-        QStringList                           fileNames;
+        QStringList                                       fileNames;
 
-        QMap< DataIdentifier, Extractor * >   extractors;
+        QMap< ClassifierData::Identifier, Extractor * >   extractors;
 };
 
 /******************************************************************************/

@@ -6,6 +6,7 @@
 
 /******************************************************************************/
 
+#include <QMap>
 #include <QVariant>
 #include "extractor.h"
 
@@ -36,7 +37,14 @@ class ClustersExtractor : public Extractor
             void
         );
 
-    protected:
+    private:
+
+        QVariant wrap
+        (
+            QMap< int, int > const & clusterSize
+        );
+
+    private:
 
         QVariantList clusters;
 };

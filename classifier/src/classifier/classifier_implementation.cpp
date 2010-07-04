@@ -18,7 +18,7 @@ ClassifierImplementation::ClassifierImplementation
     QObject( parent ),
     fileNames( fileNames )
 {
-    extractors[ Clusters ] = new ClustersExtractor( this );
+    extractors[ ClassifierData::Clusters ] = new ClustersExtractor( this );
 }
 
 /*******************************************************************************
@@ -41,6 +41,11 @@ int ClassifierImplementation::classify
     void
 )
 {
+    foreach ( Extractor * extractor, extractors )
+    {
+        extractor->extract();
+    }
+
     return 42;
 }
 
@@ -48,12 +53,12 @@ int ClassifierImplementation::classify
 *******************************************************************************/
 QVariantList ClassifierImplementation::getData
 (
-    DataIdentifier const identifier
+    ClassifierData::Identifier const identifier
 )
 {
     QVariantList result;
 
-    if ( identifier == FileNames )
+    if ( identifier == ClassifierData::FileNames )
     {
         foreach ( QString fileName, fileNames )
         {
@@ -62,7 +67,7 @@ QVariantList ClassifierImplementation::getData
     }
     else
     {
-        //result = extractors[ identifier ]->getData();
+        result = extractors[ identifier ]->getData();
     }
 
     return result;

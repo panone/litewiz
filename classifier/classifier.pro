@@ -9,6 +9,7 @@ QT -= gui
 CONFIG += staticlib
 
 INCLUDEPATH += \
+    src/classifier \
     src/extractors
 
 HEADERS += \
