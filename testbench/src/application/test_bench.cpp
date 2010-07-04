@@ -30,6 +30,14 @@ void TestBench::run
 {
     loadTestSet( fileName );
 
+    if ( !testCases.isEmpty() )
+    {
+        foreach ( TestCase testCase, testCases )
+        {
+            testCase.run();
+        }
+    }
+
     Classifier classifier;
 
     Console::output() << QString( "Test set file: %1" ).arg( fileName ) << endl;
@@ -86,6 +94,7 @@ void TestBench::loadTestCases
 
             if ( testCase.isValid() )
             {
+                testCases.append( testCase );
             }
         }
 
