@@ -1,12 +1,14 @@
 /*******************************************************************************
 *******************************************************************************/
 
-#include <QFile>
 #include <QDomDocument>
+#include <QFile>
+#include <QFileInfo>
 #include <QTextStream>
-#include "console.h"
-#include "test_bench.h"
 #include "classifier.h"
+#include "console.h"
+#include "test_case.h"
+#include "test_bench.h"
 
 /*******************************************************************************
 *******************************************************************************/
@@ -57,7 +59,7 @@ void TestBench::loadTestSet
 
         if ( root.tagName() == "testSet" )
         {
-            loadTestCases( root );
+            loadTestCases( QFileInfo( file ).canonicalPath(), root );
         }
     }
     else
@@ -70,6 +72,7 @@ void TestBench::loadTestSet
 *******************************************************************************/
 void TestBench::loadTestCases
 (
+    QString     const & testSetPath,
     QDomElement const & testSet
 )
 {
@@ -79,7 +82,11 @@ void TestBench::loadTestCases
     {
         if ( node.toElement().tagName() == "testCase" )
         {
-            //loadTestCase();
+            TestCase testCase( testSetPath, node.toElement() );
+
+            if ( testCase.isValid() )
+            {
+            }
         }
 
         node = node.nextSibling();

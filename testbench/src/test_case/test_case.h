@@ -1,59 +1,61 @@
 /*******************************************************************************
 *******************************************************************************/
 
-#ifndef TEST_BENCH_H
-#define TEST_BENCH_H
+#ifndef TEST_CASE_H
+#define TEST_CASE_H
 
 /******************************************************************************/
 
-#include <QObject>
+#include <QString>
 
 /******************************************************************************/
 
 class QDomElement;
-class QSrting;
 
 /*******************************************************************************
 *******************************************************************************/
-class TestBench : public QObject
+class TestCase
 {
-    Q_OBJECT
-
     public:
 
-        TestBench
+        TestCase
         (
-            QObject * const parent
+            QString     const & testSetPath,
+            QDomElement const & definition
         );
 
     public:
 
-        void run
+        bool isValid
         (
-            QString const & fileName
+            void
+        );
+
+        bool run
+        (
+            void
         );
 
     private:
 
-        void loadTestSet
+        void validate
         (
-            QString const & fileName
+            QString const & testSetPath
         );
 
-        void loadTestCases
-        (
-            QString     const & testSetPath,
-            QDomElement const & testSet
-        );
-
-    signals:
-
-        void finished
+        void loadFileNames
         (
             void
         );
+
+    private:
+
+        bool      valid;
+        QString   fileName;
+        int       items;
+        int       variants;
 };
 
 /******************************************************************************/
 
-#endif /* TEST_BENCH_H */
+#endif /* TEST_CASE_H */

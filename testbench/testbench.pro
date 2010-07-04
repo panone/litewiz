@@ -10,7 +10,10 @@ QT -= gui
 CONFIG += console
 CONFIG -= app_bundle
 
-INCLUDEPATH += ../classifier
+INCLUDEPATH += \
+    src/application \
+    src/test_case \
+    ../classifier
 
 DebugBuild {
     LIBS += \
@@ -23,3 +26,4 @@ ReleaseBuild {
 }
 
 include(src/application/application.pro)
+include(src/test_case/test_case.pro)
