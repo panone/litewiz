@@ -6,8 +6,11 @@
 
 /******************************************************************************/
 
+#include <QMap>
 #include <QObject>
 #include <QStringList>
+#include <QVariant>
+#include "extractor.h"
 
 /*******************************************************************************
 *******************************************************************************/
@@ -17,10 +20,23 @@ class ClassifierImplementation : public QObject
 
     public:
 
+        enum DataIdentifier
+        {
+            FileNames,
+            Clusters
+        };
+
+    public:
+
         ClassifierImplementation
         (
             QStringList const &       fileNames,
             QObject           * const parent
+        );
+
+        ~ClassifierImplementation
+        (
+            void
         );
 
     public:
@@ -30,9 +46,16 @@ class ClassifierImplementation : public QObject
             void
         );
 
+        QVariantList getData
+        (
+            DataIdentifier const identifier
+        );
+
     private:
 
-        QStringList fileNames;
+        QStringList                           fileNames;
+
+        QMap< DataIdentifier, Extractor * >   extractors;
 };
 
 /******************************************************************************/

@@ -1,12 +1,13 @@
 /*******************************************************************************
 *******************************************************************************/
 
-#ifndef EXTRACTOR_H
-#define EXTRACTOR_H
+#ifndef CLUSTERS_EXTRACTOR_H
+#define CLUSTERS_EXTRACTOR_H
 
 /******************************************************************************/
 
 #include <QVariant>
+#include "extractor.h"
 
 /******************************************************************************/
 
@@ -14,18 +15,13 @@ class ClassifierImplementation;
 
 /*******************************************************************************
 *******************************************************************************/
-class Extractor
+class ClustersExtractor : public Extractor
 {
     public:
 
-        Extractor
+        ClustersExtractor
         (
             ClassifierImplementation * const classifier
-        );
-
-        virtual ~Extractor
-        (
-            void
         );
 
     public:
@@ -33,20 +29,18 @@ class Extractor
         virtual void extract
         (
             void
-        )
-        = 0;
+        );
 
         virtual QVariantList getData
         (
             void
-        )
-        = 0;
+        );
 
     protected:
 
-        ClassifierImplementation * classifier;
+        QVariantList clusters;
 };
 
 /******************************************************************************/
 
-#endif /* EXTRACTOR_H */
+#endif /* CLUSTERS_EXTRACTOR_H */
