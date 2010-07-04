@@ -6,6 +6,7 @@
 #include <QVariant>
 #include "extractor.h"
 #include "clusters_extractor.h"
+#include "factor_variance_extractor.h"
 #include "classifier_implementation.h"
 
 /*******************************************************************************
@@ -19,6 +20,7 @@ ClassifierImplementation::ClassifierImplementation
     fileNames( fileNames )
 {
     extractors[ ClassifierData::Clusters ] = new ClustersExtractor( this );
+    extractors[ ClassifierData::FactorVariance ] = new FactorVarianceExtractor( this );
 }
 
 /*******************************************************************************

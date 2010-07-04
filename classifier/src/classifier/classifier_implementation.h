@@ -21,7 +21,8 @@ class ClassifierData
         enum Identifier
         {
             FileNames,
-            Clusters
+            Clusters,
+            FactorVariance
         };
 };
 
