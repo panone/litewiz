@@ -44,7 +44,7 @@ class TestCase
             void
         );
 
-        void loadFileNames
+        void loadFileNameList
         (
             QString const & testSetPath
         );

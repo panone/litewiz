@@ -23,7 +23,7 @@ TestCase::TestCase
 
     if ( validate() )
     {
-        loadFileNames( testSetPath );
+        loadFileNameList( testSetPath );
     }
 }
 
@@ -91,7 +91,7 @@ bool TestCase::validate
 
 /*******************************************************************************
 *******************************************************************************/
-void TestCase::loadFileNames
+void TestCase::loadFileNameList
 (
     QString const & testSetPath
 )
