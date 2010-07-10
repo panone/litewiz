@@ -6,31 +6,116 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>459</width>
-    <height>355</height>
+    <width>555</width>
+    <height>405</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralWidget"/>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QHBoxLayout" name="horizontalLayout1">
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>Files</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout2">
+        <item>
+         <widget class="QSplitter" name="splitter1">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <widget class="QWidget" name="verticalLayoutWidget">
+           <layout class="QVBoxLayout" name="verticalLayout1">
+            <item>
+             <widget class="QTreeView" name="filesTreeView"/>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer1">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>400</width>
+                <height>0</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QSplitter" name="splitter2">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <widget class="QGroupBox" name="groupBox1">
+            <property name="title">
+             <string> Items </string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout2">
+             <item>
+              <widget class="QListView" name="itemsListView"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QGroupBox" name="groupBox2">
+            <property name="title">
+             <string> Variants </string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout3">
+             <item>
+              <widget class="QListView" name="variantsListView"/>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout3">
+               <item>
+                <widget class="QSlider" name="varianceSlider">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="tickPosition">
+                  <enum>QSlider::NoTicks</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="varianceLineEdit">
+                 <property name="maximumSize">
+                  <size>
+                   <width>50</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>459</width>
+     <width>555</width>
      <height>18</height>
     </rect>
    </property>
-  </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
