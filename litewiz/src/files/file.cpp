@@ -21,8 +21,9 @@ QString File::getPath
 (
     void
 )
+    const
 {
-    return info.filePath();
+    return info.absolutePath();
 }
 
 /*******************************************************************************
@@ -31,6 +32,7 @@ QString File::getName
 (
     void
 )
+    const
 {
     return info.fileName();
 }
@@ -41,6 +43,7 @@ QString File::getItem
 (
     void
 )
+    const
 {
     return "item";
 }
@@ -51,6 +54,7 @@ QString File::getVariant
 (
     void
 )
+    const
 {
     return "variant";
 }

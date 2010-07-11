@@ -25,22 +25,26 @@ class File
         QString getPath
         (
             void
-        );
+        )
+        const;
 
         QString getName
         (
             void
-        );
+        )
+        const;
 
         QString getItem
         (
             void
-        );
+        )
+        const;
 
         QString getVariant
         (
             void
-        );
+        )
+        const;
 
     private:
 

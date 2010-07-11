@@ -37,6 +37,16 @@ class FileCollection
             QString const & filePath
         );
 
+        int getFileCount
+        (
+            void
+        );
+
+        File const & getFileAt
+        (
+            int const index
+        );
+
     private:
 
         QStringList getTextFileContents
