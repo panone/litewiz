@@ -14,8 +14,11 @@ namespace Ui {
     class MainWindow;
 }
 
-/******************************************************************************/
+class FileCollection;
+class FileTreeModel;
 
+/*******************************************************************************
+*******************************************************************************/
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -29,11 +32,15 @@ class MainWindow : public QMainWindow
 
         ~MainWindow
         (
+            void
         );
 
     private:
 
         Ui::MainWindow * ui;
+
+        FileCollection * files;
+        FileTreeModel  * fileTreeModel;
 };
 
 /******************************************************************************/
