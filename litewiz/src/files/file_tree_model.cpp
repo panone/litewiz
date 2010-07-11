@@ -166,7 +166,14 @@ Qt::ItemFlags FileTreeModel::flags
 )
     const
 {
-    return 0;
+    Qt::ItemFlags result = 0;
+
+    if ( index.isValid() )
+    {
+        result = Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+    }
+
+    return result;
 }
 
 /*******************************************************************************
