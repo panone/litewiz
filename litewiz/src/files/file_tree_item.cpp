@@ -90,23 +90,26 @@ QVariant FileTreeItem::getData
 {
     QVariant result;
 
-    if ( column == 0 )
+    if ( role == Qt::DisplayRole )
     {
-        result = fileName;
-    }
-    else
-    {
-        if ( !directory )
+        if ( column == 0 )
         {
-            switch ( column )
+            result = fileName;
+        }
+        else
+        {
+            if ( !directory )
             {
-                case 1:
-                    result = itemName;
-                    break;
+                switch ( column )
+                {
+                    case 1:
+                        result = itemName;
+                        break;
 
-                case 2:
-                    result = variantName;
-                    break;
+                    case 2:
+                        result = variantName;
+                        break;
+                }
             }
         }
     }
