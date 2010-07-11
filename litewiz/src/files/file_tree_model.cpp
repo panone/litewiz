@@ -133,7 +133,7 @@ QModelIndex FileTreeModel::parent
 
     if ( ( item != 0 ) && ( item->getParent() != 0 ) )
     {
-        result = createIndex( item->getRow(), 0, item->getParent() );
+        result = createIndex( item->getParent()->getRow(), 0, item->getParent() );
     }
 
     return result;
