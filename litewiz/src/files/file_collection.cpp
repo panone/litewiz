@@ -57,12 +57,24 @@ int FileCollection::getFileCount
 
 /*******************************************************************************
 *******************************************************************************/
-File const & FileCollection::getFileAt
+FileCollection::const_iterator FileCollection::begin
 (
-    int const index
+    void
 )
+    const
 {
-    return files.at( index );
+    return files.begin();
+}
+
+/*******************************************************************************
+*******************************************************************************/
+FileCollection::const_iterator FileCollection::end
+(
+    void
+)
+    const
+{
+    return files.end();
 }
 
 /*******************************************************************************

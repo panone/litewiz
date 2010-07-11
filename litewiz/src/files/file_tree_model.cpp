@@ -19,10 +19,9 @@ FileTreeModel::FileTreeModel
     QAbstractItemModel( parent ),
     files( files )
 {
-    for ( int i = 0; i < files->getFileCount(); i++ )
+    foreach ( File const & file, *files )
     {
-        File    const & file = files->getFileAt( i );
-        QString         path = file.getPath();
+        QString path = file.getPath();
 
         if ( !items.contains( path ) )
         {

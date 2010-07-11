@@ -20,6 +20,10 @@ class FileCollection
 {
     public:
 
+        typedef QList< File >::const_iterator const_iterator;
+
+    public:
+
         FileCollection
         (
             void
@@ -42,10 +46,17 @@ class FileCollection
             void
         );
 
-        File const & getFileAt
+        const_iterator begin
         (
-            int const index
-        );
+            void
+        )
+        const;
+
+        const_iterator end
+        (
+            void
+        )
+        const;
 
     private:
 
