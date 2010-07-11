@@ -37,7 +37,12 @@ class FileTreeItem
 
     public:
 
-        void addSubItem
+        FileTreeItem * addSubItem
+        (
+            QString const & name
+        );
+
+        FileTreeItem * addSubItem
         (
             File const & file
         );
@@ -70,6 +75,12 @@ class FileTreeItem
         int getRow
         (
             void
+        )
+        const;
+
+        FileTreeItem * findSubItem
+        (
+            QString const & name
         )
         const;
 

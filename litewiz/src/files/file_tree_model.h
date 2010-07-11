@@ -92,9 +92,8 @@ class FileTreeModel : public QAbstractItemModel
 
     private:
 
-        FileCollection                  * files;
-
-        QMap< QString, FileTreeItem * >   items;
+        FileCollection * files;
+        FileTreeItem   * root;
 };
 
 /******************************************************************************/

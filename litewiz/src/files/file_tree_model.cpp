@@ -19,16 +19,18 @@ FileTreeModel::FileTreeModel
     QAbstractItemModel( parent ),
     files( files )
 {
+    root = new FileTreeItem( "root" );
+
     foreach ( File const & file, *files )
     {
-        QString path = file.getPath();
+        FileTreeItem * directory = root->findSubItem( file.getPath() );
 
-        if ( !items.contains( path ) )
+        if ( directory == 0 )
         {
-            items[ path ] = new FileTreeItem( path );
+            directory = root->addSubItem( file.getPath() );
         }
 
-        items[ path ]->addSubItem( file );
+        directory->addSubItem( file );
     }
 }
 
@@ -39,7 +41,7 @@ FileTreeModel::~FileTreeModel
     void
 )
 {
-    qDeleteAll( items );
+    delete root;
 }
 
 /*******************************************************************************
@@ -60,7 +62,7 @@ int FileTreeModel::rowCount
         }
         else
         {
-            result = items.count();
+            result = root->getRowCount();
         }
     }
 
@@ -98,19 +100,14 @@ QModelIndex FileTreeModel::index
     FileTreeItem * parentItem = getItem( parent );
     FileTreeItem * item       = 0;
 
-    if ( parentItem != 0 )
+    if ( parentItem == 0 )
     {
-        if ( ( row >= 0 ) && ( row < parentItem->getRowCount() ) )
-        {
-            item = parentItem->getSubItem( row );
-        }
+        parentItem = root;
     }
-    else
+
+    if ( ( row >= 0 ) && ( row < parentItem->getRowCount() ) )
     {
-        if ( ( row >= 0 ) && ( row < items.count() ) )
-        {
-            item = items[ items.keys().at( row ) ];
-        }
+        item = parentItem->getSubItem( row );
     }
 
     QModelIndex result;
@@ -134,7 +131,7 @@ QModelIndex FileTreeModel::parent
     QModelIndex    result;
     FileTreeItem * item = getItem( index );
 
-    if ( ( item != 0 ) && ( item->getParent() != 0 ) )
+    if ( ( item != 0 ) && ( item->getParent() != root ) )
     {
         result = createIndex( item->getParent()->getRow(), 0, item->getParent() );
     }

@@ -45,7 +45,23 @@ FileTreeItem::~FileTreeItem
 
 /*******************************************************************************
 *******************************************************************************/
-void FileTreeItem::addSubItem
+FileTreeItem * FileTreeItem::addSubItem
+(
+    QString const & name
+)
+{
+    FileTreeItem * item = new FileTreeItem( name );
+
+    item->parent = this;
+
+    children.append( item );
+
+    return item;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+FileTreeItem * FileTreeItem::addSubItem
 (
     File const & file
 )
@@ -55,6 +71,8 @@ void FileTreeItem::addSubItem
     item->parent = this;
 
     children.append( item );
+
+    return item;
 }
 
 /*******************************************************************************
@@ -141,6 +159,28 @@ int FileTreeItem::getRow
     if ( parent != 0 )
     {
         result = parent->children.indexOf( const_cast< FileTreeItem * >( this ) );
+    }
+
+    return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+FileTreeItem * FileTreeItem::findSubItem
+(
+    QString const & name
+)
+    const
+{
+    FileTreeItem * result = 0;
+
+    foreach ( FileTreeItem * item, children )
+    {
+        if ( item->fileName == name )
+        {
+            result = item;
+            break;
+        }
     }
 
     return result;
