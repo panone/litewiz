@@ -52,13 +52,16 @@ int FileTreeModel::rowCount
 {
     int result = 0;
 
-    if ( getItem( parent ) != 0 )
+    if ( parent.column() <= 0 )
     {
-        result = getItem( parent )->getRowCount();
-    }
-    else
-    {
-        result = items.count();
+        if ( getItem( parent ) != 0 )
+        {
+            result = getItem( parent )->getRowCount();
+        }
+        else
+        {
+            result = items.count();
+        }
     }
 
     return result;
