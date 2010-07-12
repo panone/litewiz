@@ -17,7 +17,7 @@ class File
 
         File
         (
-            QString const & path
+            QString const & fileName
         );
 
     public:

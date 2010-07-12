@@ -29,18 +29,18 @@ void FileCollection::load
 
     foreach ( QString name, names )
     {
-        append( name );
+        addFile( name );
     }
 }
 
 /*******************************************************************************
 *******************************************************************************/
-void FileCollection::append
+void FileCollection::addFile
 (
-    QString const & filePath
+    QString const & fileName
 )
 {
-    File file( filePath );
+    File file( fileName );
 
     files.append( file );
 }

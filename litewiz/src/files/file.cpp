@@ -9,9 +9,9 @@
 *******************************************************************************/
 File::File
 (
-    QString const & path
+    QString const & fileName
 ) :
-    info( path )
+    info( fileName )
 {
 }
 

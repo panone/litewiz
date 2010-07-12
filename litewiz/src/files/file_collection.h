@@ -36,9 +36,9 @@ class FileCollection
             QString const & fileName
         );
 
-        void append
+        void addFile
         (
-            QString const & filePath
+            QString const & fileName
         );
 
         int getFileCount
