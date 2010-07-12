@@ -36,9 +36,9 @@ class FileCollection
             QString const & fileName
         );
 
-        void addFile
+        void addFiles
         (
-            QString const & fileName
+            QStringList const & fileNames
         );
 
         void addDirectory

@@ -26,24 +26,20 @@ void FileCollection::load
     QString const & fileName
 )
 {
-    QStringList names = getTextFileContents( fileName );
-
-    foreach ( QString name, names )
-    {
-        addFile( name );
-    }
+    addFiles( getTextFileContents( fileName ) );
 }
 
 /*******************************************************************************
 *******************************************************************************/
-void FileCollection::addFile
+void FileCollection::addFiles
 (
-    QString const & fileName
+    QStringList const & fileNames
 )
 {
-    File file( fileName );
-
-    files.append( file );
+    foreach ( QString fileName, fileNames )
+    {
+        files.append( File( fileName ) );
+    }
 }
 
 /*******************************************************************************
