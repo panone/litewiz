@@ -41,6 +41,11 @@ class FileCollection
             QString const & fileName
         );
 
+        void addDirectory
+        (
+            QString const & fileName
+        );
+
         int getFileCount
         (
             void

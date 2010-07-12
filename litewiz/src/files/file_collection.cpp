@@ -1,6 +1,7 @@
 /*******************************************************************************
 *******************************************************************************/
 
+#include <QDir>
 #include <QFile>
 #include <QList>
 #include <QString>
@@ -43,6 +44,31 @@ void FileCollection::addFile
     File file( fileName );
 
     files.append( file );
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void FileCollection::addDirectory
+(
+    QString const & fileName
+)
+{
+    QFileInfo info( fileName );
+
+    if ( info.isDir() )
+    {
+        QDir directory( info.absoluteFilePath() );
+
+        directory.setFilter( QDir::Files );
+        directory.setSorting( QDir::Name | QDir::IgnoreCase );
+
+        QFileInfoList fileInfo = directory.entryInfoList();
+
+        foreach ( QFileInfo info, fileInfo )
+        {
+            addFile( info.absoluteFilePath() );
+        }
+    }
 }
 
 /*******************************************************************************
