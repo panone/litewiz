@@ -66,7 +66,7 @@ void FileCollection::addDirectory
 
         foreach ( QFileInfo info, fileInfo )
         {
-            addFile( info.absoluteFilePath() );
+            files.append( File( info ) );
         }
     }
 }

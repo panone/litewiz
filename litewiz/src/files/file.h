@@ -15,9 +15,14 @@ class File
 {
     public:
 
-        File
+        explicit File
         (
             QString const & fileName
+        );
+
+        explicit File
+        (
+            QFileInfo const & fileInfo
         );
 
     public:
