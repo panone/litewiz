@@ -35,6 +35,13 @@ class MainWindow : public QMainWindow
             void
         );
 
+    private slots:
+
+        void addDirectory
+        (
+            void
+        );
+
     private:
 
         Ui::MainWindow * ui;
