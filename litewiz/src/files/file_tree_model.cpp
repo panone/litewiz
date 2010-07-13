@@ -6,6 +6,7 @@
 #include <QString>
 #include "file.h"
 #include "file_collection.h"
+#include "session.h"
 #include "file_tree_item.h"
 #include "file_tree_model.h"
 
@@ -13,15 +14,15 @@
 *******************************************************************************/
 FileTreeModel::FileTreeModel
 (
-    FileCollection * const files,
-    QObject        * const parent
+    Session * const session,
+    QObject * const parent
 ) :
     QAbstractItemModel( parent ),
-    files( files )
+    session( session )
 {
     root = new FileTreeItem( "root" );
 
-    foreach ( File const & file, *files )
+    foreach ( File const & file, session->getFiles() )
     {
         FileTreeItem * directory = root->findSubItem( file.getPath() );
 

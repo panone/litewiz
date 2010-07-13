@@ -3,7 +3,7 @@
 
 #include <QtGui/QApplication>
 #include "main_window.h"
-#include "file_collection.h"
+#include "session.h"
 #include "file_tree_model.h"
 #include "ui_main_window.h"
 
@@ -19,11 +19,11 @@ MainWindow::MainWindow
 
     ui->setupUi( this );
 
-    files = new FileCollection();
+    session = new Session( this );
 
-    files->load( QApplication::instance()->arguments().at( 1 ) );
+    session->loadFileList( QApplication::instance()->arguments().at( 1 ) );
 
-    fileTreeModel = new FileTreeModel( files, this );
+    fileTreeModel = new FileTreeModel( session, this );
 
     ui->filesTreeView->setModel( fileTreeModel );
     //ui->filesTreeView->setRootIsDecorated( false );
@@ -36,7 +36,6 @@ MainWindow::~MainWindow
     void
 )
 {
-    delete files;
     delete ui;
 }
 

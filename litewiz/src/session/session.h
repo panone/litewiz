@@ -1,48 +1,54 @@
 /*******************************************************************************
 *******************************************************************************/
 
-#ifndef MAIN_WINDOW_H
-#define MAIN_WINDOW_H
+#ifndef SESSION_H
+#define SESSION_H
 
 /******************************************************************************/
 
-#include <QMainWindow>
-
-/******************************************************************************/
-
-namespace Ui {
-    class MainWindow;
-}
-
-class Session;
-class FileTreeModel;
+#include <QObject>
+#include "file_collection.h"
 
 /*******************************************************************************
 *******************************************************************************/
-class MainWindow : public QMainWindow
+class Session : public QObject
 {
     Q_OBJECT
 
     public:
 
-        explicit MainWindow
+        explicit Session
         (
-            QWidget * parent = 0
+            QObject * parent = 0
         );
 
-        ~MainWindow
+    public:
+
+        void loadFileList
+        (
+            QString const & fileName
+        );
+
+        void addFiles
+        (
+            QStringList const & fileNames
+        );
+
+        void addDirectory
+        (
+            QString const & fileName
+        );
+
+        FileCollection const & getFiles
         (
             void
         );
 
     private:
 
-        Ui::MainWindow * ui;
-
-        Session        * session;
-        FileTreeModel  * fileTreeModel;
+        FileCollection files;
 };
 
 /******************************************************************************/
 
-#endif /* MAIN_WINDOW_H */
+#endif /* SESSION_H */

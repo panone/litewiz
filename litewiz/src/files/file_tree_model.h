@@ -11,7 +11,7 @@
 
 /******************************************************************************/
 
-class FileCollection;
+class Session;
 class FileTreeItem;
 
 /*******************************************************************************
@@ -24,8 +24,8 @@ class FileTreeModel : public QAbstractItemModel
 
         FileTreeModel
         (
-            FileCollection * const files,
-            QObject        * const parent = 0
+            Session * const files,
+            QObject * const parent = 0
         );
 
         ~FileTreeModel
@@ -92,8 +92,8 @@ class FileTreeModel : public QAbstractItemModel
 
     private:
 
-        FileCollection * files;
-        FileTreeItem   * root;
+        Session      * session;
+        FileTreeItem * root;
 };
 
 /******************************************************************************/
