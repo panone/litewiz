@@ -44,6 +44,13 @@ class Session : public QObject
             void
         );
 
+    signals:
+
+        void fileCollectionUpdated
+        (
+            void
+        );
+
     private:
 
         FileCollection files;

@@ -32,7 +32,14 @@ void Session::addFiles
     QStringList const & fileNames
 )
 {
+    int count = files.getFileCount();
+
     files.addFiles( fileNames );
+
+    if ( files.getFileCount() > count )
+    {
+        emit fileCollectionUpdated();
+    }
 }
 
 /*******************************************************************************
@@ -42,7 +49,14 @@ void Session::addDirectory
     QString const & fileName
 )
 {
+    int count = files.getFileCount();
+
     files.addDirectory( fileName );
+
+    if ( files.getFileCount() > count )
+    {
+        emit fileCollectionUpdated();
+    }
 }
 
 /*******************************************************************************
