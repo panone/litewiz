@@ -90,6 +90,13 @@ class FileTreeModel : public QAbstractItemModel
         )
         const;
 
+    public slots:
+
+        void update
+        (
+            void
+        );
+
     private:
 
         Session      * session;

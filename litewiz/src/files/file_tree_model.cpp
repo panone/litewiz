@@ -22,17 +22,9 @@ FileTreeModel::FileTreeModel
 {
     root = new FileTreeItem( "root" );
 
-    foreach ( File const & file, session->getFiles() )
-    {
-        FileTreeItem * directory = root->findSubItem( file.getPath() );
+    connect( session, SIGNAL( fileCollectionUpdated() ), this, SLOT( update() ) );
 
-        if ( directory == 0 )
-        {
-            directory = root->addSubItem( file.getPath() );
-        }
-
-        directory->addSubItem( file );
-    }
+    update();
 }
 
 /*******************************************************************************
@@ -220,6 +212,32 @@ FileTreeItem * FileTreeModel::getItem
     }
 
     return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void FileTreeModel::update
+(
+    void
+)
+{
+    delete root;
+
+    root = new FileTreeItem( "root" );
+
+    foreach ( File const & file, session->getFiles() )
+    {
+        FileTreeItem * directory = root->findSubItem( file.getPath() );
+
+        if ( directory == 0 )
+        {
+            directory = root->addSubItem( file.getPath() );
+        }
+
+        directory->addSubItem( file );
+    }
+
+    reset();
 }
 
 /******************************************************************************/
