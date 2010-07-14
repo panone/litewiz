@@ -3,6 +3,7 @@
 
 #include <QtGui/QApplication>
 #include <QFileDialog>
+#include <QSettings>
 #include "main_window.h"
 #include "session.h"
 #include "file_tree_model.h"
@@ -22,6 +23,8 @@ MainWindow::MainWindow
 
     connect( ui->addFilesAction, SIGNAL( triggered() ), this, SLOT( addFiles() ) );
     connect( ui->addDirectoryAction, SIGNAL( triggered() ), this, SLOT( addDirectory() ) );
+
+    restoreGeometry();
 
     session = new Session( this );
 
@@ -44,6 +47,38 @@ MainWindow::~MainWindow
 )
 {
     delete ui;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void MainWindow::saveGeometry
+(
+    void
+)
+{
+    QSettings settings;
+
+    settings.beginGroup("Geometry");
+
+    settings.setValue( "MainWindow", QMainWindow::saveGeometry() );
+
+    settings.endGroup();
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void MainWindow::restoreGeometry
+(
+    void
+)
+{
+    QSettings settings;
+
+    settings.beginGroup("Geometry");
+
+    QMainWindow::restoreGeometry( settings.value( "MainWindow" ).toByteArray() );
+
+    settings.endGroup();
 }
 
 /*******************************************************************************
@@ -80,6 +115,18 @@ void MainWindow::addDirectory
     {
         session->addDirectory( directoryName );
     }
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void MainWindow::closeEvent
+(
+    QCloseEvent * event
+)
+{
+    saveGeometry();
+
+    QMainWindow::closeEvent( event );
 }
 
 /******************************************************************************/

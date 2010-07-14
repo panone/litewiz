@@ -12,8 +12,12 @@ int main
     char ** argv
 )
 {
-    QApplication   application( argc, argv );
-    MainWindow     mainWindow;
+    QApplication application( argc, argv );
+
+    QApplication::setOrganizationName( "Litewiz Productions" );
+    QApplication::setApplicationName( "Litewiz" );
+
+    MainWindow mainWindow;
 
     mainWindow.show();
 

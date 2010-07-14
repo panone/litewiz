@@ -35,6 +35,18 @@ class MainWindow : public QMainWindow
             void
         );
 
+    private:
+
+        void saveGeometry
+        (
+            void
+        );
+
+        void restoreGeometry
+        (
+            void
+        );
+
     private slots:
 
         void addFiles
@@ -45,6 +57,13 @@ class MainWindow : public QMainWindow
         void addDirectory
         (
             void
+        );
+
+    private:
+
+        virtual void closeEvent
+        (
+            QCloseEvent * event
         );
 
     private:
