@@ -30,10 +30,20 @@
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
+          <property name="childrenCollapsible">
+           <bool>false</bool>
+          </property>
           <widget class="QWidget" name="verticalLayoutWidget">
            <layout class="QVBoxLayout" name="verticalLayout1">
             <item>
-             <widget class="QTreeView" name="filesTreeView"/>
+             <widget class="QTreeView" name="filesTreeView">
+              <property name="minimumSize">
+               <size>
+                <width>250</width>
+                <height>0</height>
+               </size>
+              </property>
+             </widget>
             </item>
             <item>
              <spacer name="horizontalSpacer1">
@@ -54,13 +64,23 @@
            <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
+           <property name="childrenCollapsible">
+            <bool>false</bool>
+           </property>
            <widget class="QGroupBox" name="groupBox1">
             <property name="title">
              <string> Items </string>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout2">
              <item>
-              <widget class="QListView" name="itemsListView"/>
+              <widget class="QListView" name="itemsListView">
+               <property name="minimumSize">
+                <size>
+                 <width>120</width>
+                 <height>60</height>
+                </size>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>
@@ -70,7 +90,14 @@
             </property>
             <layout class="QVBoxLayout" name="verticalLayout3">
              <item>
-              <widget class="QListView" name="variantsListView"/>
+              <widget class="QListView" name="variantsListView">
+               <property name="minimumSize">
+                <size>
+                 <width>120</width>
+                 <height>60</height>
+                </size>
+               </property>
+              </widget>
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout3">
@@ -86,9 +113,15 @@
                </item>
                <item>
                 <widget class="QLineEdit" name="varianceLineEdit">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
                  <property name="maximumSize">
                   <size>
-                   <width>50</width>
+                   <width>40</width>
                    <height>16777215</height>
                   </size>
                  </property>
