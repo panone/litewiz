@@ -61,6 +61,9 @@ void MainWindow::saveGeometry
     settings.beginGroup("Geometry");
 
     settings.setValue( "MainWindow", QMainWindow::saveGeometry() );
+    settings.setValue( "Splitter1", ui->splitter1->saveState() );
+    settings.setValue( "Splitter2", ui->splitter2->saveState() );
+    settings.setValue( "FileTreeView", ui->fileTreeView->header()->saveState() );
 
     settings.endGroup();
 }
@@ -77,6 +80,9 @@ void MainWindow::restoreGeometry
     settings.beginGroup("Geometry");
 
     QMainWindow::restoreGeometry( settings.value( "MainWindow" ).toByteArray() );
+    ui->splitter1->restoreState( settings.value( "Splitter1" ).toByteArray() );
+    ui->splitter2->restoreState( settings.value( "Splitter2" ).toByteArray() );
+    ui->fileTreeView->header()->restoreState( settings.value( "FileTreeView" ).toByteArray() );
 
     settings.endGroup();
 }
