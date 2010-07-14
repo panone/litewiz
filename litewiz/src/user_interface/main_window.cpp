@@ -20,6 +20,7 @@ MainWindow::MainWindow
 
     ui->setupUi( this );
 
+    connect( ui->addFilesAction, SIGNAL( triggered() ), this, SLOT( addFiles() ) );
     connect( ui->addDirectoryAction, SIGNAL( triggered() ), this, SLOT( addDirectory() ) );
 
     session = new Session( this );
@@ -47,12 +48,33 @@ MainWindow::~MainWindow
 
 /*******************************************************************************
 *******************************************************************************/
+void MainWindow::addFiles
+(
+    void
+)
+{
+    QStringList fileNames = QFileDialog::getOpenFileNames
+    (
+        this,
+        QString(),
+        QString(),
+        tr( "Waveforms (*.wav);;All files (*.*)" )
+    );
+
+    if ( fileNames.count() > 0 )
+    {
+        session->addFiles( fileNames );
+    }
+}
+
+/*******************************************************************************
+*******************************************************************************/
 void MainWindow::addDirectory
 (
     void
 )
 {
-    QString directoryName =  QFileDialog::getExistingDirectory( this );
+    QString directoryName =  QFileDialog::getExistingDirectory( this, tr( "Select a directory" ) );
 
     if ( !directoryName.isNull() )
     {

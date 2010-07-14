@@ -37,6 +37,11 @@ class MainWindow : public QMainWindow
 
     private slots:
 
+        void addFiles
+        (
+            void
+        );
+
         void addDirectory
         (
             void
