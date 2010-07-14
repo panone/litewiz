@@ -9,6 +9,10 @@
 #include <QObject>
 #include "file_collection.h"
 
+/******************************************************************************/
+
+class QStringList;
+
 /*******************************************************************************
 *******************************************************************************/
 class Session : public QObject
@@ -42,6 +46,13 @@ class Session : public QObject
         FileCollection const & getFiles
         (
             void
+        );
+
+    private:
+
+        QStringList getTextFileContents
+        (
+            QString const & fileName
         );
 
     signals:

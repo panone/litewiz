@@ -1,7 +1,10 @@
 /*******************************************************************************
 *******************************************************************************/
 
+#include <QFile>
 #include <QObject>
+#include <QStringList>
+#include <QTextStream>
 #include "file_collection.h"
 #include "session.h"
 
@@ -22,7 +25,7 @@ void Session::loadFileList
     QString const & fileName
 )
 {
-    files.load( fileName );
+    files.addFiles( getTextFileContents( fileName ) );
 }
 
 /*******************************************************************************
@@ -67,6 +70,34 @@ FileCollection const & Session::getFiles
 )
 {
     return files;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+QStringList Session::getTextFileContents
+(
+    QString const & fileName
+)
+{
+    QStringList   result;
+    QFile         file( fileName );
+
+    if ( file.open( QFile::ReadOnly | QFile::Text ) )
+    {
+        QTextStream stream( &file );
+
+        while ( !stream.atEnd() )
+        {
+            QString line = stream.readLine();
+
+            if ( !line.isEmpty() )
+            {
+                result.append( line );
+            }
+        }
+    }
+
+    return result;
 }
 
 /******************************************************************************/

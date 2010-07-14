@@ -7,11 +7,11 @@
 /******************************************************************************/
 
 #include <QList>
-#include <QString>
 #include "file.h"
 
 /******************************************************************************/
 
+class QString;
 class QStringList;
 
 /*******************************************************************************
@@ -30,11 +30,6 @@ class FileCollection
         );
 
     public:
-
-        void load
-        (
-            QString const & fileName
-        );
 
         void addFiles
         (
@@ -62,13 +57,6 @@ class FileCollection
             void
         )
         const;
-
-    private:
-
-        QStringList getTextFileContents
-        (
-            QString const & fileName
-        );
 
     private:
 
