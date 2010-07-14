@@ -24,7 +24,10 @@ MainWindow::MainWindow
 
     session = new Session( this );
 
-    session->loadFileList( QApplication::instance()->arguments().at( 1 ) );
+    if ( QApplication::instance()->arguments().count() > 1 )
+    {
+        session->loadFileList( QApplication::instance()->arguments().at( 1 ) );
+    }
 
     fileTreeModel = new FileTreeModel( session, this );
 
