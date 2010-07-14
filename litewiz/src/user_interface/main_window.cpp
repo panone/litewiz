@@ -35,8 +35,8 @@ MainWindow::MainWindow
 
     fileTreeModel = new FileTreeModel( session, this );
 
-    ui->filesTreeView->setModel( fileTreeModel );
-    //ui->filesTreeView->setRootIsDecorated( false );
+    ui->fileTreeView->setModel( fileTreeModel );
+    //ui->fileTreeView->setRootIsDecorated( false );
 }
 
 /*******************************************************************************
