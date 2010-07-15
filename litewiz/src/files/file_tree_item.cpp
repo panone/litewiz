@@ -94,7 +94,7 @@ int FileTreeItem::getColumnCount
 )
     const
 {
-    return directory ? 1 : 3;
+    return 3;
 }
 
 /*******************************************************************************
