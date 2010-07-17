@@ -98,10 +98,10 @@ void Session::classify
 
     int variance = classifier->getDefaultVariance();
 
-    /*
-    QList< ItemInfo >      itemInfo    = getItems( variance );
-    QList< VariantInfo >   variantInfo = getVariants( variance );
+    QList< ItemInfo >      itemInfo    = classifier->getItems( variance );
+    QList< VariantInfo >   variantInfo = classifier->getVariants( variance );
 
+    /*
     items.clear();
 
     foreach ( ItemInfo const & info, itemInfo )
