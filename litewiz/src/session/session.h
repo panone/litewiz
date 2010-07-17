@@ -13,6 +13,7 @@
 /******************************************************************************/
 
 class QStringList;
+class Classifier;
 
 /*******************************************************************************
 *******************************************************************************/
@@ -25,6 +26,11 @@ class Session : public QObject
         explicit Session
         (
             QObject * parent = 0
+        );
+
+        virtual ~Session
+        (
+            void
         );
 
     public:
@@ -72,6 +78,8 @@ class Session : public QObject
 
         FileCollection   files;
         ItemCollection   items;
+
+        Classifier     * classifier;
 };
 
 /******************************************************************************/

@@ -5,6 +5,7 @@
 #include <QObject>
 #include <QStringList>
 #include <QTextStream>
+#include "classifier.h"
 #include "file_collection.h"
 #include "item_collection.h"
 #include "session.h"
@@ -17,6 +18,17 @@ Session::Session
 ) :
     QObject( parent )
 {
+    classifier = new Classifier;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+Session::~Session
+(
+    void
+)
+{
+    delete classifier;
 }
 
 /*******************************************************************************
@@ -82,11 +94,11 @@ void Session::classify
 {
     QStringList fileNames = files.getNames();
 
-    /*
     classifier->classify( fileNames );
 
     int variance = classifier->getDefaultVariance();
 
+    /*
     QList< ItemInfo >      itemInfo    = getItems( variance );
     QList< VariantInfo >   variantInfo = getVariants( variance );
 
