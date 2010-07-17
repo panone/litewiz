@@ -26,7 +26,7 @@ void FactorVarianceExtractor::extract
 {
     variance.clear();
 
-    QVariantList   fileNames = classifier->getData( ClassifierData::FileNames );
+    QVariantList   fileNames;// = classifier->getData( ClassifierData::FileNames );
     QIntPairList   factors   = pairFactor( fileNames.count() );
 
     QIntList list;

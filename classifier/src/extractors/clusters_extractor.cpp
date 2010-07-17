@@ -27,7 +27,7 @@ void ClustersExtractor::extract
 {
     clusters.clear();
 
-    QVariantList fileNames = classifier->getData( ClassifierData::FileNames );
+    QVariantList fileNames;// = classifier->getData( ClassifierData::FileNames );
 
     foreach ( QVariant fileName1, fileNames )
     {

@@ -6,24 +6,7 @@
 
 /******************************************************************************/
 
-#include <QMap>
 #include <QStringList>
-#include <QVariant>
-#include "extractor.h"
-
-/*******************************************************************************
-*******************************************************************************/
-class ClassifierData
-{
-    public:
-
-        enum Identifier
-        {
-            FileNames,
-            Clusters,
-            FactorVariance
-        };
-};
 
 /*******************************************************************************
 *******************************************************************************/
@@ -52,17 +35,6 @@ class ClassifierImplementation
         (
             void
         );
-
-        QVariantList getData
-        (
-            ClassifierData::Identifier const identifier
-        );
-
-    private:
-
-        QStringList                                       fileNames;
-
-        QMap< ClassifierData::Identifier, Extractor * >   extractors;
 };
 
 /******************************************************************************/
