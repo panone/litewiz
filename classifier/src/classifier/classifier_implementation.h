@@ -6,6 +6,8 @@
 
 /******************************************************************************/
 
+#include <QList>
+#include <QMap>
 #include <QStringList>
 
 /*******************************************************************************
@@ -35,6 +37,17 @@ class ClassifierImplementation
         (
             void
         );
+
+    private:
+
+        void extractClusters
+        (
+            QStringList const & fileNames
+        );
+
+    private:
+
+        QList< QMap< int, int > > clusters;
 };
 
 /******************************************************************************/
