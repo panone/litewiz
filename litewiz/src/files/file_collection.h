@@ -46,6 +46,11 @@ class FileCollection
             void
         );
 
+        QStringList getNames
+        (
+            void
+        );
+
         const_iterator begin
         (
             void

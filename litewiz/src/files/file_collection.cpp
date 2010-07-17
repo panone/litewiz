@@ -67,6 +67,23 @@ int FileCollection::getFileCount
 
 /*******************************************************************************
 *******************************************************************************/
+QStringList FileCollection::getNames
+(
+    void
+)
+{
+    QStringList result;
+
+    foreach ( File const & file, files )
+    {
+        result.append( file.getName() );
+    }
+
+    return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
 FileCollection::const_iterator FileCollection::begin
 (
     void

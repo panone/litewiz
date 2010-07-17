@@ -49,6 +49,11 @@ class Session : public QObject
             void
         );
 
+        void classify
+        (
+            void
+        );
+
     private:
 
         QStringList getTextFileContents

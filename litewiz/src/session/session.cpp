@@ -75,6 +75,39 @@ FileCollection const & Session::getFiles
 
 /*******************************************************************************
 *******************************************************************************/
+void Session::classify
+(
+    void
+)
+{
+    QStringList fileNames = files.getNames();
+
+    /*
+    classifier->classify( fileNames );
+
+    int variance = classifier->getDefaultVariance();
+
+    QList< ItemInfo >      itemInfo    = getItems( variance );
+    QList< VariantInfo >   variantInfo = getVariants( variance );
+
+    items.clear();
+
+    foreach ( ItemInfo const & info, itemInfo )
+    {
+        Item * item = items.addItem( info );
+
+        foreach ( int index, itemInfo.files )
+        {
+            files.at( index ).setItem( item );
+        }
+    }
+
+    emit classified();
+    */
+}
+
+/*******************************************************************************
+*******************************************************************************/
 QStringList Session::getTextFileContents
 (
     QString const & fileName
