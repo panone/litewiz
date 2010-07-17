@@ -9,6 +9,7 @@
 #include <QList>
 #include <QMap>
 #include <QStringList>
+#include "utility.h"
 
 /*******************************************************************************
 *******************************************************************************/
@@ -42,12 +43,18 @@ class ClassifierImplementation
 
         void extractClusters
         (
-            QStringList const & fileNames
+            void
+        );
+
+        QIntList extractFactorVariance
+        (
+            void
         );
 
     private:
 
-        QList< QMap< int, int > > clusters;
+        QStringList                 fileNames;
+        QList< QMap< int, int > >   clusters;
 };
 
 /******************************************************************************/

@@ -30,7 +30,11 @@ void ClassifierImplementation::classify
     QStringList const & fileNames
 )
 {
-    extractClusters( fileNames );
+    this->fileNames = fileNames;
+
+    extractClusters();
+
+    QIntList factorVariance = extractFactorVariance();
 }
 
 /*******************************************************************************
@@ -47,7 +51,7 @@ int ClassifierImplementation::getDefaultVariance
 *******************************************************************************/
 void ClassifierImplementation::extractClusters
 (
-    QStringList const & fileNames
+    void
 )
 {
     clusters.clear();
@@ -65,6 +69,28 @@ void ClassifierImplementation::extractClusters
 
         clusters.append( clusterSize );
     }
+}
+
+/*******************************************************************************
+*******************************************************************************/
+QIntList ClassifierImplementation::extractFactorVariance
+(
+    void
+)
+{
+    QIntPairList factors = pairFactor( fileNames.count() );
+
+    QIntList result;
+
+    foreach ( QIntPair pair, factors )
+    {
+        result.append( pair.first );
+        result.append( pair.second );
+    }
+
+    qSort( result );
+
+    return result;
 }
 
 /******************************************************************************/
