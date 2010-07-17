@@ -28,8 +28,8 @@ FileTreeItem::FileTreeItem
 {
     directory   = false;
     fileName    = file.getName();
-    itemName    = file.getItem();
-    variantName = file.getVariant();
+    itemName    = file.getItemName();
+    variantName = file.getVariantName();
     parent      = 0;
 }
 

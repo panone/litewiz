@@ -48,13 +48,13 @@ class File
             Item * const item
         );
 
-        QString getItem
+        QString getItemName
         (
             void
         )
         const;
 
-        QString getVariant
+        QString getVariantName
         (
             void
         )
