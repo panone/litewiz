@@ -8,6 +8,7 @@
 
 #include <QObject>
 #include "file_collection.h"
+#include "item_collection.h"
 
 /******************************************************************************/
 
@@ -64,7 +65,8 @@ class Session : public QObject
 
     private:
 
-        FileCollection files;
+        FileCollection   files;
+        ItemCollection   items;
 };
 
 /******************************************************************************/

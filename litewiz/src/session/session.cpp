@@ -6,6 +6,7 @@
 #include <QStringList>
 #include <QTextStream>
 #include "file_collection.h"
+#include "item_collection.h"
 #include "session.h"
 
 /*******************************************************************************
