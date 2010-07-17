@@ -48,9 +48,11 @@ bool TestCase::run
 
     if ( valid )
     {
-        Classifier classifier( fileNames );
+        Classifier classifier;
 
-        Console::output() << QString( "Result: %1" ).arg( classifier.classify() ) << endl;
+        classifier.classify( fileNames );
+
+        Console::output() << QString( "Result: %1" ).arg( 42 ) << endl;
     }
 
     return result;

@@ -1,7 +1,6 @@
 /*******************************************************************************
 *******************************************************************************/
 
-#include <QObject>
 #include <QStringList>
 #include <QVariant>
 #include "extractor.h"
@@ -13,11 +12,8 @@
 *******************************************************************************/
 ClassifierImplementation::ClassifierImplementation
 (
-    QStringList const &       fileNames,
-    QObject           * const parent
-) :
-    QObject( parent ),
-    fileNames( fileNames )
+    void
+)
 {
     extractors[ ClassifierData::Clusters ] = new ClustersExtractor( this );
     extractors[ ClassifierData::FactorVariance ] = new FactorVarianceExtractor( this );
@@ -38,17 +34,17 @@ ClassifierImplementation::~ClassifierImplementation
 
 /*******************************************************************************
 *******************************************************************************/
-int ClassifierImplementation::classify
+void ClassifierImplementation::classify
 (
-    void
+    QStringList const & fileNames
 )
 {
+    this->fileNames = fileNames;
+
     foreach ( Extractor * extractor, extractors )
     {
         extractor->extract();
     }
-
-    return 42;
 }
 
 /*******************************************************************************

@@ -1,7 +1,6 @@
 /*******************************************************************************
 *******************************************************************************/
 
-#include <QObject>
 #include "classifier_implementation.h"
 #include "classifier.h"
 
@@ -9,22 +8,30 @@
 *******************************************************************************/
 Classifier::Classifier
 (
-    QStringList const &       fileNames,
-    QObject           * const parent
-) :
-    QObject( parent )
+    void
+)
 {
-    implementation = new ClassifierImplementation( fileNames, this );
+    implementation = new ClassifierImplementation();
 }
 
 /*******************************************************************************
 *******************************************************************************/
-int Classifier::classify
+Classifier::~Classifier
 (
     void
 )
 {
-    return implementation->classify();
+    delete implementation;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void Classifier::classify
+(
+    QStringList const & fileNames
+)
+{
+    implementation->classify( fileNames );
 }
 
 /******************************************************************************/

@@ -6,32 +6,30 @@
 
 /******************************************************************************/
 
-#include <QObject>
-
-/******************************************************************************/
-
 class ClassifierImplementation;
 class QStringList;
 
 /*******************************************************************************
 *******************************************************************************/
-class Classifier : public QObject
+class Classifier
 {
-    Q_OBJECT
-
     public:
 
         Classifier
         (
-            QStringList const &       fileNames,
-            QObject           * const parent = 0
+            void
+        );
+
+        ~Classifier
+        (
+            void
         );
 
     public:
 
-        int classify
+        void classify
         (
-            void
+            QStringList const & fileNames
         );
 
     private:

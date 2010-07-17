@@ -7,7 +7,6 @@
 /******************************************************************************/
 
 #include <QMap>
-#include <QObject>
 #include <QStringList>
 #include <QVariant>
 #include "extractor.h"
@@ -28,16 +27,13 @@ class ClassifierData
 
 /*******************************************************************************
 *******************************************************************************/
-class ClassifierImplementation : public QObject
+class ClassifierImplementation
 {
-    Q_OBJECT
-
     public:
 
         ClassifierImplementation
         (
-            QStringList const &       fileNames,
-            QObject           * const parent
+            void
         );
 
         ~ClassifierImplementation
@@ -47,9 +43,9 @@ class ClassifierImplementation : public QObject
 
     public:
 
-        int classify
+        void classify
         (
-            void
+            QStringList const & fileNames
         );
 
         QVariantList getData
