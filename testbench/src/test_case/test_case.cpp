@@ -52,7 +52,7 @@ bool TestCase::run
 
         classifier.classify( fileNames );
 
-        Console::output() << QString( "Result: %1" ).arg( 42 ) << endl;
+        Console::output() << QString( "Result: %1" ).arg( classifier.getDefaultVariance() ) << endl;
     }
 
     return result;

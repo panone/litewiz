@@ -34,4 +34,14 @@ void Classifier::classify
     implementation->classify( fileNames );
 }
 
+/*******************************************************************************
+*******************************************************************************/
+int Classifier::getDefaultVariance
+(
+    void
+)
+{
+    return implementation->getDefaultVariance();
+}
+
 /******************************************************************************/

@@ -49,6 +49,16 @@ void ClassifierImplementation::classify
 
 /*******************************************************************************
 *******************************************************************************/
+int ClassifierImplementation::getDefaultVariance
+(
+    void
+)
+{
+    return 42;
+}
+
+/*******************************************************************************
+*******************************************************************************/
 QVariantList ClassifierImplementation::getData
 (
     ClassifierData::Identifier const identifier

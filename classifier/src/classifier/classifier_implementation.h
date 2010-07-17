@@ -48,6 +48,11 @@ class ClassifierImplementation
             QStringList const & fileNames
         );
 
+        int getDefaultVariance
+        (
+            void
+        );
+
         QVariantList getData
         (
             ClassifierData::Identifier const identifier

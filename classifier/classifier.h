@@ -32,6 +32,11 @@ class Classifier
             QStringList const & fileNames
         );
 
+        int getDefaultVariance
+        (
+            void
+        );
+
     private:
 
         ClassifierImplementation * implementation;
