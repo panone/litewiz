@@ -8,6 +8,7 @@
 #include "session.h"
 #include "file_tree_model.h"
 #include "item_list_model.h"
+#include "variant_list_model.h"
 #include "ui_main_window.h"
 #include "main_window.h"
 
@@ -57,7 +58,11 @@ void MainWindow::setupUi
 
     itemListModel = new ItemListModel( session, this );
 
-    ui->itemsListView->setModel( itemListModel );
+    ui->itemListView->setModel( itemListModel );
+
+    variantListModel = new VariantListModel( session, this );
+
+    ui->variantListView->setModel( variantListModel );
 }
 
 /*******************************************************************************
@@ -70,8 +75,8 @@ void MainWindow::connectSignals
     connect( ui->addFilesAction, SIGNAL( triggered() ), this, SLOT( addFiles() ) );
     connect( ui->addDirectoryAction, SIGNAL( triggered() ), this, SLOT( addDirectory() ) );
 
-    connect( ui->itemsListView, SIGNAL( excludeItemsRequest( QIntList, bool ) ), session, SLOT( excludeItems( QIntList, bool ) ) );
-    connect( ui->itemsListView, SIGNAL( contextMenuRequest( QIntList, bool * const, bool * const ) ), itemListModel, SLOT( initContextMenu( QIntList, bool * const, bool * const ) ) );
+    connect( ui->itemListView, SIGNAL( excludeItemsRequest( QIntList, bool ) ), session, SLOT( excludeItems( QIntList, bool ) ) );
+    connect( ui->itemListView, SIGNAL( contextMenuRequest( QIntList, bool * const, bool * const ) ), itemListModel, SLOT( initContextMenu( QIntList, bool * const, bool * const ) ) );
 }
 
 /*******************************************************************************

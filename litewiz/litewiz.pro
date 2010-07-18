@@ -12,6 +12,7 @@ INCLUDEPATH += \
     src/items \
     src/session \
     src/user_interface \
+    src/variants \
     ../classifier
 
 DebugBuild {
@@ -29,3 +30,4 @@ include(src/files/files.pro)
 include(src/items/items.pro)
 include(src/session/session.pro)
 include(src/user_interface/user_interface.pro)
+include(src/variants/variants.pro)

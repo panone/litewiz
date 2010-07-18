@@ -1,42 +1,26 @@
 /*******************************************************************************
 *******************************************************************************/
 
-#ifndef FILE_H
-#define FILE_H
+#ifndef VARIANT_H
+#define VARIANT_H
 
 /******************************************************************************/
 
-#include <QFileInfo>
 #include <QString>
-
-/******************************************************************************/
-
-class Item;
-class Variant;
 
 /*******************************************************************************
 *******************************************************************************/
-class File
+class Variant
 {
     public:
 
-        explicit File
+        Variant
         (
-            QString const & fileName
-        );
-
-        explicit File
-        (
-            QFileInfo const & fileInfo
+            QString const & name,
+            QString const & stem
         );
 
     public:
-
-        QString getPath
-        (
-            void
-        )
-        const;
 
         QString getName
         (
@@ -44,47 +28,43 @@ class File
         )
         const;
 
-        QString getPathName
+        QString getStem
         (
             void
         )
         const;
 
-        void setItem
+        void setReference
         (
-            Item * const item
+            bool const reference
         );
 
-        QString getItemName
+        bool isReference
         (
             void
         )
         const;
 
-        void setVariant
+        void exclude
         (
-            Variant * const variant
+            bool const exclude
         );
 
-        QString getVariantName
+        bool isExcluded
         (
             void
-        )
-        const;
-
-        bool operator==
-        (
-            File const & file
         )
         const;
 
     private:
 
-        QFileInfo   info;
-        Item      * item;
-        Variant   * variant;
+        QString   name;
+        QString   stem;
+
+        bool      reference;
+        bool      excluded;
 };
 
 /******************************************************************************/
 
-#endif /* FILE_H */
+#endif /* VARIANT_H */

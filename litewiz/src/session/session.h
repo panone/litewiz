@@ -10,6 +10,7 @@
 #include "utility.h"
 #include "file_collection.h"
 #include "item_collection.h"
+#include "variant_collection.h"
 
 /******************************************************************************/
 
@@ -61,12 +62,27 @@ class Session : public QObject
             void
         );
 
+        VariantCollection const & getVariants
+        (
+            void
+        );
+
         void classify
         (
             void
         );
 
     private:
+
+        void setItems
+        (
+            int const variance
+        );
+
+        void setVariants
+        (
+            int const variance
+        );
 
         QStringList getTextFileContents
         (
@@ -95,10 +111,11 @@ class Session : public QObject
 
     private:
 
-        FileCollection   files;
-        ItemCollection   items;
+        FileCollection      files;
+        ItemCollection      items;
+        VariantCollection   variants;
 
-        Classifier     * classifier;
+        Classifier        * classifier;
 };
 
 /******************************************************************************/

@@ -100,6 +100,16 @@ ItemCollection const & Session::getItems
 
 /*******************************************************************************
 *******************************************************************************/
+VariantCollection const & Session::getVariants
+(
+    void
+)
+{
+    return variants;
+}
+
+/*******************************************************************************
+*******************************************************************************/
 void Session::classify
 (
     void
@@ -109,14 +119,22 @@ void Session::classify
 
     classifier->classify( fileNames );
 
-    int variance = classifier->getDefaultVariance();
+    setItems( classifier->getDefaultVariance() );
+    setVariants( classifier->getDefaultVariance() );
 
-    QList< ItemInfo >      itemInfo    = classifier->getItems( variance );
-    QList< VariantInfo >   variantInfo = classifier->getVariants( variance );
+    emit classified();
+}
 
+/*******************************************************************************
+*******************************************************************************/
+void Session::setItems
+(
+    int const variance
+)
+{
     items.clear();
 
-    foreach ( ItemInfo const & info, itemInfo )
+    foreach ( ItemInfo const & info, classifier->getItems( variance ) )
     {
         Item * item = items.addItem( info );
 
@@ -125,8 +143,26 @@ void Session::classify
             files[ index ].setItem( item );
         }
     }
+}
 
-    emit classified();
+/*******************************************************************************
+*******************************************************************************/
+void Session::setVariants
+(
+    int const variance
+)
+{
+    variants.clear();
+
+    foreach ( VariantInfo const & info, classifier->getVariants( variance ) )
+    {
+        Variant * variant = variants.addVariant( info );
+
+        foreach ( int index, info.files )
+        {
+            files[ index ].setVariant( variant );
+        }
+    }
 }
 
 /*******************************************************************************

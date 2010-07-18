@@ -79,7 +79,7 @@
             </property>
             <layout class="QVBoxLayout" name="verticalLayout2">
              <item>
-              <widget class="ItemListView" name="itemsListView">
+              <widget class="ItemListView" name="itemListView">
                <property name="minimumSize">
                 <size>
                  <width>120</width>
@@ -99,7 +99,7 @@
             </property>
             <layout class="QVBoxLayout" name="verticalLayout3">
              <item>
-              <widget class="QListView" name="variantsListView">
+              <widget class="QListView" name="variantListView">
                <property name="minimumSize">
                 <size>
                  <width>120</width>

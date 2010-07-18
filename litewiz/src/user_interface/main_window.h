@@ -16,6 +16,7 @@ namespace Ui {
 
 class FileTreeModel;
 class ItemListModel;
+class VariantListModel;
 class Session;
 
 /*******************************************************************************
@@ -79,11 +80,13 @@ class MainWindow : public QMainWindow
 
     private:
 
-        Ui::MainWindow * ui;
+        Ui::MainWindow   * ui;
 
-        Session        * session;
-        FileTreeModel  * fileTreeModel;
-        ItemListModel  * itemListModel;
+        Session          * session;
+
+        FileTreeModel    * fileTreeModel;
+        ItemListModel    * itemListModel;
+        VariantListModel * variantListModel;
 };
 
 /******************************************************************************/
