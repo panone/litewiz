@@ -70,6 +70,13 @@ class FileCollection
 
     private:
 
+        bool exists
+        (
+            File const & file
+        );
+
+    private:
+
         QList< File > files;
 };
 

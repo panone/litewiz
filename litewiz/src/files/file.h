@@ -43,6 +43,12 @@ class File
         )
         const;
 
+        QString getPathName
+        (
+            void
+        )
+        const;
+
         void setItem
         (
             Item * const item
@@ -57,6 +63,12 @@ class File
         QString getVariantName
         (
             void
+        )
+        const;
+
+        bool operator==
+        (
+            File const & file
         )
         const;
 

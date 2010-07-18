@@ -26,7 +26,12 @@ void FileCollection::addFiles
 {
     foreach ( QString fileName, fileNames )
     {
-        files.append( File( fileName ) );
+        File file( fileName );
+
+        if ( !exists( file ) )
+        {
+            files.append( file );
+        }
     }
 }
 
@@ -50,7 +55,12 @@ void FileCollection::addDirectory
 
         foreach ( QFileInfo info, fileInfo )
         {
-            files.append( File( info ) );
+            File file( info );
+
+            if ( !exists( file ) )
+            {
+                files.append( file );
+            }
         }
     }
 }
@@ -112,6 +122,27 @@ File & FileCollection::operator[]
 )
 {
     return files[ index ];
+}
+
+/*******************************************************************************
+*******************************************************************************/
+bool FileCollection::exists
+(
+    File const & file
+)
+{
+    bool result = false;
+
+    foreach ( File const & f, files )
+    {
+        if( f == file )
+        {
+            result = true;
+            break;
+        }
+    }
+
+    return result;
 }
 
 /******************************************************************************/
