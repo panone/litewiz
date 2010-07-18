@@ -1,67 +1,63 @@
 /*******************************************************************************
 *******************************************************************************/
 
-#include <QList>
-#include "classifier.h"
+#include <QAbstractListModel>
+#include "session.h"
 #include "item.h"
 #include "item_collection.h"
+#include "item_list_model.h"
 
 /*******************************************************************************
 *******************************************************************************/
-ItemCollection::~ItemCollection
+ItemListModel::ItemListModel
 (
-    void
-)
+    Session * const session,
+    QObject * const parent
+) :
+    QAbstractListModel( parent ),
+    session( session )
 {
-    qDeleteAll( items );
+    connect( session, SIGNAL( classified() ), this, SLOT( update() ) );
 }
 
 /*******************************************************************************
 *******************************************************************************/
-Item * ItemCollection::addItem
+int ItemListModel::rowCount
 (
-    ItemInfo const & itemInfo
-)
-{
-    Item * item = new Item( itemInfo.name, itemInfo.stem );
-
-    items.append( item );
-
-    return item;
-}
-
-/*******************************************************************************
-*******************************************************************************/
-int ItemCollection::getCount
-(
-    void
+    QModelIndex const & parent
 )
     const
 {
-    return items.count();
+    return session->getItems().getCount();
 }
 
 /*******************************************************************************
 *******************************************************************************/
-Item * ItemCollection::getItem
+QVariant ItemListModel::data
 (
-    int const index
+    QModelIndex const & index,
+    int                 role
 )
     const
 {
-    return items.value( index );
+    QVariant result;
+
+    if ( index.isValid() && ( role == Qt::DisplayRole ) )
+    {
+        result = session->getItems().getItem( index.row() )->getName();
+    }
+
+    return result;
 }
 
 /*******************************************************************************
 *******************************************************************************/
-void ItemCollection::clear
+void ItemListModel::update
 (
     void
 )
 {
-    qDeleteAll( items );
-
-    items.clear();
+    reset();
 }
 
 /******************************************************************************/

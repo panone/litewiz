@@ -4,10 +4,11 @@
 #include <QtGui/QApplication>
 #include <QFileDialog>
 #include <QSettings>
-#include "main_window.h"
 #include "session.h"
 #include "file_tree_model.h"
+#include "item_list_model.h"
 #include "ui_main_window.h"
+#include "main_window.h"
 
 /*******************************************************************************
 *******************************************************************************/
@@ -36,7 +37,10 @@ MainWindow::MainWindow
     fileTreeModel = new FileTreeModel( session, this );
 
     ui->fileTreeView->setModel( fileTreeModel );
-    //ui->fileTreeView->setRootIsDecorated( false );
+
+    itemListModel = new ItemListModel( session, this );
+
+    ui->itemsListView->setModel( itemListModel );
 }
 
 /*******************************************************************************

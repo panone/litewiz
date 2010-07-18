@@ -14,8 +14,9 @@ namespace Ui {
     class MainWindow;
 }
 
-class Session;
 class FileTreeModel;
+class ItemListModel;
+class Session;
 
 /*******************************************************************************
 *******************************************************************************/
@@ -72,6 +73,7 @@ class MainWindow : public QMainWindow
 
         Session        * session;
         FileTreeModel  * fileTreeModel;
+        ItemListModel  * itemListModel;
 };
 
 /******************************************************************************/

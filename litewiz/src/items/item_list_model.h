@@ -1,58 +1,58 @@
 /*******************************************************************************
 *******************************************************************************/
 
-#ifndef ITEM_COLLECTION_H
-#define ITEM_COLLECTION_H
+#ifndef ITEM_LIST_MODEL_H
+#define ITEM_LIST_MODEL_H
 
 /******************************************************************************/
 
-#include <QList>
+#include <QAbstractListModel>
 
 /******************************************************************************/
 
-class Item;
-class ItemInfo;
+class Session;
 
 /*******************************************************************************
 *******************************************************************************/
-class ItemCollection
+class ItemListModel : public QAbstractListModel
 {
+    Q_OBJECT
+
     public:
 
-        ~ItemCollection
+        ItemListModel
         (
-            void
+            Session * const files,
+            QObject * const parent = 0
         );
 
     public:
 
-        Item * addItem
+        int rowCount
         (
-            ItemInfo const & itemInfo
-        );
-
-        int getCount
-        (
-            void
+            QModelIndex const & parent = QModelIndex()
         )
         const;
 
-        Item * getItem
+        QVariant data
         (
-            int const index
+            QModelIndex const & index,
+            int                 role
         )
         const;
 
-        void clear
+    public slots:
+
+        void update
         (
             void
         );
 
     private:
 
-        QList< Item * > items;
+        Session * session;
 };
 
 /******************************************************************************/
 
-#endif /* ITEM_COLLECTION_H */
+#endif /* ITEM_LIST_MODEL_H */

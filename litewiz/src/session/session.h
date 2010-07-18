@@ -55,6 +55,11 @@ class Session : public QObject
             void
         );
 
+        ItemCollection const & getItems
+        (
+            void
+        );
+
         void classify
         (
             void
