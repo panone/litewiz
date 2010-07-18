@@ -7,6 +7,7 @@
 /******************************************************************************/
 
 #include <QList>
+#include "utility.h"
 
 /******************************************************************************/
 
@@ -46,6 +47,12 @@ class ItemCollection
         void clear
         (
             void
+        );
+
+        void exclude
+        (
+            QIntList const &       selection,
+            bool             const exclude
         );
 
     private:

@@ -34,6 +34,11 @@ class Item
         )
         const;
 
+        void exclude
+        (
+            bool const exclude
+        );
+
         bool isExcluded
         (
             void

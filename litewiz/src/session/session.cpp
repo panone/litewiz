@@ -6,6 +6,7 @@
 #include <QStringList>
 #include <QTextStream>
 #include "classifier.h"
+#include "utility.h"
 #include "file_collection.h"
 #include "item_collection.h"
 #include "session.h"
@@ -154,6 +155,19 @@ QStringList Session::getTextFileContents
     }
 
     return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void Session::excludeItems
+(
+    QIntList const &       selection,
+    bool             const exclude
+)
+{
+    items.exclude( selection, exclude );
+
+    //emit itemCollectionUpdated();
 }
 
 /******************************************************************************/

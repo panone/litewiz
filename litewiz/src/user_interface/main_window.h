@@ -38,6 +38,16 @@ class MainWindow : public QMainWindow
 
     private:
 
+        void setupUi
+        (
+            void
+        );
+
+        void connectSignals
+        (
+            void
+        );
+
         void saveGeometry
         (
             void

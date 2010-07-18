@@ -5,6 +5,7 @@
 #include <QContextMenuEvent>
 #include <QListView>
 #include <QMenu>
+#include "utility.h"
 #include "item_list_view.h"
 
 /*******************************************************************************
@@ -43,11 +44,29 @@ void ItemListView::connectSignals
 
 /*******************************************************************************
 *******************************************************************************/
+QIntList ItemListView::getSelection
+(
+    void
+)
+{
+    QIntList result;
+
+    foreach ( QModelIndex const & index, selectedIndexes() )
+    {
+        result.append( index.row() );
+    }
+
+    return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
 void ItemListView::excludeItems
 (
     void
 )
 {
+    emit excludeItemsRequest( getSelection(), true );
 }
 
 /*******************************************************************************
@@ -57,6 +76,7 @@ void ItemListView::includeItems
     void
 )
 {
+    emit excludeItemsRequest( getSelection(), false );
 }
 
 /*******************************************************************************

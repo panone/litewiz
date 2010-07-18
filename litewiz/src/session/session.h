@@ -7,6 +7,7 @@
 /******************************************************************************/
 
 #include <QObject>
+#include "utility.h"
 #include "file_collection.h"
 #include "item_collection.h"
 
@@ -70,6 +71,14 @@ class Session : public QObject
         QStringList getTextFileContents
         (
             QString const & fileName
+        );
+
+    public slots:
+
+        void excludeItems
+        (
+            QIntList const &       selection,
+            bool             const exclude
         );
 
     signals:

@@ -8,6 +8,7 @@
 
 #include <QAction>
 #include <QListView>
+#include "utility.h"
 
 /*******************************************************************************
 *******************************************************************************/
@@ -34,6 +35,11 @@ class ItemListView : public QListView
             void
         );
 
+        QIntList getSelection
+        (
+            void
+        );
+
     private slots:
 
         void excludeItems
@@ -51,6 +57,14 @@ class ItemListView : public QListView
         virtual void contextMenuEvent
         (
             QContextMenuEvent * event
+        );
+
+    signals:
+
+        void excludeItemsRequest
+        (
+            QIntList const &       selection,
+            bool             const exclude
         );
 
     private:

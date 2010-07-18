@@ -3,6 +3,7 @@
 
 #include <QList>
 #include "classifier.h"
+#include "utility.h"
 #include "item.h"
 #include "item_collection.h"
 
@@ -62,6 +63,23 @@ void ItemCollection::clear
     qDeleteAll( items );
 
     items.clear();
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void ItemCollection::exclude
+(
+    QIntList const &       selection,
+    bool             const exclude
+)
+{
+    foreach ( int index, selection )
+    {
+        if ( ( index >= 0 ) && ( index < items.count() ) )
+        {
+            items[ index ]->exclude( exclude );
+        }
+    }
 }
 
 /******************************************************************************/

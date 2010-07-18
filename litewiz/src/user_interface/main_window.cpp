@@ -4,6 +4,7 @@
 #include <QtGui/QApplication>
 #include <QFileDialog>
 #include <QSettings>
+#include "utility.h"
 #include "session.h"
 #include "file_tree_model.h"
 #include "item_list_model.h"
@@ -18,21 +19,37 @@ MainWindow::MainWindow
 ) :
     QMainWindow( parent )
 {
-    ui = new Ui::MainWindow();
-
-    ui->setupUi( this );
-
-    connect( ui->addFilesAction, SIGNAL( triggered() ), this, SLOT( addFiles() ) );
-    connect( ui->addDirectoryAction, SIGNAL( triggered() ), this, SLOT( addDirectory() ) );
-
-    restoreGeometry();
-
+    ui      = new Ui::MainWindow();
     session = new Session( this );
+
+    setupUi();
+    connectSignals();
+    restoreGeometry();
 
     if ( QApplication::instance()->arguments().count() > 1 )
     {
         session->loadFileList( QApplication::instance()->arguments().at( 1 ) );
     }
+}
+
+/*******************************************************************************
+*******************************************************************************/
+MainWindow::~MainWindow
+(
+    void
+)
+{
+    delete ui;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void MainWindow::setupUi
+(
+    void
+)
+{
+    ui->setupUi( this );
 
     fileTreeModel = new FileTreeModel( session, this );
 
@@ -45,12 +62,15 @@ MainWindow::MainWindow
 
 /*******************************************************************************
 *******************************************************************************/
-MainWindow::~MainWindow
+void MainWindow::connectSignals
 (
     void
 )
 {
-    delete ui;
+    connect( ui->addFilesAction, SIGNAL( triggered() ), this, SLOT( addFiles() ) );
+    connect( ui->addDirectoryAction, SIGNAL( triggered() ), this, SLOT( addDirectory() ) );
+
+    connect( ui->itemsListView, SIGNAL( excludeItemsRequest( QIntList, bool ) ), session, SLOT( excludeItems( QIntList, bool ) ) );
 }
 
 /*******************************************************************************
