@@ -34,10 +34,18 @@ class Item
         )
         const;
 
+        bool isExcluded
+        (
+            void
+        )
+        const;
+
     private:
 
         QString   name;
         QString   stem;
+
+        bool      excluded;
 };
 
 /******************************************************************************/

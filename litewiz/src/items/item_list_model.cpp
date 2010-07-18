@@ -1,7 +1,9 @@
 /*******************************************************************************
 *******************************************************************************/
 
+#include <QtGui/QApplication>
 #include <QAbstractListModel>
+#include <QPalette>
 #include "session.h"
 #include "item.h"
 #include "item_collection.h"
@@ -42,9 +44,23 @@ QVariant ItemListModel::data
 {
     QVariant result;
 
-    if ( index.isValid() && ( role == Qt::DisplayRole ) )
+    if ( index.isValid() )
     {
-        result = session->getItems().getItem( index.row() )->getName();
+        Item const * item = session->getItems().getItem( index.row() );
+
+        switch ( role )
+        {
+            case Qt::DisplayRole:
+                result = item->getName();
+                break;
+
+            case Qt::ForegroundRole:
+                if ( item->isExcluded() )
+                {
+                    result = QApplication::palette().brush( QPalette::Window );
+                }
+                break;
+        }
     }
 
     return result;
