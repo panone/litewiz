@@ -23,6 +23,7 @@ FileTreeModel::FileTreeModel
     root = new FileTreeItem( "root" );
 
     connect( session, SIGNAL( fileCollectionUpdated() ), this, SLOT( update() ) );
+    connect( session, SIGNAL( classified() ), this, SLOT( update() ) );
 
     update();
 }

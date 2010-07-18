@@ -39,6 +39,8 @@ void Session::loadFileList
 )
 {
     files.addFiles( getTextFileContents( fileName ) );
+
+    classify();
 }
 
 /*******************************************************************************
@@ -113,7 +115,7 @@ void Session::classify
         }
     }
 
-    //emit classified();
+    emit classified();
 }
 
 /*******************************************************************************

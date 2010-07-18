@@ -74,6 +74,11 @@ class Session : public QObject
             void
         );
 
+        void classified
+        (
+            void
+        );
+
     private:
 
         FileCollection   files;
