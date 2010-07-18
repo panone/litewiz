@@ -86,10 +86,22 @@ void ItemListView::contextMenuEvent
     QContextMenuEvent * event
 )
 {
+    bool   exclude = true;
+    bool   include = true;
+
+    emit contextMenuRequest( getSelection(), &exclude, &include );
+
     QMenu menu( this );
 
-    menu.addAction( excludeAction );
-    menu.addAction( includeAction );
+    if ( exclude )
+    {
+        menu.addAction( excludeAction );
+    }
+
+    if ( include )
+    {
+        menu.addAction( includeAction );
+    }
 
     menu.exec( event->globalPos() );
 }

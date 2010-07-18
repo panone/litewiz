@@ -4,6 +4,7 @@
 #include <QtGui/QApplication>
 #include <QAbstractListModel>
 #include <QPalette>
+#include "utility.h"
 #include "session.h"
 #include "item.h"
 #include "item_collection.h"
@@ -74,6 +75,31 @@ void ItemListModel::update
 )
 {
     reset();
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void ItemListModel::initContextMenu
+(
+    QIntList const &       selection,
+    bool           * const exclude,
+    bool           * const include
+)
+{
+    *exclude = false;
+    *include = false;
+
+    foreach ( int index, selection )
+    {
+        if ( session->getItems().getItem( index )->isExcluded() )
+        {
+            *include = true;
+        }
+        else
+        {
+            *exclude = true;
+        }
+    }
 }
 
 /******************************************************************************/

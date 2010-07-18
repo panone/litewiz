@@ -61,6 +61,13 @@ class ItemListView : public QListView
 
     signals:
 
+        void contextMenuRequest
+        (
+            QIntList const &       selection,
+            bool           * const exclude,
+            bool           * const include
+        );
+
         void excludeItemsRequest
         (
             QIntList const &       selection,

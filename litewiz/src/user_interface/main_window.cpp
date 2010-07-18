@@ -71,6 +71,7 @@ void MainWindow::connectSignals
     connect( ui->addDirectoryAction, SIGNAL( triggered() ), this, SLOT( addDirectory() ) );
 
     connect( ui->itemsListView, SIGNAL( excludeItemsRequest( QIntList, bool ) ), session, SLOT( excludeItems( QIntList, bool ) ) );
+    connect( ui->itemsListView, SIGNAL( contextMenuRequest( QIntList, bool * const, bool * const ) ), itemListModel, SLOT( initContextMenu( QIntList, bool * const, bool * const ) ) );
 }
 
 /*******************************************************************************

@@ -7,6 +7,7 @@
 /******************************************************************************/
 
 #include <QAbstractListModel>
+#include "utility.h"
 
 /******************************************************************************/
 
@@ -46,6 +47,13 @@ class ItemListModel : public QAbstractListModel
         void update
         (
             void
+        );
+
+        void initContextMenu
+        (
+            QIntList const &       selection,
+            bool           * const exclude,
+            bool           * const include
         );
 
     private:
