@@ -24,7 +24,7 @@ class FileTreeModel : public QAbstractItemModel
 
         FileTreeModel
         (
-            Session * const files,
+            Session * const session,
             QObject * const parent = 0
         );
 
