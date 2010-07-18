@@ -101,21 +101,19 @@ void Session::classify
     QList< ItemInfo >      itemInfo    = classifier->getItems( variance );
     QList< VariantInfo >   variantInfo = classifier->getVariants( variance );
 
-    /*
     items.clear();
 
     foreach ( ItemInfo const & info, itemInfo )
     {
         Item * item = items.addItem( info );
 
-        foreach ( int index, itemInfo.files )
+        foreach ( int index, info.files )
         {
-            files.at( index ).setItem( item );
+            files[ index ].setItem( item );
         }
     }
 
-    emit classified();
-    */
+    //emit classified();
 }
 
 /*******************************************************************************

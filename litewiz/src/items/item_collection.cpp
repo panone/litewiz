@@ -2,6 +2,7 @@
 *******************************************************************************/
 
 #include <QList>
+#include "classifier.h"
 #include "item.h"
 #include "item_collection.h"
 
@@ -19,14 +20,26 @@ ItemCollection::~ItemCollection
 *******************************************************************************/
 Item * ItemCollection::addItem
 (
-    void
+    ItemInfo const & itemInfo
 )
 {
-    Item * item = new Item( "item", "item_stem" );
+    Item * item = new Item( itemInfo.name, itemInfo.stem );
 
     items.append( item );
 
     return item;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void ItemCollection::clear
+(
+    void
+)
+{
+    qDeleteAll( items );
+
+    items.clear();
 }
 
 /******************************************************************************/

@@ -63,6 +63,11 @@ class FileCollection
         )
         const;
 
+        File & operator[]
+        (
+            int const index
+        );
+
     private:
 
         QList< File > files;
