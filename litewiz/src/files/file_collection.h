@@ -41,7 +41,7 @@ class FileCollection
             QString const & fileName
         );
 
-        int getFileCount
+        int getCount
         (
             void
         );

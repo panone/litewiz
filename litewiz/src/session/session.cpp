@@ -50,11 +50,11 @@ void Session::addFiles
     QStringList const & fileNames
 )
 {
-    int count = files.getFileCount();
+    int count = files.getCount();
 
     files.addFiles( fileNames );
 
-    if ( files.getFileCount() > count )
+    if ( files.getCount() > count )
     {
         emit fileCollectionUpdated();
     }
@@ -67,11 +67,11 @@ void Session::addDirectory
     QString const & fileName
 )
 {
-    int count = files.getFileCount();
+    int count = files.getCount();
 
     files.addDirectory( fileName );
 
-    if ( files.getFileCount() > count )
+    if ( files.getCount() > count )
     {
         emit fileCollectionUpdated();
     }

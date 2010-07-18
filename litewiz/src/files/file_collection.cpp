@@ -57,7 +57,7 @@ void FileCollection::addDirectory
 
 /*******************************************************************************
 *******************************************************************************/
-int FileCollection::getFileCount
+int FileCollection::getCount
 (
     void
 )
