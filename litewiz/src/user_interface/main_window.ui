@@ -79,7 +79,7 @@
             </property>
             <layout class="QVBoxLayout" name="verticalLayout2">
              <item>
-              <widget class="QListView" name="itemsListView">
+              <widget class="ItemListView" name="itemsListView">
                <property name="minimumSize">
                 <size>
                  <width>120</width>
@@ -183,6 +183,13 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>ItemListView</class>
+   <extends>QListView</extends>
+   <header>item_list_view.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
