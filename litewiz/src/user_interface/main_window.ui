@@ -158,8 +158,17 @@
     <property name="title">
      <string>&amp;File</string>
     </property>
+    <widget class="QMenu" name="exportMenu">
+     <property name="title">
+      <string>&amp;Export</string>
+     </property>
+     <addaction name="aetExportAction"/>
+     <addaction name="stepExportAction"/>
+    </widget>
     <addaction name="addFilesAction"/>
     <addaction name="addDirectoryAction"/>
+    <addaction name="separator"/>
+    <addaction name="exportMenu"/>
    </widget>
    <addaction name="fileMenu"/>
   </widget>
@@ -172,6 +181,16 @@
   <action name="addDirectoryAction">
    <property name="text">
     <string>Add &amp;directory...</string>
+   </property>
+  </action>
+  <action name="aetExportAction">
+   <property name="text">
+    <string>&amp;AET...</string>
+   </property>
+  </action>
+  <action name="stepExportAction">
+   <property name="text">
+    <string>&amp;STEP...</string>
    </property>
   </action>
  </widget>

@@ -9,6 +9,7 @@
 #include "file_tree_model.h"
 #include "item_list_model.h"
 #include "variant_list_model.h"
+#include "aet_export_dialog.h"
 #include "ui_main_window.h"
 #include "main_window.h"
 
@@ -74,6 +75,7 @@ void MainWindow::connectSignals
 {
     connect( ui->addFilesAction, SIGNAL( triggered() ), this, SLOT( addFiles() ) );
     connect( ui->addDirectoryAction, SIGNAL( triggered() ), this, SLOT( addDirectory() ) );
+    connect( ui->aetExportAction, SIGNAL( triggered() ), this, SLOT( exportAetSession() ) );
 
     connect( ui->itemListView, SIGNAL( excludeItemsRequest( QIntList, bool ) ), session, SLOT( excludeItems( QIntList, bool ) ) );
     connect( ui->itemListView, SIGNAL( contextMenuRequest( QIntList, bool * const, bool * const ) ), itemListModel, SLOT( initContextMenu( QIntList, bool * const, bool * const ) ) );
@@ -151,6 +153,18 @@ void MainWindow::addDirectory
     {
         session->addDirectory( directoryName );
     }
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void MainWindow::exportAetSession
+(
+    void
+)
+{
+    AetExportDialog dialog( this );
+
+    dialog.exec();
 }
 
 /*******************************************************************************

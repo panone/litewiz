@@ -10,7 +10,8 @@
 
 /******************************************************************************/
 
-namespace Ui {
+namespace Ui
+{
     class MainWindow;
 }
 
@@ -67,6 +68,11 @@ class MainWindow : public QMainWindow
         );
 
         void addDirectory
+        (
+            void
+        );
+
+        void exportAetSession
         (
             void
         );
