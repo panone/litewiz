@@ -50,11 +50,26 @@ class AetExportDialog : public QDialog
             void
         );
 
+        void saveState
+        (
+            void
+        );
+
+        void restoreState
+        (
+            void
+        );
+
     private slots:
 
         void finalize
         (
             int result
+        );
+
+        virtual void accept
+        (
+            void
         );
 
     private:

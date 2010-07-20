@@ -20,6 +20,7 @@ AetExportDialog::AetExportDialog
 
     connectSignals();
     restoreGeometry();
+    restoreState();
 }
 
 /*******************************************************************************
@@ -64,12 +65,58 @@ void AetExportDialog::restoreGeometry
 
 /*******************************************************************************
 *******************************************************************************/
+void AetExportDialog::saveState
+(
+    void
+)
+{
+    QSettings settings;
+
+    settings.beginGroup( "AetExport" );
+
+    settings.setValue( "ListeningTest", ui->listeningTestCheckBox->isChecked() );
+    settings.setValue( "RangeSelect", ui->rangeSelectCheckBox->isChecked() );
+
+    settings.endGroup();
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void AetExportDialog::restoreState
+(
+    void
+)
+{
+    QSettings settings;
+
+    settings.beginGroup( "AetExport" );
+
+    ui->listeningTestCheckBox->setChecked( settings.value( "ListeningTest" ).toBool() );
+    ui->rangeSelectCheckBox->setChecked( settings.value( "RangeSelect" ).toBool() );
+
+    settings.endGroup();
+}
+
+/*******************************************************************************
+*******************************************************************************/
 void AetExportDialog::finalize
 (
     int result
 )
 {
     saveGeometry();
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void AetExportDialog::accept
+(
+    void
+)
+{
+    saveState();
+
+    QDialog::accept();
 }
 
 /******************************************************************************/
