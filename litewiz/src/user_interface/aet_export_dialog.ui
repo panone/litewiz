@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Export to Audio Evaluation Tool</string>
   </property>
   <property name="sizeGripEnabled">
    <bool>true</bool>
@@ -30,7 +30,20 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout1">
      <item>
-      <widget class="QLineEdit" name="fileNameLineEdit"/>
+      <widget class="QComboBox" name="fileNameEdit">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+       <property name="insertPolicy">
+        <enum>QComboBox::InsertAtTop</enum>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="browseButton">
@@ -57,7 +70,20 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout2">
      <item>
-      <widget class="QLineEdit" name="sectionTitleLineEdit"/>
+      <widget class="QComboBox" name="sectionTitleEdit">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+       <property name="insertPolicy">
+        <enum>QComboBox::InsertAtTop</enum>
+       </property>
+      </widget>
      </item>
      <item>
       <spacer name="horizontalSpacer1">
@@ -98,12 +124,18 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QComboBox" name="comboBox">
+      <widget class="QComboBox" name="audioDeviceEdit">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+       <property name="insertPolicy">
+        <enum>QComboBox::InsertAtTop</enum>
        </property>
       </widget>
      </item>

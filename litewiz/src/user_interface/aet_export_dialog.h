@@ -15,6 +15,9 @@ namespace Ui
     class AetExportDialog;
 }
 
+class QComboBox;
+class QStringList;
+
 /*******************************************************************************
 *******************************************************************************/
 class AetExportDialog : public QDialog
@@ -58,6 +61,11 @@ class AetExportDialog : public QDialog
         void restoreState
         (
             void
+        );
+
+        QStringList getComboBoxItems
+        (
+            QComboBox const * const comboBox
         );
 
     private slots:
