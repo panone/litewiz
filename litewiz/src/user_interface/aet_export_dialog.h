@@ -35,6 +35,30 @@ class AetExportDialog : public QDialog
 
     private:
 
+        void connectSignals
+        (
+            void
+        );
+
+        void saveGeometry
+        (
+            void
+        );
+
+        void restoreGeometry
+        (
+            void
+        );
+
+    private slots:
+
+        void finalize
+        (
+            int result
+        );
+
+    private:
+
         Ui::AetExportDialog * ui;
 };
 
