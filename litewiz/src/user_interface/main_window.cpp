@@ -90,7 +90,7 @@ void MainWindow::saveGeometry
 {
     QSettings settings;
 
-    settings.beginGroup("Geometry");
+    settings.beginGroup( "Geometry" );
 
     settings.setValue( "MainWindow", QMainWindow::saveGeometry() );
     settings.setValue( "Splitter1", ui->splitter1->saveState() );
@@ -109,7 +109,7 @@ void MainWindow::restoreGeometry
 {
     QSettings settings;
 
-    settings.beginGroup("Geometry");
+    settings.beginGroup( "Geometry" );
 
     QMainWindow::restoreGeometry( settings.value( "MainWindow" ).toByteArray() );
     ui->splitter1->restoreState( settings.value( "Splitter1" ).toByteArray() );
