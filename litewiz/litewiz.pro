@@ -4,7 +4,7 @@
 TARGET = litewiz
 TEMPLATE = app
 
-QT *= core gui
+QT *= core gui xml
 
 INCLUDEPATH += \
     src/application \

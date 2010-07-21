@@ -2,9 +2,13 @@
 *******************************************************************************/
 
 #include <QDialog>
+#include <QFile>
 #include <QLineEdit>
+#include <QMessageBox>
 #include <QSettings>
+#include <QTextStream>
 #include <algorithm>
+#include "aet_session.h"
 #include "aet_export_dialog.h"
 #include "ui_aet_export_dialog.h"
 
@@ -12,9 +16,11 @@
 *******************************************************************************/
 AetExportDialog::AetExportDialog
 (
-    QWidget * parent
+    Session * const session,
+    QWidget * const parent
 ) :
-    QDialog( parent )
+    QDialog( parent ),
+    session( session )
 {
     ui = new Ui::AetExportDialog;
 
@@ -138,6 +144,39 @@ QStringList AetExportDialog::getComboBoxItems
 
 /*******************************************************************************
 *******************************************************************************/
+void AetExportDialog::saveSession
+(
+    void
+)
+{
+    QFile file( ui->fileNameEdit->lineEdit()->text() );
+
+    bool result = file.open( QIODevice::WriteOnly | QIODevice::Text );
+
+    if ( result )
+    {
+        QTextStream   output( &file );
+        AetSession    aetSession( session );
+
+        aetSession.setTitle( ui->sectionTitleEdit->lineEdit()->text() );
+
+        output << aetSession.toString();
+
+        file.close();
+    }
+    else
+    {
+        QMessageBox::critical
+        (
+            this,
+            tr( "AET Export" ),
+            tr( "Failed to save file '%1'." ).arg( file.fileName() )
+        );
+    }
+}
+
+/*******************************************************************************
+*******************************************************************************/
 void AetExportDialog::finalize
 (
     int result
@@ -153,6 +192,7 @@ void AetExportDialog::accept
     void
 )
 {
+    saveSession();
     saveState();
 
     QDialog::accept();

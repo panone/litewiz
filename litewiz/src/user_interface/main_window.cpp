@@ -162,7 +162,7 @@ void MainWindow::exportAetSession
     void
 )
 {
-    AetExportDialog dialog( this );
+    AetExportDialog dialog( session, this );
 
     dialog.exec();
 }

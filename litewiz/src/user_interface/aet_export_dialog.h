@@ -17,6 +17,7 @@ namespace Ui
 
 class QComboBox;
 class QStringList;
+class Session;
 
 /*******************************************************************************
 *******************************************************************************/
@@ -28,7 +29,8 @@ class AetExportDialog : public QDialog
 
         explicit AetExportDialog
         (
-            QWidget *parent = 0
+            Session * const session,
+            QWidget * const parent = 0
         );
 
         ~AetExportDialog
@@ -68,6 +70,11 @@ class AetExportDialog : public QDialog
             QComboBox const * const comboBox
         );
 
+        void saveSession
+        (
+            void
+        );
+
     private slots:
 
         void finalize
@@ -83,6 +90,8 @@ class AetExportDialog : public QDialog
     private:
 
         Ui::AetExportDialog * ui;
+
+        Session             * session;
 };
 
 /******************************************************************************/
