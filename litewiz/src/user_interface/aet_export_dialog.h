@@ -77,6 +77,11 @@ class AetExportDialog : public QDialog
 
     private slots:
 
+        void browse
+        (
+            void
+        );
+
         void finalize
         (
             int result

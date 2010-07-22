@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QFile>
+#include <QFileDialog>
 #include <QLineEdit>
 #include <QMessageBox>
 #include <QSettings>
@@ -38,6 +39,7 @@ void AetExportDialog::connectSignals
     void
 )
 {
+    connect( ui->browseButton, SIGNAL( clicked() ), this, SLOT( browse() ) );
     connect( this, SIGNAL( finished( int ) ), this, SLOT( finalize( int ) ) );
 }
 
@@ -172,6 +174,26 @@ void AetExportDialog::saveSession
             tr( "AET Export" ),
             tr( "Failed to save file '%1'." ).arg( file.fileName() )
         );
+    }
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void AetExportDialog::browse
+(
+    void
+)
+{
+    QString fileName = QFileDialog::getSaveFileName
+    (
+        this, tr("Save AET session"),
+        QString(),
+        tr( "AET Sessions (*.aets);;All files (*.*)" )
+    );
+
+    if ( !fileName.isEmpty() )
+    {
+        ui->fileNameEdit->lineEdit()->setText( fileName );
     }
 }
 
