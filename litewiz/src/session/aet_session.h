@@ -12,6 +12,7 @@
 
 class QDomDocument;
 class QDomElement;
+class QStringList;
 class Session;
 
 /*******************************************************************************
@@ -39,7 +40,17 @@ class AetSession
 
     private:
 
-        QDomElement createDocument
+        void formatSession
+        (
+            QDomElement & parent
+        );
+
+        void formatVariants
+        (
+            QDomElement & parent
+        );
+
+        QDomElement createRootElement
         (
             void
         );
@@ -48,6 +59,12 @@ class AetSession
         (
             QString const & name,
             QString const & value
+        );
+
+        QDomElement createStringListElement
+        (
+            QString     const & name,
+            QStringList const & values
         );
 
     private:

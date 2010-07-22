@@ -4,8 +4,11 @@
 #include <QDomDocument>
 #include <QDomElement>
 #include <QString>
+#include <QStringList>
 #include "file_collection.h"
 #include "item_collection.h"
+#include "variant.h"
+#include "variant_collection.h"
 #include "session.h"
 #include "aet_session.h"
 
@@ -41,9 +44,11 @@ QString AetSession::toString
     void
 )
 {
-    QDomElement root = createDocument();
+    document = new QDomDocument();
 
-    root.appendChild( createStringElement( "Title", title ) );
+    QDomElement root = createRootElement();
+
+    formatSession( root );
 
     QString result = document->toString();
 
@@ -54,13 +59,41 @@ QString AetSession::toString
 
 /*******************************************************************************
 *******************************************************************************/
-QDomElement AetSession::createDocument
+void AetSession::formatSession
+(
+    QDomElement & parent
+)
+{
+    parent.appendChild( createStringElement( "Title", title ) );
+
+    formatVariants( parent );
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void AetSession::formatVariants
+(
+    QDomElement & parent
+)
+{
+    VariantCollection const & variants = session->getVariants();
+    QStringList               names;
+
+    for ( int i = 0; i < variants.getCount(); i++ )
+    {
+        names.append( variants.getVariant( i )->getName() );
+    }
+
+    parent.appendChild( createStringListElement( "Variants", names ) );
+}
+
+/*******************************************************************************
+*******************************************************************************/
+QDomElement AetSession::createRootElement
 (
     void
 )
 {
-    document = new QDomDocument();
-
     QDomElement root = document->createElement( "Session" );
 
     document->appendChild( root );
@@ -80,6 +113,31 @@ QDomElement AetSession::createStringElement
 
     result.setAttribute( "type", "string" );
     result.setAttribute( "value", value );
+
+    return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+QDomElement AetSession::createStringListElement
+(
+    QString     const & name,
+    QStringList const & values
+)
+{
+    QDomElement result = document->createElement( name );
+
+    result.setAttribute( "type", "string" );
+    result.setAttribute( "count", values.count() );
+
+    foreach ( QString const & value, values )
+    {
+        QDomElement item = document->createElement( "Item" );
+
+        item.setAttribute( "value", value );
+
+        result.appendChild( item );
+    }
 
     return result;
 }
