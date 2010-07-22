@@ -161,6 +161,7 @@ void AetExportDialog::saveSession
         AetSession    aetSession( session );
 
         aetSession.setTitle( ui->sectionTitleEdit->lineEdit()->text() );
+        aetSession.setAudioDevice( ui->audioDeviceEdit->lineEdit()->text() );
 
         output << aetSession.toString();
 

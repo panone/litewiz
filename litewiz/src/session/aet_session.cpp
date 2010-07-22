@@ -39,6 +39,19 @@ void AetSession::setTitle
 
 /*******************************************************************************
 *******************************************************************************/
+void AetSession::setAudioDevice
+(
+    QString const & deviceName
+)
+{
+    if ( !deviceName.isEmpty() )
+    {
+        audioDevice = deviceName;
+    }
+}
+
+/*******************************************************************************
+*******************************************************************************/
 QString AetSession::toString
 (
     void
@@ -65,6 +78,11 @@ void AetSession::formatSession
 )
 {
     parent.appendChild( createStringElement( "Title", title ) );
+
+    if ( !audioDevice.isEmpty() )
+    {
+        parent.appendChild( createStringElement( "AudioDevice", audioDevice ) );
+    }
 
     formatVariants( parent );
 }

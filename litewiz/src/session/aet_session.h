@@ -33,6 +33,11 @@ class AetSession
             QString const & title
         );
 
+        void setAudioDevice
+        (
+            QString const & deviceName
+        );
+
         QString toString
         (
             void
