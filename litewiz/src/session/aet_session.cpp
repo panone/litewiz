@@ -94,12 +94,34 @@ void AetSession::formatVariants
     QDomElement & parent
 )
 {
-    VariantCollection const & variants = session->getVariants();
+    VariantCollection const & variants  = session->getVariants();
+    int                       reference = 0;
     QStringList               names;
 
     for ( int i = 0; i < variants.getCount(); i++ )
     {
-        names.append( variants.getVariant( i )->getName() );
+        if ( variants.getVariant( i )->isReference() )
+        {
+            reference = i;
+            break;
+        }
+    }
+
+    Variant const * variant = variants.getVariant( reference );
+
+    if ( !variant->isExcluded() )
+    {
+        names.append( variant->getName() );
+    }
+
+    for ( int i = 0; i < variants.getCount(); i++ )
+    {
+        variant = variants.getVariant( i );
+
+        if ( ( i != reference ) && !variant->isExcluded() )
+        {
+            names.append( variants.getVariant( i )->getName() );
+        }
     }
 
     parent.appendChild( createStringListElement( "Variants", names ) );
