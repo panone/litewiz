@@ -169,8 +169,9 @@ QDomElement AetSession::createStringListElement
 {
     QDomElement result = document->createElement( name );
 
-    result.setAttribute( "type", "string" );
-    result.setAttribute( "count", values.count() );
+    result.setAttribute( "type", "list" );
+    result.setAttribute( "depth", "1" );
+    result.setAttribute( "itemtype", "string" );
 
     foreach ( QString const & value, values )
     {
