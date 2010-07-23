@@ -11,6 +11,10 @@
 #include <QStringList>
 #include "utility.h"
 
+/******************************************************************************/
+
+typedef QMap< int, int > ClusterSizeMap;
+
 /*******************************************************************************
 *******************************************************************************/
 class ClassifierImplementation
@@ -51,10 +55,20 @@ class ClassifierImplementation
             void
         );
 
+        QIntList extractFrontVariance
+        (
+            void
+        );
+
+        QIntList getAccumulatedClusterSize
+        (
+            ClusterSizeMap const & clusterSize
+        );
+
     private:
 
-        QStringList                 fileNames;
-        QList< QMap< int, int > >   clusters;
+        QStringList               fileNames;
+        QList< ClusterSizeMap >   clusters;
 };
 
 /******************************************************************************/
