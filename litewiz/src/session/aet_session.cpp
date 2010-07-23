@@ -134,6 +134,8 @@ QDomElement AetSession::createRootElement
     void
 )
 {
+    document->appendChild( document->createProcessingInstruction( "xml", "version=\"1.0\" encoding=\"utf-8\" " ) );
+
     QDomElement root = document->createElement( "Session" );
 
     document->appendChild( root );
