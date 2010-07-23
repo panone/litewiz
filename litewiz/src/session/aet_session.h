@@ -26,6 +26,11 @@ class AetSession
             Session * const session
         );
 
+        ~AetSession
+        (
+            void
+        );
+
     public:
 
         void setTitle
@@ -47,17 +52,12 @@ class AetSession
 
         void formatSession
         (
-            QDomElement & parent
+            QDomElement parent
         );
 
         void formatVariants
         (
-            QDomElement & parent
-        );
-
-        QDomElement createRootElement
-        (
-            void
+            QDomElement parent
         );
 
         QDomElement createStringElement

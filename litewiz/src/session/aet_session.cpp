@@ -20,8 +20,18 @@ AetSession::AetSession
 ) :
     session( session )
 {
-    document = 0;
+    document = new QDomDocument();
     title    = "Session";
+}
+
+/*******************************************************************************
+*******************************************************************************/
+AetSession::~AetSession
+(
+    void
+)
+{
+    delete document;
 }
 
 /*******************************************************************************
@@ -57,24 +67,20 @@ QString AetSession::toString
     void
 )
 {
-    document = new QDomDocument();
+    document->clear();
+    document->appendChild( document->createProcessingInstruction( "xml", "version=\"1.0\" encoding=\"utf-8\" " ) );
+    document->appendChild( document->createElement( "Session" ) );
 
-    QDomElement root = createRootElement();
+    formatSession( document->lastChildElement() );
 
-    formatSession( root );
-
-    QString result = document->toString();
-
-    delete document;
-
-    return result;
+    return document->toString();
 }
 
 /*******************************************************************************
 *******************************************************************************/
 void AetSession::formatSession
 (
-    QDomElement & parent
+    QDomElement parent
 )
 {
     parent.appendChild( createStringElement( "Title", title ) );
@@ -91,7 +97,7 @@ void AetSession::formatSession
 *******************************************************************************/
 void AetSession::formatVariants
 (
-    QDomElement & parent
+    QDomElement parent
 )
 {
     VariantCollection const & variants  = session->getVariants();
@@ -125,22 +131,6 @@ void AetSession::formatVariants
     }
 
     parent.appendChild( createStringListElement( "Variants", names ) );
-}
-
-/*******************************************************************************
-*******************************************************************************/
-QDomElement AetSession::createRootElement
-(
-    void
-)
-{
-    document->appendChild( document->createProcessingInstruction( "xml", "version=\"1.0\" encoding=\"utf-8\" " ) );
-
-    QDomElement root = document->createElement( "Session" );
-
-    document->appendChild( root );
-
-    return root;
 }
 
 /*******************************************************************************
