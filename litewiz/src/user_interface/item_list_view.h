@@ -6,17 +6,11 @@
 
 /******************************************************************************/
 
-#include <QAction>
-#include <QListView>
-#include "utility.h"
-
-/******************************************************************************/
-
-class ContextMenuInfo;
+#include "file_cluster_list_view.h"
 
 /*******************************************************************************
 *******************************************************************************/
-class ItemListView : public QListView
+class ItemListView : public FileClusterListView
 {
     Q_OBJECT
 
@@ -26,60 +20,6 @@ class ItemListView : public QListView
         (
             QWidget * const parent = 0
         );
-
-    private:
-
-        void createActions
-        (
-            void
-        );
-
-        void connectSignals
-        (
-            void
-        );
-
-        QIntList getSelection
-        (
-            void
-        );
-
-    private slots:
-
-        void excludeItems
-        (
-            void
-        );
-
-        void includeItems
-        (
-            void
-        );
-
-    private:
-
-        virtual void contextMenuEvent
-        (
-            QContextMenuEvent * event
-        );
-
-    signals:
-
-        void contextMenuRequest
-        (
-            ContextMenuInfo * const menuInfo
-        );
-
-        void excludeItemsRequest
-        (
-            QIntList const &       selection,
-            bool             const exclude
-        );
-
-    private:
-
-        QAction * excludeAction;
-        QAction * includeAction;
 };
 
 /******************************************************************************/
