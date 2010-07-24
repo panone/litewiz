@@ -33,7 +33,8 @@ class ContextMenuInfo
         QIntList getSelection
         (
             void
-        );
+        )
+        const;
 
         void addMenuEntry
         (
@@ -43,7 +44,8 @@ class ContextMenuInfo
         bool hasMenuEntry
         (
             int const entry
-        );
+        )
+        const;
 
         void clearMenuEntries
         (

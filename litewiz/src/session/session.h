@@ -97,6 +97,12 @@ class Session : public QObject
             bool             const exclude
         );
 
+        void excludeVariants
+        (
+            QIntList const &       selection,
+            bool             const exclude
+        );
+
     signals:
 
         void fileCollectionUpdated

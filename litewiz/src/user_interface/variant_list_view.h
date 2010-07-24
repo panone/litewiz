@@ -1,33 +1,31 @@
 /*******************************************************************************
 *******************************************************************************/
 
-#ifndef FILE_CLUSTER_LIST_VIEW_H
-#define FILE_CLUSTER_LIST_VIEW_H
+#ifndef VARIANT_LIST_VIEW_H
+#define VARIANT_LIST_VIEW_H
 
 /******************************************************************************/
 
-#include <QAction>
-#include <QListView>
-#include "utility.h"
+#include "file_cluster_list_view.h"
 
 /******************************************************************************/
 
-class ContextMenuInfo;
+class QAction;
 
 /*******************************************************************************
 *******************************************************************************/
-class FileClusterListView : public QListView
+class VariantListView : public FileClusterListView
 {
     Q_OBJECT
 
     public:
 
-        FileClusterListView
+        VariantListView
         (
             QWidget * const parent = 0
         );
 
-    protected:
+    private:
 
         void createActions
         (
@@ -39,34 +37,14 @@ class FileClusterListView : public QListView
             void
         );
 
-        QIntList getSelection
+    private slots:
+
+        void setReference
         (
             void
         );
 
-    protected slots:
-
-        void exclude
-        (
-            void
-        );
-
-        void include
-        (
-            void
-        );
-
-    protected:
-
-        virtual void contextMenuEvent
-        (
-            QContextMenuEvent * event
-        );
-
-        virtual ContextMenuInfo getDefaultContextMenu
-        (
-            void
-        );
+    private:
 
         virtual void populateContextMenu
         (
@@ -74,25 +52,11 @@ class FileClusterListView : public QListView
             QMenu                 * const menu
         );
 
-    signals:
-
-        void contextMenuRequest
-        (
-            ContextMenuInfo * const menuInfo
-        );
-
-        void excludeRequest
-        (
-            QIntList const &       selection,
-            bool             const exclude
-        );
-
     private:
 
-        QAction * excludeAction;
-        QAction * includeAction;
+        QAction * setReferenceAction;
 };
 
 /******************************************************************************/
 
-#endif /* FILE_CLUSTER_LIST_VIEW_H */
+#endif /* VARIANT_LIST_VIEW_H */

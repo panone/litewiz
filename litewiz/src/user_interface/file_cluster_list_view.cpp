@@ -22,6 +22,28 @@ FileClusterListView::FileClusterListView
 
 /*******************************************************************************
 *******************************************************************************/
+void FileClusterListView::createActions
+(
+    void
+)
+{
+    excludeAction = new QAction( tr( "&Exclude" ), this );
+    includeAction = new QAction( tr( "&Include" ), this );
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void FileClusterListView::connectSignals
+(
+    void
+)
+{
+    connect( excludeAction, SIGNAL( triggered() ), this, SLOT( exclude() ) );
+    connect( includeAction, SIGNAL( triggered() ), this, SLOT( include() ) );
+}
+
+/*******************************************************************************
+*******************************************************************************/
 QIntList FileClusterListView::getSelection
 (
     void
@@ -35,6 +57,44 @@ QIntList FileClusterListView::getSelection
     }
 
     return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void FileClusterListView::exclude
+(
+    void
+)
+{
+    emit excludeRequest( getSelection(), true );
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void FileClusterListView::include
+(
+    void
+)
+{
+    emit excludeRequest( getSelection(), false );
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void FileClusterListView::contextMenuEvent
+(
+    QContextMenuEvent * event
+)
+{
+    ContextMenuInfo menuInfo = getDefaultContextMenu();
+
+    emit contextMenuRequest( &menuInfo );
+
+    QMenu menu( this );
+
+    populateContextMenu( menuInfo, &menu );
+
+    menu.exec( event->globalPos() );
 }
 
 /*******************************************************************************
@@ -54,70 +114,21 @@ ContextMenuInfo FileClusterListView::getDefaultContextMenu
 
 /*******************************************************************************
 *******************************************************************************/
-void FileClusterListView::excludeItems
+void FileClusterListView::populateContextMenu
 (
-    void
+    ContextMenuInfo const &       menuInfo,
+    QMenu                 * const menu
 )
 {
-    emit excludeItemsRequest( getSelection(), true );
-}
-
-/*******************************************************************************
-*******************************************************************************/
-void FileClusterListView::includeItems
-(
-    void
-)
-{
-    emit excludeItemsRequest( getSelection(), false );
-}
-
-/*******************************************************************************
-*******************************************************************************/
-void FileClusterListView::createActions
-(
-    void
-)
-{
-    excludeAction = new QAction( tr( "&Exclude" ), this );
-    includeAction = new QAction( tr( "&Include" ), this );
-}
-
-/*******************************************************************************
-*******************************************************************************/
-void FileClusterListView::connectSignals
-(
-    void
-)
-{
-    connect( excludeAction, SIGNAL( triggered() ), this, SLOT( excludeItems() ) );
-    connect( includeAction, SIGNAL( triggered() ), this, SLOT( includeItems() ) );
-}
-
-/*******************************************************************************
-*******************************************************************************/
-void FileClusterListView::contextMenuEvent
-(
-    QContextMenuEvent * event
-)
-{
-    ContextMenuInfo menuInfo = getDefaultContextMenu();
-
-    emit contextMenuRequest( &menuInfo );
-
-    QMenu menu( this );
-
     if ( menuInfo.hasMenuEntry( ContextMenuInfo::Exclude ) )
     {
-        menu.addAction( excludeAction );
+        menu->addAction( excludeAction );
     }
 
     if ( menuInfo.hasMenuEntry( ContextMenuInfo::Include ) )
     {
-        menu.addAction( includeAction );
+        menu->addAction( includeAction );
     }
-
-    menu.exec( event->globalPos() );
 }
 
 /******************************************************************************/

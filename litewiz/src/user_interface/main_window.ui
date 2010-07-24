@@ -92,7 +92,7 @@
             </property>
             <layout class="QVBoxLayout" name="verticalLayout3">
              <item>
-              <widget class="QListView" name="variantListView">
+              <widget class="VariantListView" name="variantListView">
                <property name="minimumSize">
                 <size>
                  <width>120</width>
@@ -200,6 +200,11 @@
    <class>ItemListView</class>
    <extends>QListView</extends>
    <header>item_list_view.h</header>
+  </customwidget>
+  <customwidget>
+   <class>VariantListView</class>
+   <extends>QListView</extends>
+   <header>variant_list_view.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

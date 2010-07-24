@@ -1,60 +1,66 @@
 /*******************************************************************************
 *******************************************************************************/
 
-#include <QSet>
-#include "utility.h"
-#include "context_menu_info.h"
+#include <QAction>
+#include <QMenu>
+#include "file_cluster_list_view.h"
+#include "variant_list_view.h"
 
 /*******************************************************************************
 *******************************************************************************/
-ContextMenuInfo::ContextMenuInfo
+VariantListView::VariantListView
 (
-    QIntList const & selection
+    QWidget * const parent
 ) :
-    selection( selection )
+    FileClusterListView( parent )
 {
+    createActions();
+    connectSignals();
 }
 
 /*******************************************************************************
 *******************************************************************************/
-QIntList ContextMenuInfo::getSelection
-(
-    void
-)
-    const
-{
-    return selection;
-}
-
-/*******************************************************************************
-*******************************************************************************/
-void ContextMenuInfo::addMenuEntry
-(
-    int const entry
-)
-{
-    entries.insert( entry );
-}
-
-/*******************************************************************************
-*******************************************************************************/
-bool ContextMenuInfo::hasMenuEntry
-(
-    int const entry
-)
-    const
-{
-    return entries.contains( entry );
-}
-
-/*******************************************************************************
-*******************************************************************************/
-void ContextMenuInfo::clearMenuEntries
+void VariantListView::createActions
 (
     void
 )
 {
-    entries.clear();
+    setReferenceAction = new QAction( tr( "&Reference" ), this );
+
+    setReferenceAction->setCheckable( true );
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void VariantListView::connectSignals
+(
+    void
+)
+{
+    connect( setReferenceAction, SIGNAL( triggered() ), this, SLOT( setReference() ) );
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void VariantListView::setReference
+(
+    void
+)
+{
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void VariantListView::populateContextMenu
+(
+    ContextMenuInfo const &       menuInfo,
+    QMenu                 * const menu
+)
+{
+    menu->addAction( setReferenceAction );
+    menu->addSeparator();
+
+    FileClusterListView::populateContextMenu( menuInfo, menu );
 }
 
 /******************************************************************************/

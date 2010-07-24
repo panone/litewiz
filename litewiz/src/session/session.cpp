@@ -206,4 +206,17 @@ void Session::excludeItems
     //emit itemCollectionUpdated();
 }
 
+/*******************************************************************************
+*******************************************************************************/
+void Session::excludeVariants
+(
+    QIntList const &       selection,
+    bool             const exclude
+)
+{
+    variants.exclude( selection, exclude );
+
+    //emit variantCollectionUpdated();
+}
+
 /******************************************************************************/

@@ -77,8 +77,11 @@ void MainWindow::connectSignals
     connect( ui->addDirectoryAction, SIGNAL( triggered() ), this, SLOT( addDirectory() ) );
     connect( ui->aetExportAction, SIGNAL( triggered() ), this, SLOT( exportAetSession() ) );
 
-    connect( ui->itemListView, SIGNAL( excludeItemsRequest( QIntList, bool ) ), session, SLOT( excludeItems( QIntList, bool ) ) );
+    connect( ui->itemListView, SIGNAL( excludeRequest( QIntList, bool ) ), session, SLOT( excludeItems( QIntList, bool ) ) );
     connect( ui->itemListView, SIGNAL( contextMenuRequest( ContextMenuInfo * const ) ), itemListModel, SLOT( initContextMenu( ContextMenuInfo * const ) ) );
+
+    connect( ui->variantListView, SIGNAL( excludeRequest( QIntList, bool ) ), session, SLOT( excludeVariants( QIntList, bool ) ) );
+    connect( ui->variantListView, SIGNAL( contextMenuRequest( ContextMenuInfo * const ) ), variantListModel, SLOT( initContextMenu( ContextMenuInfo * const ) ) );
 }
 
 /*******************************************************************************
