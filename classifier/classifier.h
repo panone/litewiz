@@ -33,6 +33,7 @@ class VariantInfo
 
         QString        name;
         QString        stem;
+        bool           reference;
         QList< int >   files;
 };
 
@@ -78,7 +79,8 @@ class Classifier
 
         ClassifierImplementation * implementation;
 
-        int                        files;
+        int                        items;
+        int                        variants;
 };
 
 /******************************************************************************/

@@ -15,7 +15,8 @@ Classifier::Classifier
 {
     implementation = new ClassifierImplementation();
 
-    files = 0;
+    items    = 0;
+    variants = 0;
 }
 
 /*******************************************************************************
@@ -37,7 +38,15 @@ void Classifier::classify
 {
     implementation->classify( fileNames );
 
-    files = fileNames.count();
+    for ( variants = 8; variants > 0; variants-- )
+    {
+        if ( ( fileNames.count() % variants ) == 0 )
+        {
+            break;
+        }
+    }
+
+    items = fileNames.count() / variants;
 }
 
 /*******************************************************************************
@@ -47,7 +56,7 @@ int Classifier::getDefaultVariance
     void
 )
 {
-    return 1; //implementation->getDefaultVariance();
+    return variants; //implementation->getDefaultVariance();
 }
 
 /*******************************************************************************
@@ -59,14 +68,17 @@ QList< ItemInfo > Classifier::getItems
 {
     QList< ItemInfo > result;
 
-    for ( int f = 0; f < files; f++ )
+    for ( int i = 0; i < items; i++ )
     {
         ItemInfo info;
 
-        info.name = QString( "item_%1" ).arg( f + 1 );
-        info.stem = QString( "item_%1_stem" ).arg( f + 1 );
+        info.name = QString( "item_%1" ).arg( i + 1 );
+        info.stem = QString( "item_%1_stem" ).arg( i + 1 );
 
-        info.files.append( f );
+        for ( int v = 0; v < variants; v++ )
+        {
+            info.files.append( v * items + i );
+        }
 
         result.append( info );
     }
@@ -81,19 +93,24 @@ QList< VariantInfo > Classifier::getVariants
     int variance
 )
 {
-    VariantInfo info;
-
-    info.name = "variant_1";
-    info.stem = "variant_1_stem";
-
-    for ( int f = 0; f < files; f++ )
-    {
-        info.files.append( f );
-    }
-
     QList< VariantInfo > result;
 
-    result.append( info );
+    for ( int v = 0; v < variants; v++ )
+    {
+        VariantInfo info;
+
+        info.name = QString( "variant_%1" ).arg( v + 1 );
+        info.stem = QString( "variant_%1_stem" ).arg( v + 1 );
+
+        info.reference = ( v == 0 );
+
+        for ( int i = 0; i < items; i++ )
+        {
+            info.files.append( v * items + i );
+        }
+
+        result.append( info );
+    }
 
     return result;
 }
