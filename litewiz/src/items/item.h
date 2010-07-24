@@ -6,11 +6,15 @@
 
 /******************************************************************************/
 
-#include <QString>
+#include "file_cluster.h"
+
+/******************************************************************************/
+
+class QString;
 
 /*******************************************************************************
 *******************************************************************************/
-class Item
+class Item : public FileCluster
 {
     public:
 
@@ -19,38 +23,6 @@ class Item
             QString const & name,
             QString const & stem
         );
-
-    public:
-
-        QString getName
-        (
-            void
-        )
-        const;
-
-        QString getStem
-        (
-            void
-        )
-        const;
-
-        void exclude
-        (
-            bool const exclude
-        );
-
-        bool isExcluded
-        (
-            void
-        )
-        const;
-
-    private:
-
-        QString   name;
-        QString   stem;
-
-        bool      excluded;
 };
 
 /******************************************************************************/

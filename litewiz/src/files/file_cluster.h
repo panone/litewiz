@@ -1,24 +1,20 @@
 /*******************************************************************************
 *******************************************************************************/
 
-#ifndef VARIANT_H
-#define VARIANT_H
+#ifndef FILE_CLUSTER_H
+#define FILE_CLUSTER_H
 
 /******************************************************************************/
 
-#include "file_cluster.h"
-
-/******************************************************************************/
-
-class QString;
+#include <QString>
 
 /*******************************************************************************
 *******************************************************************************/
-class Variant : public FileCluster
+class FileCluster
 {
     public:
 
-        Variant
+        FileCluster
         (
             QString const & name,
             QString const & stem
@@ -26,12 +22,24 @@ class Variant : public FileCluster
 
     public:
 
-        void setReference
+        QString getName
         (
-            bool const reference
+            void
+        )
+        const;
+
+        QString getStem
+        (
+            void
+        )
+        const;
+
+        void exclude
+        (
+            bool const exclude
         );
 
-        bool isReference
+        bool isExcluded
         (
             void
         )
@@ -39,9 +47,12 @@ class Variant : public FileCluster
 
     private:
 
-        bool reference;
+        QString   name;
+        QString   stem;
+
+        bool      excluded;
 };
 
 /******************************************************************************/
 
-#endif /* VARIANT_H */
+#endif /* FILE_CLUSTER_H */
