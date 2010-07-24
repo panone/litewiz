@@ -6,6 +6,7 @@
 #include <QPalette>
 #include "utility.h"
 #include "session.h"
+#include "context_menu_info.h"
 #include "item.h"
 #include "item_collection.h"
 #include "item_list_model.h"
@@ -81,23 +82,20 @@ void ItemListModel::update
 *******************************************************************************/
 void ItemListModel::initContextMenu
 (
-    QIntList const &       selection,
-    bool           * const exclude,
-    bool           * const include
+    ContextMenuInfo * const menuInfo
 )
 {
-    *exclude = false;
-    *include = false;
+    menuInfo->clearMenuEntries();
 
-    foreach ( int index, selection )
+    foreach ( int index, menuInfo->getSelection() )
     {
         if ( session->getItems().getItem( index )->isExcluded() )
         {
-            *include = true;
+            menuInfo->addMenuEntry( ContextMenuInfo::Include );
         }
         else
         {
-            *exclude = true;
+            menuInfo->addMenuEntry( ContextMenuInfo::Exclude );
         }
     }
 }

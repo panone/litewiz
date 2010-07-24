@@ -10,6 +10,10 @@
 #include <QListView>
 #include "utility.h"
 
+/******************************************************************************/
+
+class ContextMenuInfo;
+
 /*******************************************************************************
 *******************************************************************************/
 class ItemListView : public QListView
@@ -63,9 +67,7 @@ class ItemListView : public QListView
 
         void contextMenuRequest
         (
-            QIntList const &       selection,
-            bool           * const exclude,
-            bool           * const include
+            ContextMenuInfo * const menuInfo
         );
 
         void excludeItemsRequest

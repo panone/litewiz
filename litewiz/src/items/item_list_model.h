@@ -11,6 +11,7 @@
 
 /******************************************************************************/
 
+class ContextMenuInfo;
 class Session;
 
 /*******************************************************************************
@@ -51,9 +52,7 @@ class ItemListModel : public QAbstractListModel
 
         void initContextMenu
         (
-            QIntList const &       selection,
-            bool           * const exclude,
-            bool           * const include
+            ContextMenuInfo * const menuInfo
         );
 
     private:

@@ -6,6 +6,7 @@
 #include <QListView>
 #include <QMenu>
 #include "utility.h"
+#include "context_menu_info.h"
 #include "item_list_view.h"
 
 /*******************************************************************************
@@ -86,19 +87,21 @@ void ItemListView::contextMenuEvent
     QContextMenuEvent * event
 )
 {
-    bool   exclude = true;
-    bool   include = true;
+    ContextMenuInfo menuInfo( getSelection() );
 
-    emit contextMenuRequest( getSelection(), &exclude, &include );
+    menuInfo.addMenuEntry( ContextMenuInfo::Exclude );
+    menuInfo.addMenuEntry( ContextMenuInfo::Include );
+
+    emit contextMenuRequest( &menuInfo );
 
     QMenu menu( this );
 
-    if ( exclude )
+    if ( menuInfo.hasMenuEntry( ContextMenuInfo::Exclude ) )
     {
         menu.addAction( excludeAction );
     }
 
-    if ( include )
+    if ( menuInfo.hasMenuEntry( ContextMenuInfo::Include ) )
     {
         menu.addAction( includeAction );
     }

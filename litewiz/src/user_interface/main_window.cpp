@@ -78,7 +78,7 @@ void MainWindow::connectSignals
     connect( ui->aetExportAction, SIGNAL( triggered() ), this, SLOT( exportAetSession() ) );
 
     connect( ui->itemListView, SIGNAL( excludeItemsRequest( QIntList, bool ) ), session, SLOT( excludeItems( QIntList, bool ) ) );
-    connect( ui->itemListView, SIGNAL( contextMenuRequest( QIntList, bool * const, bool * const ) ), itemListModel, SLOT( initContextMenu( QIntList, bool * const, bool * const ) ) );
+    connect( ui->itemListView, SIGNAL( contextMenuRequest( ContextMenuInfo * const ) ), itemListModel, SLOT( initContextMenu( ContextMenuInfo * const ) ) );
 }
 
 /*******************************************************************************
