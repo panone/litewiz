@@ -27,7 +27,7 @@ class FileTreeItem
 
         explicit FileTreeItem
         (
-            File const & file
+            File const * const file
         );
 
         ~FileTreeItem
@@ -44,7 +44,7 @@ class FileTreeItem
 
         FileTreeItem * addSubItem
         (
-            File const & file
+            File const * const file
         );
 
         int getRowCount
@@ -92,15 +92,20 @@ class FileTreeItem
 
     private:
 
-        bool                      directory;
+        QString getName
+        (
+            void
+        );
 
-        QString                   fileName;
-        QString                   itemName;
-        QString                   variantName;
+    private:
 
-        FileTreeItem            * parent;
+        QString                         directoryName;
 
-        QList< FileTreeItem * >   children;
+        File                    const * file;
+
+        FileTreeItem                  * parent;
+
+        QList< FileTreeItem * >         children;
 };
 
 /******************************************************************************/

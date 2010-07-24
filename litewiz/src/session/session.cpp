@@ -140,7 +140,7 @@ void Session::setItems
 
         foreach ( int index, info.files )
         {
-            files[ index ].setItem( item );
+            files.getFile( index )->setItem( item );
         }
     }
 }
@@ -160,7 +160,7 @@ void Session::setVariants
 
         foreach ( int index, info.files )
         {
-            files[ index ].setVariant( variant );
+            files.getFile( index )->setVariant( variant );
         }
     }
 }

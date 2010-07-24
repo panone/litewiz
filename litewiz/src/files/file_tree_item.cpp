@@ -14,23 +14,20 @@ FileTreeItem::FileTreeItem
     QString const & name
 )
 {
-    directory = true;
-    fileName  = name;
-    parent    = 0;
+    directoryName = name;
+    file          = 0;
+    parent        = 0;
 }
 
 /*******************************************************************************
 *******************************************************************************/
 FileTreeItem::FileTreeItem
 (
-    File const & file
-)
+    File const * const file
+) :
+    file( file )
 {
-    directory   = false;
-    fileName    = file.getName();
-    itemName    = file.getItemName();
-    variantName = file.getVariantName();
-    parent      = 0;
+    parent = 0;
 }
 
 /*******************************************************************************
@@ -63,7 +60,7 @@ FileTreeItem * FileTreeItem::addSubItem
 *******************************************************************************/
 FileTreeItem * FileTreeItem::addSubItem
 (
-    File const & file
+    File const * const file
 )
 {
     FileTreeItem * item = new FileTreeItem( file );
@@ -110,25 +107,26 @@ QVariant FileTreeItem::getData
 
     if ( role == Qt::DisplayRole )
     {
-        if ( column == 0 )
+        if ( file != 0 )
         {
-            result = fileName;
+            switch ( column )
+            {
+                case 0:
+                    result = file->getName();
+                    break;
+
+                case 1:
+                    result = file->getItemName();
+                    break;
+
+                case 2:
+                    result = file->getVariantName();
+                    break;
+            }
         }
         else
         {
-            if ( !directory )
-            {
-                switch ( column )
-                {
-                    case 1:
-                        result = itemName;
-                        break;
-
-                    case 2:
-                        result = variantName;
-                        break;
-                }
-            }
+            result = directoryName;
         }
     }
 
@@ -176,7 +174,7 @@ FileTreeItem * FileTreeItem::findSubItem
 
     foreach ( FileTreeItem * item, children )
     {
-        if ( item->fileName == name )
+        if ( item->getName() == name )
         {
             result = item;
             break;
@@ -195,6 +193,27 @@ FileTreeItem * FileTreeItem::getSubItem
     const
 {
     return children.at( row );
+}
+
+/*******************************************************************************
+*******************************************************************************/
+QString FileTreeItem::getName
+(
+    void
+)
+{
+    QString result;
+
+    if ( file != 0 )
+    {
+        result = file->getName();
+    }
+    else
+    {
+        result = directoryName;
+    }
+
+    return result;
 }
 
 /******************************************************************************/

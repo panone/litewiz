@@ -14,17 +14,20 @@
 class QString;
 class QStringList;
 
+typedef QList< File * > FileList;
+
 /*******************************************************************************
 *******************************************************************************/
 class FileCollection
 {
     public:
 
-        typedef QList< File >::const_iterator const_iterator;
-
-    public:
-
         FileCollection
+        (
+            void
+        );
+
+        ~FileCollection
         (
             void
         );
@@ -44,40 +47,37 @@ class FileCollection
         int getCount
         (
             void
-        );
+        )
+        const;
+
+        File * getFile
+        (
+            int const index
+        )
+        const;
+
+        FileList getAllFiles
+        (
+            void
+        )
+        const;
 
         QStringList getNames
         (
             void
-        );
-
-        const_iterator begin
-        (
-            void
         )
         const;
-
-        const_iterator end
-        (
-            void
-        )
-        const;
-
-        File & operator[]
-        (
-            int const index
-        );
 
     private:
 
         bool exists
         (
-            File const & file
+            File const * const file
         );
 
     private:
 
-        QList< File > files;
+        FileList files;
 };
 
 /******************************************************************************/

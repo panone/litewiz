@@ -226,13 +226,13 @@ void FileTreeModel::update
 
     root = new FileTreeItem( "root" );
 
-    foreach ( File const & file, session->getFiles() )
+    foreach ( File const * file, session->getFiles().getAllFiles() )
     {
-        FileTreeItem * directory = root->findSubItem( file.getPath() );
+        FileTreeItem * directory = root->findSubItem( file->getPath() );
 
         if ( directory == 0 )
         {
-            directory = root->addSubItem( file.getPath() );
+            directory = root->addSubItem( file->getPath() );
         }
 
         directory->addSubItem( file );

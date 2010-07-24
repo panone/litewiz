@@ -19,6 +19,16 @@ FileCollection::FileCollection
 
 /*******************************************************************************
 *******************************************************************************/
+FileCollection::~FileCollection
+(
+    void
+)
+{
+    qDeleteAll( files );
+}
+
+/*******************************************************************************
+*******************************************************************************/
 void FileCollection::addFiles
 (
     QStringList const & fileNames
@@ -26,7 +36,7 @@ void FileCollection::addFiles
 {
     foreach ( QString fileName, fileNames )
     {
-        File file( fileName );
+        File * file = new File( fileName );
 
         if ( !exists( file ) )
         {
@@ -55,7 +65,7 @@ void FileCollection::addDirectory
 
         foreach ( QFileInfo info, fileInfo )
         {
-            File file( info );
+            File * file = new File( info );
 
             if ( !exists( file ) )
             {
@@ -71,8 +81,31 @@ int FileCollection::getCount
 (
     void
 )
+    const
 {
     return files.count();
+}
+
+/*******************************************************************************
+*******************************************************************************/
+File * FileCollection::getFile
+(
+    int const index
+)
+    const
+{
+    return files[ index ];
+}
+
+/*******************************************************************************
+*******************************************************************************/
+FileList FileCollection::getAllFiles
+(
+    void
+)
+    const
+{
+    return files;
 }
 
 /*******************************************************************************
@@ -81,12 +114,13 @@ QStringList FileCollection::getNames
 (
     void
 )
+    const
 {
     QStringList result;
 
-    foreach ( File const & file, files )
+    foreach ( File const * file, files )
     {
-        result.append( file.getName() );
+        result.append( file->getName() );
     }
 
     return result;
@@ -94,48 +128,16 @@ QStringList FileCollection::getNames
 
 /*******************************************************************************
 *******************************************************************************/
-FileCollection::const_iterator FileCollection::begin
-(
-    void
-)
-    const
-{
-    return files.begin();
-}
-
-/*******************************************************************************
-*******************************************************************************/
-FileCollection::const_iterator FileCollection::end
-(
-    void
-)
-    const
-{
-    return files.end();
-}
-
-/*******************************************************************************
-*******************************************************************************/
-File & FileCollection::operator[]
-(
-    int const index
-)
-{
-    return files[ index ];
-}
-
-/*******************************************************************************
-*******************************************************************************/
 bool FileCollection::exists
 (
-    File const & file
+    File const * const file
 )
 {
     bool result = false;
 
-    foreach ( File const & f, files )
+    foreach ( File const * f, files )
     {
-        if( f == file )
+        if ( *f == *file )
         {
             result = true;
             break;
