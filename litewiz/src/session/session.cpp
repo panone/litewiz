@@ -7,8 +7,10 @@
 #include <QTextStream>
 #include "classifier.h"
 #include "utility.h"
+#include "variant.h"
 #include "file_collection.h"
 #include "item_collection.h"
+#include "variant_collection.h"
 #include "session.h"
 
 /*******************************************************************************
@@ -158,6 +160,8 @@ void Session::setVariants
     {
         Variant * variant = variants.addVariant( info );
 
+        variant->setReference( info.reference );
+
         foreach ( int index, info.files )
         {
             files.getFile( index )->setVariant( variant );
@@ -215,6 +219,18 @@ void Session::excludeVariants
 )
 {
     variants.exclude( selection, exclude );
+
+    //emit variantCollectionUpdated();
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void Session::toggleReference
+(
+    int const variant
+)
+{
+    variants.toggleReference( variant );
 
     //emit variantCollectionUpdated();
 }

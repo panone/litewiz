@@ -82,6 +82,7 @@ void MainWindow::connectSignals
 
     connect( ui->variantListView, SIGNAL( excludeRequest( QIntList, bool ) ), session, SLOT( excludeVariants( QIntList, bool ) ) );
     connect( ui->variantListView, SIGNAL( contextMenuRequest( ContextMenuInfo * const ) ), variantListModel, SLOT( initContextMenu( ContextMenuInfo * const ) ) );
+    connect( ui->variantListView, SIGNAL( referenceChanged( int ) ), session, SLOT( toggleReference( int ) ) );
 }
 
 /*******************************************************************************

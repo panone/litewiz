@@ -52,6 +52,13 @@ class VariantListView : public FileClusterListView
             QMenu                 * const menu
         );
 
+    signals:
+
+        void referenceChanged
+        (
+            int const variant
+        );
+
     private:
 
         QAction * setReferenceAction;

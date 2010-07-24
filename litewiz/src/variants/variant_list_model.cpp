@@ -3,6 +3,7 @@
 
 #include <QtGui/QApplication>
 #include <QAbstractListModel>
+#include <QFont>
 #include <QPalette>
 #include "utility.h"
 #include "session.h"
@@ -62,6 +63,17 @@ QVariant VariantListModel::data
                     result = QApplication::palette().brush( QPalette::Window );
                 }
                 break;
+
+            case Qt::FontRole:
+                if ( variant->isReference() )
+                {
+                    QFont font;
+
+                    font.setBold( true );
+
+                    result = font;
+                }
+                break;
         }
     }
 
@@ -96,6 +108,18 @@ void VariantListModel::initContextMenu
         else
         {
             menuInfo->addMenuEntry( ContextMenuInfo::Exclude );
+        }
+    }
+
+    if ( menuInfo->getSelection().count() == 1 )
+    {
+        if ( session->getVariants().getVariant( menuInfo->getSelection().first() )->isReference() )
+        {
+            menuInfo->addMenuEntry( ContextMenuInfo::ReferenceChecked );
+        }
+        else
+        {
+            menuInfo->addMenuEntry( ContextMenuInfo::ReferenceUnchecked );
         }
     }
 }

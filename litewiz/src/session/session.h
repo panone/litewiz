@@ -103,6 +103,11 @@ class Session : public QObject
             bool             const exclude
         );
 
+        void toggleReference
+        (
+            int const variant
+        );
+
     signals:
 
         void fileCollectionUpdated

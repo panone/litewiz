@@ -55,6 +55,11 @@ class VariantCollection
             bool             const exclude
         );
 
+        void toggleReference
+        (
+            int const variant
+        );
+
     private:
 
         QList< Variant * > variants;

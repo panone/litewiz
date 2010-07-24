@@ -18,7 +18,9 @@ class ContextMenuInfo
         enum
         {
             Exclude,
-            Include
+            Include,
+            ReferenceChecked,
+            ReferenceUnchecked
         };
 
     public:

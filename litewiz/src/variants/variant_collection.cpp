@@ -82,4 +82,26 @@ void VariantCollection::exclude
     }
 }
 
+/*******************************************************************************
+*******************************************************************************/
+void VariantCollection::toggleReference
+(
+    int const variant
+)
+{
+    if ( variants[ variant ]->isReference() )
+    {
+        variants[ variant ]->setReference( false );
+    }
+    else
+    {
+        foreach ( Variant * v, variants )
+        {
+            v->setReference( false );
+        }
+
+        variants[ variant ]->setReference( true );
+    }
+}
+
 /******************************************************************************/
