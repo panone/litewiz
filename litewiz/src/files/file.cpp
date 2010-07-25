@@ -76,20 +76,13 @@ void File::setItem
 
 /*******************************************************************************
 *******************************************************************************/
-QString File::getItemName
+Item const * File::getItem
 (
     void
 )
     const
 {
-    QString result;
-
-    if ( item != 0 )
-    {
-        result = item->getName();
-    }
-
-    return result;
+    return item;
 }
 
 /*******************************************************************************
@@ -104,20 +97,13 @@ void File::setVariant
 
 /*******************************************************************************
 *******************************************************************************/
-QString File::getVariantName
+Variant const * File::getVariant
 (
     void
 )
     const
 {
-    QString result;
-
-    if ( variant != 0 )
-    {
-        result = variant->getName();
-    }
-
-    return result;
+    return variant;
 }
 
 /*******************************************************************************

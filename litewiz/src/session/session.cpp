@@ -207,7 +207,7 @@ void Session::excludeItems
 {
     items.exclude( selection, exclude );
 
-    //emit itemCollectionUpdated();
+    emit itemCollectionUpdated();
 }
 
 /*******************************************************************************
@@ -220,7 +220,7 @@ void Session::excludeVariants
 {
     variants.exclude( selection, exclude );
 
-    //emit variantCollectionUpdated();
+    emit variantCollectionUpdated();
 }
 
 /*******************************************************************************
@@ -232,7 +232,7 @@ void Session::toggleReference
 {
     variants.toggleReference( variant );
 
-    //emit variantCollectionUpdated();
+    emit variantCollectionUpdated();
 }
 
 /******************************************************************************/

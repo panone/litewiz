@@ -55,7 +55,7 @@ class File
             Item * const item
         );
 
-        QString getItemName
+        Item const * getItem
         (
             void
         )
@@ -66,7 +66,7 @@ class File
             Variant * const variant
         );
 
-        QString getVariantName
+        Variant const * getVariant
         (
             void
         )

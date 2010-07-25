@@ -2,10 +2,14 @@
 *******************************************************************************/
 
 #include <QtGui/QApplication>
+#include <QFont>
 #include <QList>
+#include <QPalette>
 #include <QString>
 #include <QStyle>
 #include <QVariant>
+#include "item.h"
+#include "variant.h"
 #include "file.h"
 #include "file_tree_item.h"
 
@@ -248,11 +252,21 @@ QVariant FileTreeItem::getItemData
 {
     QVariant result;
 
-    switch ( role )
+    if ( file->getItem() != 0 )
     {
-        case Qt::DisplayRole:
-            result = file->getItemName();
-            break;
+        switch ( role )
+        {
+            case Qt::DisplayRole:
+                result = file->getItem()->getName();
+                break;
+
+            case Qt::ForegroundRole:
+                if ( file->getItem()->isExcluded() )
+                {
+                    result = QApplication::palette().brush( QPalette::Window );
+                }
+                break;
+        }
     }
 
     return result;
@@ -268,11 +282,32 @@ QVariant FileTreeItem::getVariantData
 {
     QVariant result;
 
-    switch ( role )
+    if ( file->getVariant() != 0 )
     {
-        case Qt::DisplayRole:
-            result = file->getVariantName();
-            break;
+        switch ( role )
+        {
+            case Qt::DisplayRole:
+                result = file->getVariant()->getName();
+                break;
+
+            case Qt::ForegroundRole:
+                if ( file->getVariant()->isExcluded() )
+                {
+                    result = QApplication::palette().brush( QPalette::Window );
+                }
+                break;
+
+            case Qt::FontRole:
+                if ( file->getVariant()->isReference() )
+                {
+                    QFont font;
+
+                    font.setBold( true );
+
+                    result = font;
+                }
+                break;
+        }
     }
 
     return result;

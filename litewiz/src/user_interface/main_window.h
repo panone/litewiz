@@ -77,6 +77,11 @@ class MainWindow : public QMainWindow
             void
         );
 
+        void updateFileTreeView
+        (
+            void
+        );
+
     private:
 
         virtual void closeEvent

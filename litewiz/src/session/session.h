@@ -115,6 +115,16 @@ class Session : public QObject
             void
         );
 
+        void itemCollectionUpdated
+        (
+            void
+        );
+
+        void variantCollectionUpdated
+        (
+            void
+        );
+
         void classified
         (
             void

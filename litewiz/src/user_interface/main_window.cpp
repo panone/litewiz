@@ -77,6 +77,9 @@ void MainWindow::connectSignals
     connect( ui->addDirectoryAction, SIGNAL( triggered() ), this, SLOT( addDirectory() ) );
     connect( ui->aetExportAction, SIGNAL( triggered() ), this, SLOT( exportAetSession() ) );
 
+    connect( session, SIGNAL( itemCollectionUpdated() ), this, SLOT( updateFileTreeView() ) );
+    connect( session, SIGNAL( variantCollectionUpdated() ), this, SLOT( updateFileTreeView() ) );
+
     connect( ui->itemListView, SIGNAL( excludeRequest( QIntList, bool ) ), session, SLOT( excludeItems( QIntList, bool ) ) );
     connect( ui->itemListView, SIGNAL( contextMenuRequest( ContextMenuInfo * const ) ), itemListModel, SLOT( initContextMenu( ContextMenuInfo * const ) ) );
 
@@ -169,6 +172,18 @@ void MainWindow::exportAetSession
     AetExportDialog dialog( session, this );
 
     dialog.exec();
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void MainWindow::updateFileTreeView
+(
+    void
+)
+{
+    //ui->fileTreeView->update();
+    //ui->fileTreeView->repaint();
+    ui->fileTreeView->doItemsLayout();
 }
 
 /*******************************************************************************
