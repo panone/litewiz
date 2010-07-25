@@ -97,6 +97,30 @@ class FileTreeItem
             void
         );
 
+        QVariant getFileData
+        (
+            int const role
+        )
+        const;
+
+        QVariant getItemData
+        (
+            int const role
+        )
+        const;
+
+        QVariant getVariantData
+        (
+            int const role
+        )
+        const;
+
+        QVariant getDirectoryData
+        (
+            int const role
+        )
+        const;
+
     private:
 
         QString                         directoryName;

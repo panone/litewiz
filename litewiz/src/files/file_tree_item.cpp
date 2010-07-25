@@ -1,8 +1,10 @@
 /*******************************************************************************
 *******************************************************************************/
 
+#include <QtGui/QApplication>
 #include <QList>
 #include <QString>
+#include <QStyle>
 #include <QVariant>
 #include "file.h"
 #include "file_tree_item.h"
@@ -105,28 +107,28 @@ QVariant FileTreeItem::getData
 {
     QVariant result;
 
-    if ( role == Qt::DisplayRole )
+    if ( file != 0 )
     {
-        if ( file != 0 )
+        switch ( column )
         {
-            switch ( column )
-            {
-                case 0:
-                    result = file->getName();
-                    break;
+            case 0:
+                result = getFileData( role );
+                break;
 
-                case 1:
-                    result = file->getItemName();
-                    break;
+            case 1:
+                result = getItemData( role );
+                break;
 
-                case 2:
-                    result = file->getVariantName();
-                    break;
-            }
+            case 2:
+                result = getVariantData( role );
+                break;
         }
-        else
+    }
+    else
+    {
+        if ( column == 0 )
         {
-            result = directoryName;
+            result = getDirectoryData( role );
         }
     }
 
@@ -211,6 +213,90 @@ QString FileTreeItem::getName
     else
     {
         result = directoryName;
+    }
+
+    return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+QVariant FileTreeItem::getFileData
+(
+    int const role
+)
+    const
+{
+    QVariant result;
+
+    switch ( role )
+    {
+        case Qt::DisplayRole:
+            result = file->getName();
+            break;
+    }
+
+    return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+QVariant FileTreeItem::getItemData
+(
+    int const role
+)
+    const
+{
+    QVariant result;
+
+    switch ( role )
+    {
+        case Qt::DisplayRole:
+            result = file->getItemName();
+            break;
+    }
+
+    return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+QVariant FileTreeItem::getVariantData
+(
+    int const role
+)
+    const
+{
+    QVariant result;
+
+    switch ( role )
+    {
+        case Qt::DisplayRole:
+            result = file->getVariantName();
+            break;
+    }
+
+    return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+QVariant FileTreeItem::getDirectoryData
+(
+    int const role
+)
+    const
+{
+    QVariant result;
+
+    switch ( role )
+    {
+        case Qt::DisplayRole:
+            result = directoryName;
+            break;
+
+        case Qt::DecorationRole:
+            result = QApplication::style()->standardIcon( QStyle::SP_DirIcon );
+            break;
     }
 
     return result;
