@@ -50,6 +50,12 @@ class File
         )
         const;
 
+        bool isExcluded
+        (
+            void
+        )
+        const;
+
         void setItem
         (
             Item * const item

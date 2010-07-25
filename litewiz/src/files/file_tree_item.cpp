@@ -237,6 +237,13 @@ QVariant FileTreeItem::getFileData
         case Qt::DisplayRole:
             result = file->getName();
             break;
+
+        case Qt::ForegroundRole:
+            if ( file->isExcluded() )
+            {
+                result = QApplication::palette().brush( QPalette::Window );
+            }
+            break;
     }
 
     return result;
