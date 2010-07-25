@@ -5,7 +5,9 @@
 #include <QDomElement>
 #include <QString>
 #include <QStringList>
+#include "file.h"
 #include "file_collection.h"
+#include "item.h"
 #include "item_collection.h"
 #include "variant.h"
 #include "variant_collection.h"
@@ -91,6 +93,7 @@ void AetSession::formatSession
     }
 
     formatVariants( parent );
+    formatItems( parent );
 }
 
 /*******************************************************************************
@@ -131,6 +134,52 @@ void AetSession::formatVariants
     }
 
     parent.appendChild( createStringListElement( "Variants", names ) );
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void AetSession::formatItems
+(
+    QDomElement parent
+)
+{
+    ItemCollection const & items  = session->getItems();
+
+    QDomElement tracks = document->createElement( "Tracks" );
+
+    tracks.setAttribute( "type", "list" );
+    tracks.setAttribute( "depth", "1" );
+    tracks.setAttribute( "itemtype", "section" );
+
+    for ( int i = 0; i < items.getCount(); i++ )
+    {
+        QDomElement item = document->createElement( "Item" );
+
+        formatItem( item, items.getItem( i ) );
+
+        tracks.appendChild( item );
+    }
+
+    parent.appendChild( tracks );
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void AetSession::formatItem
+(
+    QDomElement               parent,
+    Item        const * const item
+)
+{
+    QStringList names;
+
+    foreach ( File const * file, session->getFiles().getItemFiles( item ) )
+    {
+        names.append( file->getPathName() );
+    }
+
+    parent.appendChild( createStringElement( "Title", item->getName() ) );
+    parent.appendChild( createStringListElement( "Files", names ) );
 }
 
 /*******************************************************************************

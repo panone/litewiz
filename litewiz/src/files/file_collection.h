@@ -13,6 +13,7 @@
 
 class QString;
 class QStringList;
+class Item;
 
 typedef QList< File * > FileList;
 
@@ -59,6 +60,12 @@ class FileCollection
         FileList getAllFiles
         (
             void
+        )
+        const;
+
+        FileList getItemFiles
+        (
+            Item const * const item
         )
         const;
 

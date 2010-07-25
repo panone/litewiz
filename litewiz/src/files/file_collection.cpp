@@ -110,6 +110,27 @@ FileList FileCollection::getAllFiles
 
 /*******************************************************************************
 *******************************************************************************/
+FileList FileCollection::getItemFiles
+(
+    Item const * const item
+)
+    const
+{
+    FileList result;
+
+    foreach ( File * file, files )
+    {
+        if ( file->getItem() == item )
+        {
+            result.append( file );
+        }
+    }
+
+    return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
 QStringList FileCollection::getNames
 (
     void

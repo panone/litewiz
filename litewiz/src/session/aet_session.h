@@ -14,6 +14,7 @@ class QDomDocument;
 class QDomElement;
 class QStringList;
 class Session;
+class Item;
 
 /*******************************************************************************
 *******************************************************************************/
@@ -58,6 +59,17 @@ class AetSession
         void formatVariants
         (
             QDomElement parent
+        );
+
+        void formatItems
+        (
+            QDomElement parent
+        );
+
+        void formatItem
+        (
+            QDomElement               parent,
+            Item        const * const item
         );
 
         QDomElement createStringElement
