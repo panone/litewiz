@@ -22,6 +22,11 @@ class FileCluster
 
     public:
 
+        void setName
+        (
+            QString const & name
+        );
+
         QString getName
         (
             void

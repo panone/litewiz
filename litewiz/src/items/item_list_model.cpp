@@ -53,6 +53,7 @@ QVariant ItemListModel::data
         switch ( role )
         {
             case Qt::DisplayRole:
+            case Qt::EditRole:
                 result = item->getName();
                 break;
 
@@ -63,6 +64,48 @@ QVariant ItemListModel::data
                 }
                 break;
         }
+    }
+
+    return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+bool ItemListModel::setData
+(
+    QModelIndex const & index,
+    QVariant    const & value,
+    int                 role
+)
+{
+    bool      result = false;
+    QString   name   = value.toString();
+
+    if ( index.isValid() && !name.isEmpty() && ( role == Qt::EditRole ) )
+    {
+        session->getItems().getItem( index.row() )->setName( name );
+
+        result = true;
+
+        emit dataChanged( index, index );
+    }
+
+    return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+Qt::ItemFlags ItemListModel::flags
+(
+    QModelIndex const & index
+)
+    const
+{
+    Qt::ItemFlags result = QAbstractListModel::flags( index );
+
+    if ( index.isValid() )
+    {
+        result |= Qt::ItemIsEditable;
     }
 
     return result;

@@ -43,6 +43,19 @@ class ItemListModel : public QAbstractListModel
         )
         const;
 
+        bool setData
+        (
+            QModelIndex const & index,
+            QVariant    const & value,
+            int                 role = Qt::EditRole
+        );
+
+        Qt::ItemFlags flags
+        (
+            QModelIndex const & index
+        )
+        const;
+
     public slots:
 
         void update

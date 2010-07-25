@@ -54,6 +54,7 @@ QVariant VariantListModel::data
         switch ( role )
         {
             case Qt::DisplayRole:
+            case Qt::EditRole:
                 result = variant->getName();
                 break;
 
@@ -75,6 +76,48 @@ QVariant VariantListModel::data
                 }
                 break;
         }
+    }
+
+    return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+bool VariantListModel::setData
+(
+    QModelIndex const & index,
+    QVariant    const & value,
+    int                 role
+)
+{
+    bool      result = false;
+    QString   name   = value.toString();
+
+    if ( index.isValid() && !name.isEmpty() && ( role == Qt::EditRole ) )
+    {
+        session->getVariants().getVariant( index.row() )->setName( name );
+
+        result = true;
+
+        emit dataChanged( index, index );
+    }
+
+    return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+Qt::ItemFlags VariantListModel::flags
+(
+    QModelIndex const & index
+)
+    const
+{
+    Qt::ItemFlags result = QAbstractListModel::flags( index );
+
+    if ( index.isValid() )
+    {
+        result |= Qt::ItemIsEditable;
     }
 
     return result;
