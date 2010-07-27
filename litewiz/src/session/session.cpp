@@ -82,7 +82,7 @@ void Session::addDirectory
 
 /*******************************************************************************
 *******************************************************************************/
-FileCollection const & Session::getFiles
+FileCollection & Session::getFiles
 (
     void
 )
@@ -92,7 +92,7 @@ FileCollection const & Session::getFiles
 
 /*******************************************************************************
 *******************************************************************************/
-ItemCollection const & Session::getItems
+ItemCollection & Session::getItems
 (
     void
 )
@@ -102,7 +102,7 @@ ItemCollection const & Session::getItems
 
 /*******************************************************************************
 *******************************************************************************/
-VariantCollection const & Session::getVariants
+VariantCollection & Session::getVariants
 (
     void
 )

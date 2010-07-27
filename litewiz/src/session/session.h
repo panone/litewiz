@@ -52,17 +52,17 @@ class Session : public QObject
             QString const & fileName
         );
 
-        FileCollection const & getFiles
+        FileCollection & getFiles
         (
             void
         );
 
-        ItemCollection const & getItems
+        ItemCollection & getItems
         (
             void
         );
 
-        VariantCollection const & getVariants
+        VariantCollection & getVariants
         (
             void
         );
