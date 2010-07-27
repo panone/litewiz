@@ -81,6 +81,22 @@ void FileClusterListView::include
 
 /*******************************************************************************
 *******************************************************************************/
+void FileClusterListView::dropEvent
+(
+    QDropEvent * event
+)
+{
+    QListView::dropEvent( event );
+
+    if ( event->isAccepted() )
+    {
+        //TODO: move selection (and focus?) together with items
+        clearSelection();
+    }
+}
+
+/*******************************************************************************
+*******************************************************************************/
 void FileClusterListView::contextMenuEvent
 (
     QContextMenuEvent * event

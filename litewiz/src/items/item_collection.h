@@ -55,6 +55,12 @@ class ItemCollection
             bool             const exclude
         );
 
+        void move
+        (
+            int              const target,
+            QIntList const &       selection
+        );
+
     private:
 
         QList< Item * > items;

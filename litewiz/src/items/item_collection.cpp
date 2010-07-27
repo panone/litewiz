@@ -82,4 +82,41 @@ void ItemCollection::exclude
     }
 }
 
+/*******************************************************************************
+*******************************************************************************/
+void ItemCollection::move
+(
+    int              const target,
+    QIntList const &       selection
+)
+{
+    QList< Item * > reordered;
+    int             reorderedTarget = -1;
+
+    for ( int i = 0; i < items.count(); i++ )
+    {
+        if ( i == target )
+        {
+            reorderedTarget = reordered.count();
+        }
+
+        if ( selection.indexOf( i ) == -1 )
+        {
+            reordered.append( items[ i ] );
+        }
+    }
+
+    if ( reorderedTarget == -1 )
+    {
+        reorderedTarget = reordered.count();
+    }
+
+    for ( int i = 0; i < selection.count(); i++ )
+    {
+        reordered.insert( reorderedTarget + i, items[ selection[ i ] ] );
+    }
+
+    items = reordered;
+}
+
 /******************************************************************************/

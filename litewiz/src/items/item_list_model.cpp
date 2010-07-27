@@ -1,6 +1,7 @@
 /*******************************************************************************
 *******************************************************************************/
 
+#include <QMimeData>
 #include <QtGui/QApplication>
 #include <QAbstractListModel>
 #include <QPalette>
@@ -105,7 +106,111 @@ Qt::ItemFlags ItemListModel::flags
 
     if ( index.isValid() )
     {
-        result |= Qt::ItemIsEditable;
+        result |= Qt::ItemIsEditable | Qt::ItemIsDragEnabled;
+    }
+    else
+    {
+        result |= Qt::ItemIsDropEnabled;
+    }
+
+    return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+Qt::DropActions ItemListModel::supportedDropActions
+(
+    void
+)
+    const
+{
+    //return Qt::CopyAction | Qt::MoveAction;
+    return Qt::MoveAction;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+QStringList ItemListModel::mimeTypes
+(
+    void
+)
+    const
+{
+    QStringList result;
+
+    result.append( "application/x-litewizindexlist" );
+
+    return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+QMimeData * ItemListModel::mimeData
+(
+    QModelIndexList const & indexes
+)
+    const
+{
+    QMimeData * result = 0;
+
+    if ( indexes.count() > 0 )
+    {
+        QByteArray    data;
+        QDataStream   stream( &data, QIODevice::WriteOnly );
+
+        foreach ( QModelIndex const & index, indexes )
+        {
+            stream << index.row();
+        }
+
+        result = new QMimeData();
+
+        result->setData( mimeTypes().first(), data );
+    }
+
+    return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+bool ItemListModel::dropMimeData
+(
+    QMimeData      const * data,
+    Qt::DropAction         action,
+    int                    row,
+    int                    column,
+    QModelIndex    const & parent
+)
+{
+    bool result = false;
+
+    if ( ( data != 0 ) && ( action == Qt::MoveAction ) && data->hasFormat( mimeTypes().first() ) )
+    {
+        int target = row;
+
+        if ( ( target == -1 ) || ( target > session->getItems().getCount() ) )
+        {
+            target = session->getItems().getCount();
+        }
+
+        QByteArray    bytes = data->data( mimeTypes().first() );
+        QDataStream   stream( &bytes, QIODevice::ReadOnly );
+        QIntList      selection;
+
+        while ( !stream.atEnd() )
+        {
+            int index;
+
+            stream >> index;
+
+            selection.append( index );
+        }
+
+        qSort( selection );
+
+        session->getItems().move( target, selection );
+
+        result = true;
     }
 
     return result;

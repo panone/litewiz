@@ -58,6 +58,11 @@ class FileClusterListView : public QListView
 
     protected:
 
+        virtual void dropEvent
+        (
+            QDropEvent * event
+        );
+
         virtual void contextMenuEvent
         (
             QContextMenuEvent * event

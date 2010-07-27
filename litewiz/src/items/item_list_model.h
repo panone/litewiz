@@ -56,6 +56,33 @@ class ItemListModel : public QAbstractListModel
         )
         const;
 
+        Qt::DropActions supportedDropActions
+        (
+            void
+        )
+        const;
+
+        QStringList mimeTypes
+        (
+            void
+        )
+        const;
+
+        QMimeData * mimeData
+        (
+            QModelIndexList const & indexes
+        )
+        const;
+
+        bool dropMimeData
+        (
+            QMimeData      const * data,
+            Qt::DropAction         action,
+            int                    row,
+            int                    column,
+            QModelIndex    const & parent
+        );
+
     public slots:
 
         void update
