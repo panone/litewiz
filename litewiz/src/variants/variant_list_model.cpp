@@ -30,7 +30,7 @@ void VariantListModel::initContextMenu
     ContextMenuInfo * const menuInfo
 )
 {
-    VariantListModel::initContextMenu( menuInfo );
+    FileClusterListModel::initContextMenu( menuInfo );
 
     if ( menuInfo->getSelection().count() == 1 )
     {
