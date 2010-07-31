@@ -81,10 +81,8 @@ void MainWindow::connectSignals
     connect( session, SIGNAL( variantCollectionUpdated() ), this, SLOT( updateFileTreeView() ) );
 
     connect( ui->itemListView, SIGNAL( excludeRequest( QIntList, bool ) ), session, SLOT( excludeItems( QIntList, bool ) ) );
-    connect( ui->itemListView, SIGNAL( contextMenuRequest( ContextMenuInfo * const ) ), itemListModel, SLOT( initContextMenu( ContextMenuInfo * const ) ) );
 
     connect( ui->variantListView, SIGNAL( excludeRequest( QIntList, bool ) ), session, SLOT( excludeVariants( QIntList, bool ) ) );
-    connect( ui->variantListView, SIGNAL( contextMenuRequest( ContextMenuInfo * const ) ), variantListModel, SLOT( initContextMenu( ContextMenuInfo * const ) ) );
     connect( ui->variantListView, SIGNAL( referenceChanged( int ) ), session, SLOT( toggleReference( int ) ) );
 }
 

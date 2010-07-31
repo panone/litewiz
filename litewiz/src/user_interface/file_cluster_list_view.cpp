@@ -6,6 +6,7 @@
 #include <QMenu>
 #include "utility.h"
 #include "context_menu_info.h"
+#include "file_cluster_list_model.h"
 #include "file_cluster_list_view.h"
 
 /*******************************************************************************
@@ -18,6 +19,18 @@ FileClusterListView::FileClusterListView
 {
     createActions();
     connectSignals();
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void FileClusterListView::setModel
+(
+    FileClusterListModel * model
+)
+{
+    QListView::setModel( model );
+
+    connect( this, SIGNAL( contextMenuRequest( ContextMenuInfo * const ) ), model, SLOT( initContextMenu( ContextMenuInfo * const ) ) );
 }
 
 /*******************************************************************************

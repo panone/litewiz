@@ -13,6 +13,7 @@
 /******************************************************************************/
 
 class ContextMenuInfo;
+class FileClusterListModel;
 
 /*******************************************************************************
 *******************************************************************************/
@@ -25,6 +26,13 @@ class FileClusterListView : public QListView
         FileClusterListView
         (
             QWidget * const parent = 0
+        );
+
+    public:
+
+        void setModel
+        (
+            FileClusterListModel * model
         );
 
     protected:
