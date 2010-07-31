@@ -205,32 +205,6 @@ QStringList Session::getTextFileContents
 
 /*******************************************************************************
 *******************************************************************************/
-void Session::excludeItems
-(
-    QIntList const &       selection,
-    bool             const exclude
-)
-{
-    items->exclude( selection, exclude );
-
-    emit itemCollectionUpdated();
-}
-
-/*******************************************************************************
-*******************************************************************************/
-void Session::excludeVariants
-(
-    QIntList const &       selection,
-    bool             const exclude
-)
-{
-    variants->exclude( selection, exclude );
-
-    emit variantCollectionUpdated();
-}
-
-/*******************************************************************************
-*******************************************************************************/
 void Session::toggleReference
 (
     int const variant

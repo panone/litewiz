@@ -5,6 +5,7 @@
 #include <QtGui/QApplication>
 #include <QAbstractListModel>
 #include <QPalette>
+#include "utility.h"
 #include "context_menu_info.h"
 #include "file_cluster.h"
 #include "file_cluster_collection.h"
@@ -52,6 +53,22 @@ void FileClusterListModel::initContextMenu
             menuInfo->addMenuEntry( ContextMenuInfo::Exclude );
         }
     }
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void FileClusterListModel::exclude
+(
+    QIntList const &       selection,
+    bool             const exclude
+)
+{
+    clusters->exclude( selection, exclude );
+
+    QModelIndex   start = createIndex( qMin( selection ), 0 );
+    QModelIndex   end   = createIndex( qMax( selection ), 0 );
+
+    emit dataChanged( start, end );
 }
 
 /*******************************************************************************

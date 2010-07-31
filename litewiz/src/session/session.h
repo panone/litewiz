@@ -91,18 +91,6 @@ class Session : public QObject
 
     public slots:
 
-        void excludeItems
-        (
-            QIntList const &       selection,
-            bool             const exclude
-        );
-
-        void excludeVariants
-        (
-            QIntList const &       selection,
-            bool             const exclude
-        );
-
         void toggleReference
         (
             int const variant

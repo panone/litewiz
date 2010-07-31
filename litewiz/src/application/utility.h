@@ -12,6 +12,42 @@
 
 typedef QList< int > QIntList;
 
+/*******************************************************************************
+*******************************************************************************/
+template< typename Type >
+Type qMin
+(
+    QList< Type > const & list
+)
+{
+    Type result = list.first();
+
+    foreach ( Type value, list )
+    {
+        result = qMin( result, value );
+    }
+
+    return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+template< typename Type >
+Type qMax
+(
+    QList< Type > const & list
+)
+{
+    Type result = list.first();
+
+    foreach ( Type value, list )
+    {
+        result = qMax( result, value );
+    }
+
+    return result;
+}
+
 /******************************************************************************/
 
 #endif /* UTILITY_H */

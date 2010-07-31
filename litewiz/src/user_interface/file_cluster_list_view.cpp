@@ -31,6 +31,7 @@ void FileClusterListView::setModel
     QListView::setModel( model );
 
     connect( this, SIGNAL( contextMenuRequest( ContextMenuInfo * const ) ), model, SLOT( initContextMenu( ContextMenuInfo * const ) ) );
+    connect( this, SIGNAL( excludeRequest( QIntList, bool ) ), model, SLOT( exclude( QIntList, bool ) ) );
 }
 
 /*******************************************************************************

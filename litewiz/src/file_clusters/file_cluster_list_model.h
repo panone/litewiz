@@ -7,6 +7,7 @@
 /******************************************************************************/
 
 #include <QAbstractListModel>
+#include "utility.h"
 
 /******************************************************************************/
 
@@ -37,6 +38,12 @@ class FileClusterListModel : public QAbstractListModel
         void initContextMenu
         (
             ContextMenuInfo * const menuInfo
+        );
+
+        void exclude
+        (
+            QIntList const &       selection,
+            bool             const exclude
         );
 
     public:
