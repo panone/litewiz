@@ -4,6 +4,7 @@
 #include <QAction>
 #include <QMenu>
 #include "context_menu_info.h"
+#include "variant_list_model.h"
 #include "file_cluster_list_view.h"
 #include "variant_list_view.h"
 
@@ -17,6 +18,18 @@ VariantListView::VariantListView
 {
     createActions();
     connectSignals();
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void VariantListView::setModel
+(
+    VariantListModel * model
+)
+{
+    FileClusterListView::setModel( model );
+
+    connect( this, SIGNAL( referenceChanged( QModelIndex ) ), model, SLOT( toggleReference( QModelIndex ) ) );
 }
 
 /*******************************************************************************
@@ -48,7 +61,7 @@ void VariantListView::setReference
     void
 )
 {
-    emit referenceChanged( getSelection().first() );
+    emit referenceChanged( selectedIndexes().first() );
 }
 
 /*******************************************************************************

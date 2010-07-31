@@ -89,26 +89,9 @@ class Session : public QObject
             QString const & fileName
         );
 
-    public slots:
-
-        void toggleReference
-        (
-            int const variant
-        );
-
     signals:
 
         void fileCollectionUpdated
-        (
-            void
-        );
-
-        void itemCollectionUpdated
-        (
-            void
-        );
-
-        void variantCollectionUpdated
         (
             void
         );

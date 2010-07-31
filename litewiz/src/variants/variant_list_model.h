@@ -35,6 +35,11 @@ class VariantListModel : public FileClusterListModel
             ContextMenuInfo * const menuInfo
         );
 
+        void toggleReference
+        (
+            QModelIndex const & index
+        );
+
     private:
 
         virtual QVariant getData

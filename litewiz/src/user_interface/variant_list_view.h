@@ -11,6 +11,7 @@
 /******************************************************************************/
 
 class QAction;
+class VariantListModel;
 
 /*******************************************************************************
 *******************************************************************************/
@@ -23,6 +24,13 @@ class VariantListView : public FileClusterListView
         VariantListView
         (
             QWidget * const parent = 0
+        );
+
+    public:
+
+        void setModel
+        (
+            VariantListModel * model
         );
 
     private:
@@ -56,7 +64,7 @@ class VariantListView : public FileClusterListView
 
         void referenceChanged
         (
-            int const variant
+            QModelIndex const & index
         );
 
     private:

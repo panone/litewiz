@@ -77,11 +77,8 @@ void MainWindow::connectSignals
     connect( ui->addDirectoryAction, SIGNAL( triggered() ), this, SLOT( addDirectory() ) );
     connect( ui->aetExportAction, SIGNAL( triggered() ), this, SLOT( exportAetSession() ) );
 
-    connect( session, SIGNAL( variantCollectionUpdated() ), this, SLOT( updateFileTreeView() ) );
     connect( itemListModel, SIGNAL( dataChanged( QModelIndex, QModelIndex ) ), this, SLOT( updateFileTreeView() ) );
     connect( variantListModel, SIGNAL( dataChanged( QModelIndex, QModelIndex ) ), this, SLOT( updateFileTreeView() ) );
-
-    connect( ui->variantListView, SIGNAL( referenceChanged( int ) ), session, SLOT( toggleReference( int ) ) );
 }
 
 /*******************************************************************************

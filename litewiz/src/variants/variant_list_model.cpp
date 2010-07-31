@@ -45,6 +45,22 @@ void VariantListModel::initContextMenu
     }
 }
 
+
+/*******************************************************************************
+*******************************************************************************/
+void VariantListModel::toggleReference
+(
+    QModelIndex const & index
+)
+{
+    if ( index.isValid() )
+    {
+        variants->toggleReference( index.row() );
+
+        emit dataChanged( index, index );
+    }
+}
+
 /*******************************************************************************
 *******************************************************************************/
 QVariant VariantListModel::getData

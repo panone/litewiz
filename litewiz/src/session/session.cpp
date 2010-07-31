@@ -203,16 +203,4 @@ QStringList Session::getTextFileContents
     return result;
 }
 
-/*******************************************************************************
-*******************************************************************************/
-void Session::toggleReference
-(
-    int const variant
-)
-{
-    variants->toggleReference( variant );
-
-    emit variantCollectionUpdated();
-}
-
 /******************************************************************************/
