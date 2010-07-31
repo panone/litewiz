@@ -8,6 +8,7 @@ QT *= core gui xml
 
 INCLUDEPATH += \
     src/application \
+    src/file_clusters \
     src/files \
     src/items \
     src/session \
@@ -26,6 +27,7 @@ ReleaseBuild {
 }
 
 include(src/application/application.pro)
+include(src/file_clusters/file_clusters.pro)
 include(src/files/files.pro)
 include(src/items/items.pro)
 include(src/session/session.pro)
