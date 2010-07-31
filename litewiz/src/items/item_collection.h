@@ -6,8 +6,7 @@
 
 /******************************************************************************/
 
-#include <QList>
-#include "utility.h"
+#include "file_cluster_collection.h"
 
 /******************************************************************************/
 
@@ -16,15 +15,8 @@ class ItemInfo;
 
 /*******************************************************************************
 *******************************************************************************/
-class ItemCollection
+class ItemCollection : public FileClusterCollection
 {
-    public:
-
-        ~ItemCollection
-        (
-            void
-        );
-
     public:
 
         Item * addItem
@@ -32,38 +24,11 @@ class ItemCollection
             ItemInfo const & itemInfo
         );
 
-        int getCount
-        (
-            void
-        )
-        const;
-
         Item * getItem
         (
             int const index
         )
         const;
-
-        void clear
-        (
-            void
-        );
-
-        void exclude
-        (
-            QIntList const &       selection,
-            bool             const exclude
-        );
-
-        void move
-        (
-            int              const target,
-            QIntList const &       selection
-        );
-
-    private:
-
-        QList< Item * > items;
 };
 
 /******************************************************************************/

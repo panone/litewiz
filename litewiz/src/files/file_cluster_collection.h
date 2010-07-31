@@ -1,50 +1,60 @@
 /*******************************************************************************
 *******************************************************************************/
 
-#ifndef VARIANT_COLLECTION_H
-#define VARIANT_COLLECTION_H
+#ifndef FILE_CLUSTER_COLLECTION_H
+#define FILE_CLUSTER_COLLECTION_H
 
 /******************************************************************************/
 
-#include "file_cluster_collection.h"
+#include <QList>
+#include "utility.h"
 
 /******************************************************************************/
 
 class FileCluster;
-class Variant;
-class VariantInfo;
+class ClassificationInfo;
 
 /*******************************************************************************
 *******************************************************************************/
-class VariantCollection : public FileClusterCollection
+class FileClusterCollection
 {
-    public:
+    protected:
 
-        Variant * addVariant
+        ~FileClusterCollection
         (
-            VariantInfo const & variantInfo
-        );
-
-        Variant * getVariant
-        (
-            int const index
-        )
-        const;
-
-        void toggleReference
-        (
-            int const index
+            void
         );
 
     public:
 
-        Variant * getVariant
+        int getCount
         (
-            FileCluster * const cluster
+            void
         )
         const;
+
+        void clear
+        (
+            void
+        );
+
+        void exclude
+        (
+            QIntList const &       selection,
+            bool             const exclude
+        );
+
+        void move
+        (
+            int              const target,
+            QIntList const &       selection
+        );
+
+    protected:
+
+        QList< FileCluster * > clusters;
 };
 
 /******************************************************************************/
 
-#endif /* VARIANT_COLLECTION_H */
+#endif /* FILE_CLUSTER_COLLECTION_H */

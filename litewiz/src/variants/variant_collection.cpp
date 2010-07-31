@@ -1,21 +1,10 @@
 /*******************************************************************************
 *******************************************************************************/
 
-#include <QList>
 #include "classifier.h"
-#include "utility.h"
 #include "variant.h"
+#include "file_cluster_collection.h"
 #include "variant_collection.h"
-
-/*******************************************************************************
-*******************************************************************************/
-VariantCollection::~VariantCollection
-(
-    void
-)
-{
-    qDeleteAll( variants );
-}
 
 /*******************************************************************************
 *******************************************************************************/
@@ -26,20 +15,9 @@ Variant * VariantCollection::addVariant
 {
     Variant * variant = new Variant( variantInfo.name, variantInfo.stem );
 
-    variants.append( variant );
+    clusters.append( variant );
 
     return variant;
-}
-
-/*******************************************************************************
-*******************************************************************************/
-int VariantCollection::getCount
-(
-    void
-)
-    const
-{
-    return variants.count();
 }
 
 /*******************************************************************************
@@ -50,58 +28,40 @@ Variant * VariantCollection::getVariant
 )
     const
 {
-    return variants.value( index );
-}
-
-/*******************************************************************************
-*******************************************************************************/
-void VariantCollection::clear
-(
-    void
-)
-{
-    qDeleteAll( variants );
-
-    variants.clear();
-}
-
-/*******************************************************************************
-*******************************************************************************/
-void VariantCollection::exclude
-(
-    QIntList const &       selection,
-    bool             const exclude
-)
-{
-    foreach ( int index, selection )
-    {
-        if ( ( index >= 0 ) && ( index < variants.count() ) )
-        {
-            variants[ index ]->exclude( exclude );
-        }
-    }
+    return getVariant( clusters.value( index ) );
 }
 
 /*******************************************************************************
 *******************************************************************************/
 void VariantCollection::toggleReference
 (
-    int const variant
+    int const index
 )
 {
-    if ( variants[ variant ]->isReference() )
+    if ( getVariant( index )->isReference() )
     {
-        variants[ variant ]->setReference( false );
+        getVariant( index )->setReference( false );
     }
     else
     {
-        foreach ( Variant * v, variants )
+        foreach ( FileCluster * cluster, clusters )
         {
-            v->setReference( false );
+            getVariant( cluster )->setReference( false );
         }
 
-        variants[ variant ]->setReference( true );
+        getVariant( index )->setReference( true );
     }
+}
+
+/*******************************************************************************
+*******************************************************************************/
+Variant * VariantCollection::getVariant
+(
+    FileCluster * const cluster
+)
+    const
+{
+    return static_cast< Variant * >( cluster );
 }
 
 /******************************************************************************/
