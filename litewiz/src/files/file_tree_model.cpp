@@ -226,7 +226,7 @@ void FileTreeModel::update
 
     root = new FileTreeItem( "root" );
 
-    foreach ( File const * file, session->getFiles().getAllFiles() )
+    foreach ( File const * file, session->getFiles()->getAllFiles() )
     {
         FileTreeItem * directory = root->findSubItem( file->getPath() );
 

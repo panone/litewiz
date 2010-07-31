@@ -33,7 +33,7 @@ int ItemListModel::rowCount
 )
     const
 {
-    return session->getItems().getCount();
+    return session->getItems()->getCount();
 }
 
 /*******************************************************************************
@@ -49,7 +49,7 @@ QVariant ItemListModel::data
 
     if ( index.isValid() )
     {
-        Item const * item = session->getItems().getItem( index.row() );
+        Item const * item = session->getItems()->getItem( index.row() );
 
         switch ( role )
         {
@@ -84,7 +84,7 @@ bool ItemListModel::setData
 
     if ( index.isValid() && !name.isEmpty() && ( role == Qt::EditRole ) )
     {
-        session->getItems().getItem( index.row() )->setName( name );
+        session->getItems()->getItem( index.row() )->setName( name );
 
         result = true;
 
@@ -188,9 +188,9 @@ bool ItemListModel::dropMimeData
     {
         int target = row;
 
-        if ( ( target == -1 ) || ( target > session->getItems().getCount() ) )
+        if ( ( target == -1 ) || ( target > session->getItems()->getCount() ) )
         {
-            target = session->getItems().getCount();
+            target = session->getItems()->getCount();
         }
 
         QByteArray    bytes = data->data( mimeTypes().first() );
@@ -208,7 +208,7 @@ bool ItemListModel::dropMimeData
 
         qSort( selection );
 
-        session->getItems().move( target, selection );
+        session->getItems()->move( target, selection );
 
         result = true;
     }
@@ -237,7 +237,7 @@ void ItemListModel::initContextMenu
 
     foreach ( int index, menuInfo->getSelection() )
     {
-        if ( session->getItems().getItem( index )->isExcluded() )
+        if ( session->getItems()->getItem( index )->isExcluded() )
         {
             menuInfo->addMenuEntry( ContextMenuInfo::Include );
         }

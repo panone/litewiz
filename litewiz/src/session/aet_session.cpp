@@ -103,33 +103,33 @@ void AetSession::formatVariants
     QDomElement parent
 )
 {
-    VariantCollection const & variants  = session->getVariants();
+    VariantCollection const * variants  = session->getVariants();
     int                       reference = 0;
     QStringList               names;
 
-    for ( int i = 0; i < variants.getCount(); i++ )
+    for ( int i = 0; i < variants->getCount(); i++ )
     {
-        if ( variants.getVariant( i )->isReference() )
+        if ( variants->getVariant( i )->isReference() )
         {
             reference = i;
             break;
         }
     }
 
-    Variant const * variant = variants.getVariant( reference );
+    Variant const * variant = variants->getVariant( reference );
 
     if ( !variant->isExcluded() )
     {
         names.append( variant->getName() );
     }
 
-    for ( int i = 0; i < variants.getCount(); i++ )
+    for ( int i = 0; i < variants->getCount(); i++ )
     {
-        variant = variants.getVariant( i );
+        variant = variants->getVariant( i );
 
         if ( ( i != reference ) && !variant->isExcluded() )
         {
-            names.append( variants.getVariant( i )->getName() );
+            names.append( variants->getVariant( i )->getName() );
         }
     }
 
@@ -143,7 +143,7 @@ void AetSession::formatItems
     QDomElement parent
 )
 {
-    ItemCollection const & items  = session->getItems();
+    ItemCollection const * items  = session->getItems();
 
     QDomElement tracks = document->createElement( "Tracks" );
 
@@ -151,11 +151,11 @@ void AetSession::formatItems
     tracks.setAttribute( "depth", "1" );
     tracks.setAttribute( "itemtype", "section" );
 
-    for ( int i = 0; i < items.getCount(); i++ )
+    for ( int i = 0; i < items->getCount(); i++ )
     {
         QDomElement item = document->createElement( "Item" );
 
-        formatItem( item, items.getItem( i ) );
+        formatItem( item, items->getItem( i ) );
 
         tracks.appendChild( item );
     }
@@ -173,7 +173,7 @@ void AetSession::formatItem
 {
     QStringList names;
 
-    foreach ( File const * file, session->getFiles().getItemFiles( item ) )
+    foreach ( File const * file, session->getFiles()->getItemFiles( item ) )
     {
         names.append( file->getPathName() );
     }

@@ -8,13 +8,13 @@
 
 #include <QObject>
 #include "utility.h"
-#include "file_collection.h"
-#include "item_collection.h"
-#include "variant_collection.h"
 
 /******************************************************************************/
 
 class QStringList;
+class FileCollection;
+class ItemCollection;
+class VariantCollection;
 class Classifier;
 
 /*******************************************************************************
@@ -27,7 +27,7 @@ class Session : public QObject
 
         explicit Session
         (
-            QObject * parent = 0
+            QObject * const parent = 0
         );
 
         virtual ~Session
@@ -52,17 +52,17 @@ class Session : public QObject
             QString const & fileName
         );
 
-        FileCollection & getFiles
+        FileCollection * getFiles
         (
             void
         );
 
-        ItemCollection & getItems
+        ItemCollection * getItems
         (
             void
         );
 
-        VariantCollection & getVariants
+        VariantCollection * getVariants
         (
             void
         );
@@ -132,9 +132,9 @@ class Session : public QObject
 
     private:
 
-        FileCollection      files;
-        ItemCollection      items;
-        VariantCollection   variants;
+        FileCollection    * files;
+        ItemCollection    * items;
+        VariantCollection * variants;
 
         Classifier        * classifier;
 };

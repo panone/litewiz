@@ -21,6 +21,9 @@ Session::Session
 ) :
     QObject( parent )
 {
+    files      = new FileCollection;
+    items      = new ItemCollection;
+    variants   = new VariantCollection;
     classifier = new Classifier;
 }
 
@@ -32,6 +35,9 @@ Session::~Session
 )
 {
     delete classifier;
+    delete variants;
+    delete items;
+    delete files;
 }
 
 /*******************************************************************************
@@ -41,7 +47,7 @@ void Session::loadFileList
     QString const & fileName
 )
 {
-    files.addFiles( getTextFileContents( fileName ) );
+    files->addFiles( getTextFileContents( fileName ) );
 
     classify();
 }
@@ -53,11 +59,11 @@ void Session::addFiles
     QStringList const & fileNames
 )
 {
-    int count = files.getCount();
+    int count = files->getCount();
 
-    files.addFiles( fileNames );
+    files->addFiles( fileNames );
 
-    if ( files.getCount() > count )
+    if ( files->getCount() > count )
     {
         emit fileCollectionUpdated();
     }
@@ -70,11 +76,11 @@ void Session::addDirectory
     QString const & fileName
 )
 {
-    int count = files.getCount();
+    int count = files->getCount();
 
-    files.addDirectory( fileName );
+    files->addDirectory( fileName );
 
-    if ( files.getCount() > count )
+    if ( files->getCount() > count )
     {
         emit fileCollectionUpdated();
     }
@@ -82,7 +88,7 @@ void Session::addDirectory
 
 /*******************************************************************************
 *******************************************************************************/
-FileCollection & Session::getFiles
+FileCollection * Session::getFiles
 (
     void
 )
@@ -92,7 +98,7 @@ FileCollection & Session::getFiles
 
 /*******************************************************************************
 *******************************************************************************/
-ItemCollection & Session::getItems
+ItemCollection * Session::getItems
 (
     void
 )
@@ -102,7 +108,7 @@ ItemCollection & Session::getItems
 
 /*******************************************************************************
 *******************************************************************************/
-VariantCollection & Session::getVariants
+VariantCollection * Session::getVariants
 (
     void
 )
@@ -117,7 +123,7 @@ void Session::classify
     void
 )
 {
-    QStringList fileNames = files.getNames();
+    QStringList fileNames = files->getNames();
 
     classifier->classify( fileNames );
 
@@ -134,15 +140,15 @@ void Session::setItems
     int const variance
 )
 {
-    items.clear();
+    items->clear();
 
     foreach ( ItemInfo const & info, classifier->getItems( variance ) )
     {
-        Item * item = items.addItem( info );
+        Item * item = items->addItem( info );
 
         foreach ( int index, info.files )
         {
-            files.getFile( index )->setItem( item );
+            files->getFile( index )->setItem( item );
         }
     }
 }
@@ -154,17 +160,17 @@ void Session::setVariants
     int const variance
 )
 {
-    variants.clear();
+    variants->clear();
 
     foreach ( VariantInfo const & info, classifier->getVariants( variance ) )
     {
-        Variant * variant = variants.addVariant( info );
+        Variant * variant = variants->addVariant( info );
 
         variant->setReference( info.reference );
 
         foreach ( int index, info.files )
         {
-            files.getFile( index )->setVariant( variant );
+            files->getFile( index )->setVariant( variant );
         }
     }
 }
@@ -205,7 +211,7 @@ void Session::excludeItems
     bool             const exclude
 )
 {
-    items.exclude( selection, exclude );
+    items->exclude( selection, exclude );
 
     emit itemCollectionUpdated();
 }
@@ -218,7 +224,7 @@ void Session::excludeVariants
     bool             const exclude
 )
 {
-    variants.exclude( selection, exclude );
+    variants->exclude( selection, exclude );
 
     emit variantCollectionUpdated();
 }
@@ -230,7 +236,7 @@ void Session::toggleReference
     int const variant
 )
 {
-    variants.toggleReference( variant );
+    variants->toggleReference( variant );
 
     emit variantCollectionUpdated();
 }

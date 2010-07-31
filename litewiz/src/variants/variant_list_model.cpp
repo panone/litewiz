@@ -33,7 +33,7 @@ int VariantListModel::rowCount
 )
     const
 {
-    return session->getVariants().getCount();
+    return session->getVariants()->getCount();
 }
 
 /*******************************************************************************
@@ -49,7 +49,7 @@ QVariant VariantListModel::data
 
     if ( index.isValid() )
     {
-        Variant const * variant = session->getVariants().getVariant( index.row() );
+        Variant const * variant = session->getVariants()->getVariant( index.row() );
 
         switch ( role )
         {
@@ -95,7 +95,7 @@ bool VariantListModel::setData
 
     if ( index.isValid() && !name.isEmpty() && ( role == Qt::EditRole ) )
     {
-        session->getVariants().getVariant( index.row() )->setName( name );
+        session->getVariants()->getVariant( index.row() )->setName( name );
 
         result = true;
 
@@ -144,7 +144,7 @@ void VariantListModel::initContextMenu
 
     foreach ( int index, menuInfo->getSelection() )
     {
-        if ( session->getVariants().getVariant( index )->isExcluded() )
+        if ( session->getVariants()->getVariant( index )->isExcluded() )
         {
             menuInfo->addMenuEntry( ContextMenuInfo::Include );
         }
@@ -156,7 +156,7 @@ void VariantListModel::initContextMenu
 
     if ( menuInfo->getSelection().count() == 1 )
     {
-        if ( session->getVariants().getVariant( menuInfo->getSelection().first() )->isReference() )
+        if ( session->getVariants()->getVariant( menuInfo->getSelection().first() )->isReference() )
         {
             menuInfo->addMenuEntry( ContextMenuInfo::ReferenceChecked );
         }
