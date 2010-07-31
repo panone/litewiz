@@ -27,6 +27,12 @@ class FileClusterCollection
 
     public:
 
+        FileCluster * getCluster
+        (
+            int const index
+        )
+        const;
+
         int getCount
         (
             void

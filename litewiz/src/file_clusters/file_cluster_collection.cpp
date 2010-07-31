@@ -19,6 +19,17 @@ FileClusterCollection::~FileClusterCollection
 
 /*******************************************************************************
 *******************************************************************************/
+FileCluster * FileClusterCollection::getCluster
+(
+    int const index
+)
+    const
+{
+    return clusters.value( index );
+}
+
+/*******************************************************************************
+*******************************************************************************/
 int FileClusterCollection::getCount
 (
     void

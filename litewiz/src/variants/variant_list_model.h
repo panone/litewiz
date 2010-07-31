@@ -6,17 +6,17 @@
 
 /******************************************************************************/
 
-#include <QAbstractListModel>
-#include "utility.h"
+#include "file_cluster_list_model.h"
 
 /******************************************************************************/
 
 class ContextMenuInfo;
 class Session;
+class VariantCollection;
 
 /*******************************************************************************
 *******************************************************************************/
-class VariantListModel : public QAbstractListModel
+class VariantListModel : public FileClusterListModel
 {
     Q_OBJECT
 
@@ -28,40 +28,7 @@ class VariantListModel : public QAbstractListModel
             QObject * const parent = 0
         );
 
-    public:
-
-        int rowCount
-        (
-            QModelIndex const & parent = QModelIndex()
-        )
-        const;
-
-        QVariant data
-        (
-            QModelIndex const & index,
-            int                 role
-        )
-        const;
-
-        bool setData
-        (
-            QModelIndex const & index,
-            QVariant    const & value,
-            int                 role = Qt::EditRole
-        );
-
-        Qt::ItemFlags flags
-        (
-            QModelIndex const & index
-        )
-        const;
-
     public slots:
-
-        void update
-        (
-            void
-        );
 
         void initContextMenu
         (
@@ -70,7 +37,16 @@ class VariantListModel : public QAbstractListModel
 
     private:
 
-        Session * session;
+        virtual QVariant getData
+        (
+            int const index,
+            int const role
+        )
+        const;
+
+    private:
+
+        VariantCollection * variants;
 };
 
 /******************************************************************************/
