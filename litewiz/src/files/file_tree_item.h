@@ -18,6 +18,14 @@ class File;
 *******************************************************************************/
 class FileTreeItem
 {
+    private:
+
+        static bool naturalCompare
+        (
+            FileTreeItem * const item1,
+            FileTreeItem * const item2
+        );
+
     public:
 
         explicit FileTreeItem
@@ -45,6 +53,11 @@ class FileTreeItem
         FileTreeItem * addSubItem
         (
             File const * const file
+        );
+
+        void sort
+        (
+            void
         );
 
         int getRowCount

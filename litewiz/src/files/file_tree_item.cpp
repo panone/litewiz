@@ -8,10 +8,22 @@
 #include <QString>
 #include <QStyle>
 #include <QVariant>
+#include "utility.h"
 #include "item.h"
 #include "variant.h"
 #include "file.h"
 #include "file_tree_item.h"
+
+/*******************************************************************************
+*******************************************************************************/
+bool FileTreeItem::naturalCompare
+(
+    FileTreeItem * const item1,
+    FileTreeItem * const item2
+)
+{
+    return ::naturalCompare( item1->getName().toUpper(), item2->getName().toUpper() );
+}
 
 /*******************************************************************************
 *******************************************************************************/
@@ -76,6 +88,24 @@ FileTreeItem * FileTreeItem::addSubItem
     children.append( item );
 
     return item;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void FileTreeItem::sort
+(
+    void
+)
+{
+    foreach ( FileTreeItem * item, children )
+    {
+        item->sort();
+    }
+
+    if ( children.count() > 1 )
+    {
+        qSort( children.begin(), children.end(), FileTreeItem::naturalCompare );
+    }
 }
 
 /*******************************************************************************

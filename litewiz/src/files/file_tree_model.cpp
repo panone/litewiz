@@ -238,6 +238,8 @@ void FileTreeModel::update
         directory->addSubItem( file );
     }
 
+    root->sort();
+
     reset();
 }
 
