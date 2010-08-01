@@ -22,6 +22,13 @@ class FileTreeModel : public QAbstractItemModel
 
     public:
 
+        enum ItemDataRole
+        {
+            ExpandedRole = 33
+        };
+
+    public:
+
         FileTreeModel
         (
             Session * const session,
@@ -95,6 +102,16 @@ class FileTreeModel : public QAbstractItemModel
         void update
         (
             void
+        );
+
+        void collapse
+        (
+            QModelIndex const & index
+        );
+
+        void expand
+        (
+            QModelIndex const & index
         );
 
     private:

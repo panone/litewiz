@@ -60,6 +60,16 @@ class FileTreeItem
             void
         );
 
+        void expand
+        (
+            bool const expand
+        );
+
+        bool isExpanded
+        (
+            void
+        );
+
         int getRowCount
         (
             void
@@ -137,6 +147,7 @@ class FileTreeItem
     private:
 
         QString                         directoryName;
+        bool                            expanded;
 
         File                    const * file;
 

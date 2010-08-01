@@ -222,7 +222,7 @@ void FileTreeModel::update
     void
 )
 {
-    delete root;
+    FileTreeItem * oldRoot = root;
 
     root = new FileTreeItem( "root" );
 
@@ -233,14 +233,49 @@ void FileTreeModel::update
         if ( directory == 0 )
         {
             directory = root->addSubItem( file->getPath() );
+
+            FileTreeItem * oldDirectory = oldRoot->findSubItem( file->getPath() );
+
+            if ( oldDirectory != 0 )
+            {
+                directory->expand( oldDirectory->isExpanded() );
+            }
         }
 
         directory->addSubItem( file );
     }
 
+    delete oldRoot;
+
     root->sort();
 
     reset();
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void FileTreeModel::collapse
+(
+    QModelIndex const & index
+)
+{
+    if ( getItem( index ) != 0 )
+    {
+        getItem( index )->expand( false );
+    }
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void FileTreeModel::expand
+(
+    QModelIndex const & index
+)
+{
+    if ( getItem( index ) != 0 )
+    {
+        getItem( index )->expand( true );
+    }
 }
 
 /******************************************************************************/

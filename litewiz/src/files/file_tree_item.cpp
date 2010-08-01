@@ -12,6 +12,7 @@
 #include "item.h"
 #include "variant.h"
 #include "file.h"
+#include "file_tree_model.h"
 #include "file_tree_item.h"
 
 /*******************************************************************************
@@ -33,6 +34,7 @@ FileTreeItem::FileTreeItem
 )
 {
     directoryName = name;
+    expanded      = true;
     file          = 0;
     parent        = 0;
 }
@@ -45,7 +47,8 @@ FileTreeItem::FileTreeItem
 ) :
     file( file )
 {
-    parent = 0;
+    expanded = false;
+    parent   = 0;
 }
 
 /*******************************************************************************
@@ -106,6 +109,26 @@ void FileTreeItem::sort
     {
         qSort( children.begin(), children.end(), FileTreeItem::naturalCompare );
     }
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void FileTreeItem::expand
+(
+    bool const expand
+)
+{
+    expanded = expand;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+bool FileTreeItem::isExpanded
+(
+    void
+)
+{
+    return expanded;
 }
 
 /*******************************************************************************
@@ -210,7 +233,7 @@ FileTreeItem * FileTreeItem::findSubItem
 
     foreach ( FileTreeItem * item, children )
     {
-        if ( item->getName() == name )
+        if ( item->directoryName == name )
         {
             result = item;
             break;
@@ -368,6 +391,10 @@ QVariant FileTreeItem::getDirectoryData
 
         case Qt::DecorationRole:
             result = QApplication::style()->standardIcon( QStyle::SP_DirIcon );
+            break;
+
+        case FileTreeModel::ExpandedRole:
+            result = expanded;
             break;
     }
 
