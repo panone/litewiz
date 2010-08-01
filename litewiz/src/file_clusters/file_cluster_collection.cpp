@@ -70,7 +70,7 @@ void FileClusterCollection::exclude
 
 /*******************************************************************************
 *******************************************************************************/
-void FileClusterCollection::move
+int FileClusterCollection::move
 (
     int              const target,
     QIntList const &       selection
@@ -103,6 +103,8 @@ void FileClusterCollection::move
     }
 
     clusters = reordered;
+
+    return reorderedTarget;
 }
 
 /******************************************************************************/

@@ -1,9 +1,10 @@
 /*******************************************************************************
 *******************************************************************************/
 
-#include <QMimeData>
 #include <QtGui/QApplication>
 #include <QAbstractListModel>
+#include <QItemSelection>
+#include <QMimeData>
 #include <QPalette>
 #include "utility.h"
 #include "context_menu_info.h"
@@ -21,6 +22,66 @@ FileClusterListModel::FileClusterListModel
     QAbstractListModel( parent ),
     clusters( clusters )
 {
+}
+
+/*******************************************************************************
+*******************************************************************************/
+QMimeData * FileClusterListModel::encodeMimeData
+(
+    QModelIndexList const & indexes
+)
+    const
+{
+    QByteArray    data;
+    QDataStream   stream( &data, QIODevice::WriteOnly );
+
+    foreach ( QModelIndex const & index, indexes )
+    {
+        stream << index.row();
+    }
+
+    QMimeData * result = new QMimeData();
+
+    result->setData( mimeTypes().first(), data );
+
+    return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+QIntList FileClusterListModel::decodeMimeData
+(
+    QMimeData const * const data
+)
+{
+    QByteArray    bytes = data->data( mimeTypes().first() );
+    QDataStream   stream( &bytes, QIODevice::ReadOnly );
+    QIntList      result;
+
+    while ( !stream.atEnd() )
+    {
+        int index;
+
+        stream >> index;
+
+        result.append( index );
+    }
+
+    return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void FileClusterListModel::updateSelection
+(
+    int const startRow,
+    int const rows
+)
+{
+    QModelIndex   start = createIndex( startRow, 0 );
+    QModelIndex   end   = createIndex( startRow + rows - 1, 0 );
+
+    emit selectionMoved( QItemSelection( start, end ) );
 }
 
 /*******************************************************************************
@@ -168,7 +229,7 @@ QStringList FileClusterListModel::mimeTypes
 {
     QStringList result;
 
-    result.append( "application/x-litewizindexlist" );
+    result.append( "application/x-litewiz-indexlist" );
 
     return result;
 }
@@ -185,17 +246,7 @@ QMimeData * FileClusterListModel::mimeData
 
     if ( indexes.count() > 0 )
     {
-        QByteArray    data;
-        QDataStream   stream( &data, QIODevice::WriteOnly );
-
-        foreach ( QModelIndex const & index, indexes )
-        {
-            stream << index.row();
-        }
-
-        result = new QMimeData();
-
-        result->setData( mimeTypes().first(), data );
+        result = encodeMimeData( indexes );
     }
 
     return result;
@@ -223,22 +274,11 @@ bool FileClusterListModel::dropMimeData
             target = clusters->getCount();
         }
 
-        QByteArray    bytes = data->data( mimeTypes().first() );
-        QDataStream   stream( &bytes, QIODevice::ReadOnly );
-        QIntList      selection;
-
-        while ( !stream.atEnd() )
-        {
-            int index;
-
-            stream >> index;
-
-            selection.append( index );
-        }
+        QIntList selection = decodeMimeData( data );
 
         qSort( selection );
 
-        clusters->move( target, selection );
+        updateSelection( clusters->move( target, selection ), selection.count() );
 
         result = true;
     }

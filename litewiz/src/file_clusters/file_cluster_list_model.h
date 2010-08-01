@@ -11,6 +11,7 @@
 
 /******************************************************************************/
 
+class QItemSelection;
 class ContextMenuInfo;
 class FileClusterCollection;
 
@@ -26,6 +27,25 @@ class FileClusterListModel : public QAbstractListModel
         (
             FileClusterCollection * const clusters,
             QObject               * const parent = 0
+        );
+
+    protected:
+
+        QMimeData * encodeMimeData
+        (
+            QModelIndexList const & indexes
+        )
+        const;
+
+        QIntList decodeMimeData
+        (
+            QMimeData const * const indexes
+        );
+
+        void updateSelection
+        (
+            int const startRow,
+            int const rows
         );
 
     public slots:
@@ -109,6 +129,13 @@ class FileClusterListModel : public QAbstractListModel
             int const role
         )
         const;
+
+    signals:
+
+        void selectionMoved
+        (
+            QItemSelection const & selection
+        );
 
     protected:
 

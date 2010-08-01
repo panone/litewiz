@@ -50,7 +50,7 @@ class FileClusterCollection
             bool             const exclude
         );
 
-        void move
+        int move
         (
             int              const target,
             QIntList const &       selection

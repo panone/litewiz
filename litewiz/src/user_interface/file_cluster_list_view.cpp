@@ -32,6 +32,8 @@ void FileClusterListView::setModel
 
     connect( this, SIGNAL( contextMenuRequest( ContextMenuInfo * const ) ), model, SLOT( initContextMenu( ContextMenuInfo * const ) ) );
     connect( this, SIGNAL( excludeRequest( QIntList, bool ) ), model, SLOT( exclude( QIntList, bool ) ) );
+
+    connect( model, SIGNAL( selectionMoved( QItemSelection ) ), this, SLOT( setSelection( QItemSelection ) ) );
 }
 
 /*******************************************************************************
@@ -95,18 +97,13 @@ void FileClusterListView::include
 
 /*******************************************************************************
 *******************************************************************************/
-void FileClusterListView::dropEvent
+void FileClusterListView::setSelection
 (
-    QDropEvent * event
+    QItemSelection const & selection
 )
 {
-    QListView::dropEvent( event );
-
-    if ( event->isAccepted() )
-    {
-        //TODO: move selection (and focus?) together with items
-        clearSelection();
-    }
+    selectionModel()->select( selection, QItemSelectionModel::ClearAndSelect );
+    selectionModel()->setCurrentIndex( selection.indexes().first(), QItemSelectionModel::Select );
 }
 
 /*******************************************************************************

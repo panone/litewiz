@@ -64,12 +64,12 @@ class FileClusterListView : public QListView
             void
         );
 
-    protected:
-
-        virtual void dropEvent
+        void setSelection
         (
-            QDropEvent * event
+            QItemSelection const & selection
         );
+
+    protected:
 
         virtual void contextMenuEvent
         (
