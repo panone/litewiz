@@ -6,10 +6,7 @@
 #include <QPair>
 #include <QString>
 #include <math.h>
-#include <algorithm>
 #include "utility.h"
-
-using namespace std;
 
 /*******************************************************************************
     Returns character offset of the first mismatch between two strings
@@ -23,7 +20,7 @@ int difference
     int           result = 0;
     QChar const * data1  = string1.constData();
     QChar const * data2  = string2.constData();
-    int           length = min( string1.length(), string2.length() );
+    int           length = qMin( string1.length(), string2.length() );
 
     while ( ( result < length ) && ( *data1++ == *data2++ ) )
     {
@@ -106,7 +103,7 @@ QIntPairList pairFactor
                 factor2 *= primes[ k ];
             }
 
-            factors[ min( factor1, factor2 ) ] = max( factor1, factor2 );
+            factors[ qMin( factor1, factor2 ) ] = qMax( factor1, factor2 );
         }
 
         setSize2 = primes.count() - ++setSize1;
