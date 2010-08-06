@@ -35,6 +35,13 @@ extern QIntPairList pairFactor
     int const number
 );
 
+extern float cosfade
+(
+    int const value,
+    int const fadeStart,
+    int const fadeEnd
+);
+
 /******************************************************************************/
 
 #endif /* UTILITY_H */

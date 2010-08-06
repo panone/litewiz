@@ -5,6 +5,7 @@
 #include <QMap>
 #include <QPair>
 #include <QString>
+#include <math.h>
 #include <algorithm>
 #include "utility.h"
 
@@ -116,6 +117,39 @@ QIntPairList pairFactor
     foreach ( int factor, factors.keys() )
     {
         result.append( QIntPair( factor, factors[ factor ] ) );
+    }
+
+    return result;
+}
+
+/*******************************************************************************
+    Returns a cosine fade-out gain
+*******************************************************************************/
+float cosfade
+(
+    int const value,
+    int const fadeStart,
+    int const fadeEnd
+)
+{
+    static float const pi = 3.14159265358f;
+
+    float result;
+
+    if ( value <= fadeStart )
+    {
+        result = 1.0f;
+    }
+    else
+    {
+        if ( value >= fadeEnd )
+        {
+            result = 0.0f;
+        }
+        else
+        {
+            result = 0.5f * ( cos( pi * ( value - fadeStart ) / ( fadeEnd - fadeStart ) ) + 1.0f );
+        }
     }
 
     return result;
