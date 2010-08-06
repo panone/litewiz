@@ -36,6 +36,8 @@ void ClassifierImplementation::classify
 
     QIntList   factorVariance = extractFactorVariance();
     QIntList   frontVariance  = extractFrontVariance();
+
+    VarianceProbability varianceProbability = getVarianceProbablity( factorVariance, frontVariance );
 }
 
 /*******************************************************************************
@@ -148,6 +150,38 @@ QIntList ClassifierImplementation::getAccumulatedClusterSize
         sum += *( --i );
 
         result.append( sum );
+    }
+
+    return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+VarianceProbability ClassifierImplementation::getVarianceProbablity
+(
+    QIntList const & factorVariance,
+    QIntList const & frontVariance
+)
+{
+    QIntList variance;
+
+    foreach ( int v, factorVariance )
+    {
+        if ( frontVariance.indexOf( v ) != -1 )
+        {
+            variance.append( v );
+        }
+    }
+
+    VarianceProbability result;
+
+    foreach ( int v, variance )
+    {
+        int     items                = fileNames.count() / v;
+        float   varianceProbability  = 0.9f * cosfade( v, 5, 15 ) + 0.1f;
+        float   itemCountProbability = 0.9f * cosfade( items, 10, 40 ) + 0.1f;
+
+        result[ v ] = varianceProbability * itemCountProbability;
     }
 
     return result;

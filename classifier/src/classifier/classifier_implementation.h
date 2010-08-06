@@ -14,6 +14,7 @@
 /******************************************************************************/
 
 typedef QMap< int, int > ClusterSizeMap;
+typedef QMap< int, float > VarianceProbability;
 
 /*******************************************************************************
 *******************************************************************************/
@@ -63,6 +64,12 @@ class ClassifierImplementation
         QIntList getAccumulatedClusterSize
         (
             ClusterSizeMap const & clusterSize
+        );
+
+        VarianceProbability getVarianceProbablity
+        (
+            QIntList const & factorVariance,
+            QIntList const & frontVariance
         );
 
     private:
