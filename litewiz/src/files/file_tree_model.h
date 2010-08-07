@@ -40,55 +40,6 @@ class FileTreeModel : public QAbstractItemModel
             void
         );
 
-    public:
-
-        int rowCount
-        (
-            QModelIndex const & parent = QModelIndex()
-        )
-        const;
-
-        int columnCount
-        (
-            QModelIndex const & parent = QModelIndex()
-        )
-        const;
-
-        QModelIndex index
-        (
-            int                 row,
-            int                 column,
-            QModelIndex const & parent = QModelIndex()
-        )
-        const;
-
-        QModelIndex parent
-        (
-            QModelIndex const & index
-        )
-        const;
-
-        QVariant data
-        (
-            QModelIndex const & index,
-            int                 role
-        )
-        const;
-
-        Qt::ItemFlags flags
-        (
-            QModelIndex const & index
-        )
-        const;
-
-        QVariant headerData
-        (
-            int               section,
-            Qt::Orientation   orientation,
-            int               role = Qt::DisplayRole
-        )
-        const;
-
     private:
 
         FileTreeItem * getItem
@@ -113,6 +64,55 @@ class FileTreeModel : public QAbstractItemModel
         (
             QModelIndex const & index
         );
+
+    public:
+
+        virtual int rowCount
+        (
+            QModelIndex const & parent = QModelIndex()
+        )
+        const;
+
+        virtual int columnCount
+        (
+            QModelIndex const & parent = QModelIndex()
+        )
+        const;
+
+        virtual QModelIndex index
+        (
+            int                 row,
+            int                 column,
+            QModelIndex const & parent = QModelIndex()
+        )
+        const;
+
+        virtual QModelIndex parent
+        (
+            QModelIndex const & index
+        )
+        const;
+
+        virtual QVariant data
+        (
+            QModelIndex const & index,
+            int                 role
+        )
+        const;
+
+        virtual Qt::ItemFlags flags
+        (
+            QModelIndex const & index
+        )
+        const;
+
+        virtual QVariant headerData
+        (
+            int               section,
+            Qt::Orientation   orientation,
+            int               role = Qt::DisplayRole
+        )
+        const;
 
     private:
 

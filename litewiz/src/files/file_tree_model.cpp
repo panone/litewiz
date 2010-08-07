@@ -40,6 +40,87 @@ FileTreeModel::~FileTreeModel
 
 /*******************************************************************************
 *******************************************************************************/
+FileTreeItem * FileTreeModel::getItem
+(
+    QModelIndex const & index
+)
+    const
+{
+    FileTreeItem * result = 0;
+
+    if ( index.isValid() )
+    {
+        result = static_cast< FileTreeItem * >( index.internalPointer() );
+    }
+
+    return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void FileTreeModel::update
+(
+    void
+)
+{
+    FileTreeItem * oldRoot = root;
+
+    root = new FileTreeItem( "root" );
+
+    foreach ( File const * file, session->getFiles()->getAllFiles() )
+    {
+        FileTreeItem * directory = root->findSubItem( file->getPath() );
+
+        if ( directory == 0 )
+        {
+            directory = root->addSubItem( file->getPath() );
+
+            FileTreeItem * oldDirectory = oldRoot->findSubItem( file->getPath() );
+
+            if ( oldDirectory != 0 )
+            {
+                directory->expand( oldDirectory->isExpanded() );
+            }
+        }
+
+        directory->addSubItem( file );
+    }
+
+    delete oldRoot;
+
+    root->sort();
+
+    reset();
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void FileTreeModel::collapse
+(
+    QModelIndex const & index
+)
+{
+    if ( getItem( index ) != 0 )
+    {
+        getItem( index )->expand( false );
+    }
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void FileTreeModel::expand
+(
+    QModelIndex const & index
+)
+{
+    if ( getItem( index ) != 0 )
+    {
+        getItem( index )->expand( true );
+    }
+}
+
+/*******************************************************************************
+*******************************************************************************/
 int FileTreeModel::rowCount
 (
     QModelIndex const & parent
@@ -195,87 +276,6 @@ QVariant FileTreeModel::headerData
     }
 
     return result;
-}
-
-/*******************************************************************************
-*******************************************************************************/
-FileTreeItem * FileTreeModel::getItem
-(
-    QModelIndex const & index
-)
-    const
-{
-    FileTreeItem * result = 0;
-
-    if ( index.isValid() )
-    {
-        result = static_cast< FileTreeItem * >( index.internalPointer() );
-    }
-
-    return result;
-}
-
-/*******************************************************************************
-*******************************************************************************/
-void FileTreeModel::update
-(
-    void
-)
-{
-    FileTreeItem * oldRoot = root;
-
-    root = new FileTreeItem( "root" );
-
-    foreach ( File const * file, session->getFiles()->getAllFiles() )
-    {
-        FileTreeItem * directory = root->findSubItem( file->getPath() );
-
-        if ( directory == 0 )
-        {
-            directory = root->addSubItem( file->getPath() );
-
-            FileTreeItem * oldDirectory = oldRoot->findSubItem( file->getPath() );
-
-            if ( oldDirectory != 0 )
-            {
-                directory->expand( oldDirectory->isExpanded() );
-            }
-        }
-
-        directory->addSubItem( file );
-    }
-
-    delete oldRoot;
-
-    root->sort();
-
-    reset();
-}
-
-/*******************************************************************************
-*******************************************************************************/
-void FileTreeModel::collapse
-(
-    QModelIndex const & index
-)
-{
-    if ( getItem( index ) != 0 )
-    {
-        getItem( index )->expand( false );
-    }
-}
-
-/*******************************************************************************
-*******************************************************************************/
-void FileTreeModel::expand
-(
-    QModelIndex const & index
-)
-{
-    if ( getItem( index ) != 0 )
-    {
-        getItem( index )->expand( true );
-    }
 }
 
 /******************************************************************************/
