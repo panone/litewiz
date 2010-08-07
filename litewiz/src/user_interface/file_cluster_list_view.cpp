@@ -45,6 +45,7 @@ void FileClusterListView::createActions
 {
     excludeAction = new QAction( tr( "&Exclude" ), this );
     includeAction = new QAction( tr( "&Include" ), this );
+    renameAction  = new QAction( tr( "&Rename" ), this );
 }
 
 /*******************************************************************************
@@ -56,6 +57,7 @@ void FileClusterListView::connectSignals
 {
     connect( excludeAction, SIGNAL( triggered() ), this, SLOT( exclude() ) );
     connect( includeAction, SIGNAL( triggered() ), this, SLOT( include() ) );
+    connect( renameAction, SIGNAL( triggered() ), this, SLOT( rename() ) );
 }
 
 /*******************************************************************************
@@ -93,6 +95,16 @@ void FileClusterListView::include
 )
 {
     emit excludeRequest( getSelection(), false );
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void FileClusterListView::rename
+(
+    void
+)
+{
+    edit( selectedIndexes().first() );
 }
 
 /*******************************************************************************
@@ -155,6 +167,12 @@ void FileClusterListView::populateContextMenu
     if ( menuInfo.hasMenuEntry( ContextMenuInfo::Include ) )
     {
         menu->addAction( includeAction );
+    }
+
+    if ( menuInfo.hasMenuEntry( ContextMenuInfo::Rename ) )
+    {
+        menu->addSeparator();
+        menu->addAction( renameAction );
     }
 }
 

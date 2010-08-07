@@ -19,6 +19,7 @@ class ContextMenuInfo
         {
             Exclude,
             Include,
+            Rename,
             ReferenceChecked,
             ReferenceUnchecked
         };

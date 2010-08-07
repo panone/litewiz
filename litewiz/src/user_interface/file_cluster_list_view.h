@@ -64,6 +64,11 @@ class FileClusterListView : public QListView
             void
         );
 
+        void rename
+        (
+            void
+        );
+
         void setSelection
         (
             QItemSelection const & selection
@@ -104,6 +109,7 @@ class FileClusterListView : public QListView
 
         QAction * excludeAction;
         QAction * includeAction;
+        QAction * renameAction;
 };
 
 /******************************************************************************/

@@ -39,7 +39,7 @@ void VariantListView::createActions
     void
 )
 {
-    setReferenceAction = new QAction( tr( "&Reference" ), this );
+    setReferenceAction = new QAction( tr( "Re&ference" ), this );
 
     setReferenceAction->setCheckable( true );
 }

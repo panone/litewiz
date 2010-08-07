@@ -114,6 +114,11 @@ void FileClusterListModel::initContextMenu
             menuInfo->addMenuEntry( ContextMenuInfo::Exclude );
         }
     }
+
+    if ( menuInfo->getSelection().count() == 1 )
+    {
+        menuInfo->addMenuEntry( ContextMenuInfo::Rename );
+    }
 }
 
 /*******************************************************************************
