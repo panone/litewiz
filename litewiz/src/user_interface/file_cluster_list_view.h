@@ -6,12 +6,12 @@
 
 /******************************************************************************/
 
-#include <QAction>
 #include <QListView>
 #include "utility.h"
 
 /******************************************************************************/
 
+class QAction;
 class ContextMenuInfo;
 class FileClusterListModel;
 
