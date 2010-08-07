@@ -114,6 +114,27 @@ class FileTreeModel : public QAbstractItemModel
         )
         const;
 
+        virtual Qt::DropActions supportedDropActions
+        (
+            void
+        )
+        const;
+
+        virtual QStringList mimeTypes
+        (
+            void
+        )
+        const;
+
+        virtual bool dropMimeData
+        (
+            QMimeData      const * data,
+            Qt::DropAction         action,
+            int                    row,
+            int                    column,
+            QModelIndex    const & parent
+        );
+
     private:
 
         Session      * session;

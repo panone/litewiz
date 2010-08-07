@@ -12,6 +12,7 @@
 /******************************************************************************/
 
 class QStringList;
+class QUrl;
 class FileCollection;
 class ItemCollection;
 class VariantCollection;
@@ -50,6 +51,11 @@ class Session : public QObject
         void addDirectory
         (
             QString const & fileName
+        );
+
+        void addUrls
+        (
+            QList< QUrl > const & fileName
         );
 
         FileCollection * getFiles

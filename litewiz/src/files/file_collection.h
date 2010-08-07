@@ -13,6 +13,7 @@
 
 class QString;
 class QStringList;
+class QUrl;
 class Item;
 
 typedef QList< File * > FileList;
@@ -43,6 +44,11 @@ class FileCollection
         void addDirectory
         (
             QString const & fileName
+        );
+
+        void addUrls
+        (
+            QList< QUrl > const & urls
         );
 
         int getCount
@@ -76,6 +82,16 @@ class FileCollection
         const;
 
     private:
+
+        void addFile
+        (
+            QString const & fileName
+        );
+
+        void addFile
+        (
+            QFileInfo const & fileInfo
+        );
 
         bool exists
         (

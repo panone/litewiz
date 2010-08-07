@@ -3,7 +3,10 @@
 
 #include <QAbstractItemModel>
 #include <QMap>
+#include <QMimeData>
 #include <QString>
+#include <QStringList>
+#include <QUrl>
 #include "file.h"
 #include "file_collection.h"
 #include "session.h"
@@ -241,14 +244,7 @@ Qt::ItemFlags FileTreeModel::flags
 )
     const
 {
-    Qt::ItemFlags result = 0;
-
-    if ( index.isValid() )
-    {
-        result = Qt::ItemIsEnabled | Qt::ItemIsSelectable;
-    }
-
-    return result;
+    return QAbstractItemModel::flags( index ) | Qt::ItemIsDropEnabled;
 }
 
 /*******************************************************************************
@@ -273,6 +269,55 @@ QVariant FileTreeModel::headerData
     if ( ( section >= 0 ) && ( section < 3 ) && ( orientation == Qt::Horizontal ) && ( role == Qt::DisplayRole ) )
     {
         result = header[ section ];
+    }
+
+    return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+Qt::DropActions FileTreeModel::supportedDropActions
+(
+    void
+)
+    const
+{
+    return Qt::CopyAction;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+QStringList FileTreeModel::mimeTypes
+(
+    void
+)
+    const
+{
+    QStringList result;
+
+    result.append( "text/uri-list" );
+
+    return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+bool FileTreeModel::dropMimeData
+(
+    QMimeData      const * data,
+    Qt::DropAction         action,
+    int                    row,
+    int                    column,
+    QModelIndex    const & parent
+)
+{
+    bool result = false;
+
+    if ( ( data != 0 ) && ( action == Qt::CopyAction ) && data->hasUrls() )
+    {
+        session->addUrls( data->urls() );
+
+        result = true;
     }
 
     return result;

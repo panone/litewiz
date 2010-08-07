@@ -88,6 +88,23 @@ void Session::addDirectory
 
 /*******************************************************************************
 *******************************************************************************/
+void Session::addUrls
+(
+    QList< QUrl > const & urls
+)
+{
+    int count = files->getCount();
+
+    files->addUrls( urls );
+
+    if ( files->getCount() > count )
+    {
+        emit fileCollectionUpdated();
+    }
+}
+
+/*******************************************************************************
+*******************************************************************************/
 FileCollection * Session::getFiles
 (
     void

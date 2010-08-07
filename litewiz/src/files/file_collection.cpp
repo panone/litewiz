@@ -5,6 +5,7 @@
 #include <QList>
 #include <QString>
 #include <QStringList>
+#include <QUrl>
 #include "file.h"
 #include "file_collection.h"
 
@@ -36,12 +37,7 @@ void FileCollection::addFiles
 {
     foreach ( QString fileName, fileNames )
     {
-        File * file = new File( fileName );
-
-        if ( !exists( file ) )
-        {
-            files.append( file );
-        }
+        addFile( fileName );
     }
 }
 
@@ -58,18 +54,44 @@ void FileCollection::addDirectory
     {
         QDir directory( info.absoluteFilePath() );
 
-        directory.setFilter( QDir::Files );
-        directory.setSorting( QDir::Name | QDir::IgnoreCase );
+        directory.setFilter( QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot );
 
         QFileInfoList fileInfo = directory.entryInfoList();
 
         foreach ( QFileInfo info, fileInfo )
         {
-            File * file = new File( info );
-
-            if ( !exists( file ) )
+            if ( info.isDir() )
             {
-                files.append( file );
+                addDirectory( info.absoluteFilePath() );
+            }
+            else
+            {
+                addFile( info );
+            }
+        }
+    }
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void FileCollection::addUrls
+(
+    QList< QUrl > const & urls
+)
+{
+    foreach ( QUrl url, urls )
+    {
+        QFileInfo fileInfo( url.toLocalFile() );
+
+        if ( fileInfo.exists() )
+        {
+            if ( fileInfo.isDir() )
+            {
+                addDirectory( fileInfo.absoluteFilePath() );
+            }
+            else
+            {
+                addFile( fileInfo );
             }
         }
     }
@@ -145,6 +167,36 @@ QStringList FileCollection::getNames
     }
 
     return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void FileCollection::addFile
+(
+    QString const & fileName
+)
+{
+    QScopedPointer< File > file( new File( fileName ) );
+
+    if ( !exists( file.data() ) )
+    {
+        files.append( file.take() );
+    }
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void FileCollection::addFile
+(
+    QFileInfo const & fileInfo
+)
+{
+    QScopedPointer< File > file( new File( fileInfo ) );
+
+    if ( !exists( file.data() ) )
+    {
+        files.append( file.take() );
+    }
 }
 
 /*******************************************************************************
