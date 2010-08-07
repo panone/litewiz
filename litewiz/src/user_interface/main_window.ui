@@ -190,6 +190,8 @@
     <addaction name="addDirectoryAction"/>
     <addaction name="separator"/>
     <addaction name="exportMenu"/>
+    <addaction name="separator"/>
+    <addaction name="exitAction"/>
    </widget>
    <addaction name="fileMenu"/>
   </widget>
@@ -212,6 +214,11 @@
   <action name="stepExportAction">
    <property name="text">
     <string>&amp;STEP...</string>
+   </property>
+  </action>
+  <action name="exitAction">
+   <property name="text">
+    <string>E&amp;xit</string>
    </property>
   </action>
  </widget>

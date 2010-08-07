@@ -76,6 +76,7 @@ void MainWindow::connectSignals
     connect( ui->addFilesAction, SIGNAL( triggered() ), this, SLOT( addFiles() ) );
     connect( ui->addDirectoryAction, SIGNAL( triggered() ), this, SLOT( addDirectory() ) );
     connect( ui->aetExportAction, SIGNAL( triggered() ), this, SLOT( exportAetSession() ) );
+    connect( ui->exitAction, SIGNAL( triggered() ), qApp, SLOT( quit() ) );
 
     connect( itemListModel, SIGNAL( dataChanged( QModelIndex, QModelIndex ) ), this, SLOT( updateFileTreeView() ) );
     connect( variantListModel, SIGNAL( dataChanged( QModelIndex, QModelIndex ) ), this, SLOT( updateFileTreeView() ) );
