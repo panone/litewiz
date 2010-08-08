@@ -129,16 +129,16 @@
               <layout class="QHBoxLayout" name="horizontalLayout3">
                <item>
                 <widget class="QSlider" name="varianceSlider">
+                 <property name="pageStep">
+                  <number>1</number>
+                 </property>
                  <property name="orientation">
                   <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="tickPosition">
-                  <enum>QSlider::NoTicks</enum>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="varianceLineEdit">
+                <widget class="QLineEdit" name="varianceEdit">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -150,6 +150,12 @@
                    <width>40</width>
                    <height>16777215</height>
                   </size>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                 <property name="readOnly">
+                  <bool>true</bool>
                  </property>
                 </widget>
                </item>

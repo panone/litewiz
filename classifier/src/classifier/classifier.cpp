@@ -15,8 +15,7 @@ Classifier::Classifier
 {
     implementation = new ClassifierImplementation();
 
-    items    = 0;
-    variants = 0;
+    files = 0;
 }
 
 /*******************************************************************************
@@ -38,15 +37,29 @@ void Classifier::classify
 {
     implementation->classify( fileNames );
 
-    for ( variants = 8; variants > 0; variants-- )
+    files = fileNames.count();
+
+    variance.clear();
+
+    for ( int variants = 8; variants > 0; variants-- )
     {
         if ( ( fileNames.count() % variants ) == 0 )
         {
-            break;
+            variance.append( variants );
         }
     }
 
-    items = fileNames.count() / variants;
+    qSort( variance );
+}
+
+/*******************************************************************************
+*******************************************************************************/
+QList< int > Classifier::getPossibleVariance
+(
+    void
+)
+{
+    return variance;
 }
 
 /*******************************************************************************
@@ -56,7 +69,7 @@ int Classifier::getDefaultVariance
     void
 )
 {
-    return variants; //implementation->getDefaultVariance();
+    return variance.last(); //implementation->getDefaultVariance();
 }
 
 /*******************************************************************************
@@ -68,6 +81,8 @@ QList< ItemInfo > Classifier::getItems
 {
     QList< ItemInfo > result;
 
+    int items = files / variance;
+
     for ( int i = 0; i < items; i++ )
     {
         ItemInfo info;
@@ -75,7 +90,7 @@ QList< ItemInfo > Classifier::getItems
         info.name = QString( "item_%1" ).arg( i + 1 );
         info.stem = QString( "item_%1_stem" ).arg( i + 1 );
 
-        for ( int v = 0; v < variants; v++ )
+        for ( int v = 0; v < variance; v++ )
         {
             info.files.append( v * items + i );
         }
@@ -95,7 +110,9 @@ QList< VariantInfo > Classifier::getVariants
 {
     QList< VariantInfo > result;
 
-    for ( int v = 0; v < variants; v++ )
+    int items = files / variance;
+
+    for ( int v = 0; v < variance; v++ )
     {
         VariantInfo info;
 

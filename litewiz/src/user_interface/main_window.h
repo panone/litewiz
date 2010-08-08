@@ -82,6 +82,11 @@ class MainWindow : public QMainWindow
             void
         );
 
+        void updateVariance
+        (
+            void
+        );
+
     private:
 
         virtual void closeEvent

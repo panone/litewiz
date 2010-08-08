@@ -63,6 +63,11 @@ class Classifier
             QStringList const & fileNames
         );
 
+        QList< int > getPossibleVariance
+        (
+            void
+        );
+
         int getDefaultVariance
         (
             void
@@ -82,8 +87,8 @@ class Classifier
 
         ClassifierImplementation * implementation;
 
-        int                        items;
-        int                        variants;
+        int                        files;
+        QList< int >               variance;
 };
 
 /******************************************************************************/

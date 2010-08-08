@@ -80,6 +80,10 @@ void MainWindow::connectSignals
 
     connect( itemListModel, SIGNAL( dataChanged( QModelIndex, QModelIndex ) ), this, SLOT( updateFileTreeView() ) );
     connect( variantListModel, SIGNAL( dataChanged( QModelIndex, QModelIndex ) ), this, SLOT( updateFileTreeView() ) );
+
+    connect( ui->varianceSlider, SIGNAL( valueChanged( int ) ), session, SLOT( setCurrentVariance( int ) ) );
+
+    connect( session, SIGNAL( classified() ), this, SLOT( updateVariance() ) );
 }
 
 /*******************************************************************************
@@ -178,6 +182,39 @@ void MainWindow::updateFileTreeView
     //ui->fileTreeView->update();
     //ui->fileTreeView->repaint();
     ui->fileTreeView->doItemsLayout();
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void MainWindow::updateVariance
+(
+    void
+)
+{
+    int varianceCount   = session->getPossibleVariance().count();
+    int currentVariance = session->getCurrentVariance();
+
+    if ( varianceCount < 1 )
+    {
+        ui->varianceEdit->clear();
+    }
+    else
+    {
+        ui->varianceEdit->setText( QString( "%1" ).arg( currentVariance ) );
+    }
+
+    if ( varianceCount < 2 )
+    {
+        ui->varianceSlider->setRange( 0, 0 );
+    }
+    else
+    {
+        ui->varianceSlider->setRange( 0, varianceCount - 1 );
+        ui->varianceSlider->setSliderPosition( session->getPossibleVariance().indexOf( currentVariance ) );
+    }
+
+    ui->varianceEdit->setEnabled( varianceCount > 0 );
+    ui->varianceSlider->setEnabled( varianceCount > 1 );
 }
 
 /*******************************************************************************

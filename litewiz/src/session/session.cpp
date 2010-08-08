@@ -144,10 +144,32 @@ void Session::classify
 
     classifier->classify( fileNames );
 
+    variance = classifier->getPossibleVariance();
+
     setItems( classifier->getDefaultVariance() );
     setVariants( classifier->getDefaultVariance() );
 
     emit classified();
+}
+
+/*******************************************************************************
+*******************************************************************************/
+QIntList Session::getPossibleVariance
+(
+    void
+)
+{
+    return variance;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+int Session::getCurrentVariance
+(
+    void
+)
+{
+    return variants->getCount();
 }
 
 /*******************************************************************************
@@ -218,6 +240,22 @@ QStringList Session::getTextFileContents
     }
 
     return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void Session::setCurrentVariance
+(
+    int const varianceIndex
+)
+{
+    if ( ( varianceIndex >= 0 ) && ( varianceIndex < variance.count() ) )
+    {
+        setItems( variance.value( varianceIndex ) );
+        setVariants( variance.value( varianceIndex ) );
+
+        emit classified();
+    }
 }
 
 /******************************************************************************/

@@ -78,6 +78,16 @@ class Session : public QObject
             void
         );
 
+        QIntList getPossibleVariance
+        (
+            void
+        );
+
+        int getCurrentVariance
+        (
+            void
+        );
+
     private:
 
         void setItems
@@ -93,6 +103,13 @@ class Session : public QObject
         QStringList getTextFileContents
         (
             QString const & fileName
+        );
+
+    public slots:
+
+        void setCurrentVariance
+        (
+            int const varianceIndex
         );
 
     signals:
@@ -114,6 +131,8 @@ class Session : public QObject
         VariantCollection * variants;
 
         Classifier        * classifier;
+
+        QIntList            variance;
 };
 
 /******************************************************************************/
