@@ -13,7 +13,7 @@ Item * ItemCollection::addItem
     ItemInfo const & itemInfo
 )
 {
-    Item * item = new Item( itemInfo.name, itemInfo.stem );
+    Item * item = new Item( itemInfo.name, itemInfo.stem, clusters );
 
     clusters.append( item );
 

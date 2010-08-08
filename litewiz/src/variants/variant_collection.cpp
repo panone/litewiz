@@ -13,7 +13,7 @@ Variant * VariantCollection::addVariant
     VariantInfo const & variantInfo
 )
 {
-    Variant * variant = new Variant( variantInfo.name, variantInfo.stem );
+    Variant * variant = new Variant( variantInfo.name, variantInfo.stem, clusters );
 
     clusters.append( variant );
 

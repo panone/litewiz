@@ -8,10 +8,11 @@
 *******************************************************************************/
 Variant::Variant
 (
-    QString const & name,
-    QString const & stem
+    QString                const & name,
+    QString                const & stem,
+    QList< FileCluster * > const & collection
 ) :
-    FileCluster( name, stem )
+    FileCluster( name, stem, collection )
 {
     reference = false;
 }

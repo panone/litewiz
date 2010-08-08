@@ -20,8 +20,9 @@ class Item : public FileCluster
 
         Item
         (
-            QString const & name,
-            QString const & stem
+            QString                const & name,
+            QString                const & stem,
+            QList< FileCluster * > const & collection
         );
 };
 

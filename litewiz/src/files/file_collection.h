@@ -22,6 +22,14 @@ typedef QList< File * > FileList;
 *******************************************************************************/
 class FileCollection
 {
+    private:
+
+        static bool variantIndexCompare
+        (
+            File const * const file1,
+            File const * const file2
+        );
+
     public:
 
         FileCollection

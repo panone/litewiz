@@ -12,6 +12,17 @@
 
 /*******************************************************************************
 *******************************************************************************/
+bool FileCollection::variantIndexCompare
+(
+    File const * const file1,
+    File const * const file2
+)
+{
+    return file1->getVariant()->getIndex() < file2->getVariant()->getIndex();
+}
+
+/*******************************************************************************
+*******************************************************************************/
 FileCollection::FileCollection
 (
     void
@@ -188,6 +199,8 @@ FileList FileCollection::getItemFiles
             result.append( file );
         }
     }
+
+    qSort( result.begin(), result.end(), FileCollection::variantIndexCompare );
 
     if ( referenceFirst )
     {

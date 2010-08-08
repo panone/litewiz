@@ -20,8 +20,9 @@ class Variant : public FileCluster
 
         Variant
         (
-            QString const & name,
-            QString const & stem
+            QString                const & name,
+            QString                const & stem,
+            QList< FileCluster * > const & collection
         );
 
     public:

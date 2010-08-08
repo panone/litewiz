@@ -6,6 +6,7 @@
 
 /******************************************************************************/
 
+#include <QList>
 #include <QString>
 
 /*******************************************************************************
@@ -16,8 +17,9 @@ class FileCluster
 
         FileCluster
         (
-            QString const & name,
-            QString const & stem
+            QString                const & name,
+            QString                const & stem,
+            QList< FileCluster * > const & collection
         );
 
     public:
@@ -39,6 +41,12 @@ class FileCluster
         )
         const;
 
+        int getIndex
+        (
+            void
+        )
+        const;
+
         void exclude
         (
             bool const exclude
@@ -52,10 +60,12 @@ class FileCluster
 
     private:
 
-        QString   name;
-        QString   stem;
+        QString                        name;
+        QString                        stem;
 
-        bool      excluded;
+        bool                           excluded;
+
+        QList< FileCluster * > const & collection;
 };
 
 /******************************************************************************/

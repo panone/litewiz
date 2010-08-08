@@ -1,6 +1,7 @@
 /*******************************************************************************
 *******************************************************************************/
 
+#include <QList>
 #include <QString>
 #include "file_cluster.h"
 
@@ -8,11 +9,13 @@
 *******************************************************************************/
 FileCluster::FileCluster
 (
-    QString const & name,
-    QString const & stem
+    QString                const & name,
+    QString                const & stem,
+    QList< FileCluster * > const & collection
 ) :
     name( name ),
-    stem( stem )
+    stem( stem ),
+    collection( collection )
 {
     excluded = false;
 }
@@ -47,6 +50,17 @@ QString FileCluster::getStem
     const
 {
     return stem;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+int FileCluster::getIndex
+(
+    void
+)
+    const
+{
+    return collection.indexOf( const_cast< FileCluster * >( this ) );
 }
 
 /*******************************************************************************
