@@ -90,6 +90,21 @@ void FileTreeView::reset
 
 /*******************************************************************************
 *******************************************************************************/
+void FileTreeView::keyPressEvent
+(
+    QKeyEvent * event
+)
+{
+    if ( ( event->key() == Qt::Key_Delete ) && selectionModel()->hasSelection() )
+    {
+        emit removeRequest( selectionModel()->selectedIndexes() );
+    }
+
+    QTreeView::keyPressEvent( event );
+}
+
+/*******************************************************************************
+*******************************************************************************/
 void FileTreeView::contextMenuEvent
 (
     QContextMenuEvent * event

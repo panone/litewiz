@@ -60,6 +60,11 @@ class FileTreeView : public QTreeView
 
     private:
 
+        virtual void keyPressEvent
+        (
+            QKeyEvent * event
+        );
+
         virtual void contextMenuEvent
         (
             QContextMenuEvent * event
