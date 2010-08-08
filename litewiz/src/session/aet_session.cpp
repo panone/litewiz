@@ -153,11 +153,14 @@ void AetSession::formatItems
 
     for ( int i = 0; i < items->getCount(); i++ )
     {
-        QDomElement item = document->createElement( "Item" );
+        if ( !items->getItem( i )->isExcluded() )
+        {
+            QDomElement item = document->createElement( "Item" );
 
-        formatItem( item, items->getItem( i ) );
+            formatItem( item, items->getItem( i ) );
 
-        tracks.appendChild( item );
+            tracks.appendChild( item );
+        }
     }
 
     parent.appendChild( tracks );
@@ -171,9 +174,10 @@ void AetSession::formatItem
     Item        const * const item
 )
 {
+    FileList    files = session->getFiles()->getItemFiles( item, true, true );
     QStringList names;
 
-    foreach ( File const * file, session->getFiles()->getItemFiles( item ) )
+    foreach ( File const * file, files )
     {
         names.append( file->getPathName() );
     }

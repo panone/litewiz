@@ -6,6 +6,7 @@
 #include <QString>
 #include <QStringList>
 #include <QUrl>
+#include "variant.h"
 #include "file.h"
 #include "file_collection.h"
 
@@ -172,7 +173,9 @@ FileList FileCollection::getAllFiles
 *******************************************************************************/
 FileList FileCollection::getItemFiles
 (
-    Item const * const item
+    Item const * const item,
+    bool         const skipExcluded,
+    bool         const referenceFirst
 )
     const
 {
@@ -180,9 +183,27 @@ FileList FileCollection::getItemFiles
 
     foreach ( File * file, files )
     {
-        if ( file->getItem() == item )
+        if ( ( file->getItem() == item ) && !( skipExcluded && file->isExcluded() ) )
         {
             result.append( file );
+        }
+    }
+
+    if ( referenceFirst )
+    {
+        int refenence = 0;
+
+        for ( int i = 0; i < result.count(); i++ )
+        {
+            if ( result.value( i )->getVariant()->isReference() )
+            {
+                refenence = i;
+            }
+        }
+
+        if ( refenence != 0 )
+        {
+            result.move( refenence, 0 );
         }
     }
 

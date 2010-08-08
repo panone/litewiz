@@ -81,7 +81,9 @@ class FileCollection
 
         FileList getItemFiles
         (
-            Item const * const item
+            Item const * const item,
+            bool         const skipExcluded = false,
+            bool         const referenceFirst = false
         )
         const;
 
