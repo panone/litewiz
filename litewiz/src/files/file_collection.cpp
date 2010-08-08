@@ -99,6 +99,44 @@ void FileCollection::addUrls
 
 /*******************************************************************************
 *******************************************************************************/
+void FileCollection::removeFile
+(
+    QString const & fileName
+)
+{
+    foreach ( File * file, files )
+    {
+        if ( file->getPathName() == fileName )
+        {
+            files.removeOne( file );
+
+            delete file;
+
+            break;
+        }
+    }
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void FileCollection::removeDirectory
+(
+    QString const & fileName
+)
+{
+    foreach ( File * file, files )
+    {
+        if ( file->getPath() == fileName )
+        {
+            files.removeOne( file );
+
+            delete file;
+        }
+    }
+}
+
+/*******************************************************************************
+*******************************************************************************/
 int FileCollection::getCount
 (
     void

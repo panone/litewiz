@@ -45,6 +45,16 @@ class FileTreeItem
 
     public:
 
+        QString getPathName
+        (
+            void
+        );
+
+        bool isDirectory
+        (
+            void
+        );
+
         FileTreeItem * addSubItem
         (
             QString const & name

@@ -51,6 +51,16 @@ class FileCollection
             QList< QUrl > const & urls
         );
 
+        void removeFile
+        (
+            QString const & fileName
+        );
+
+        void removeDirectory
+        (
+            QString const & fileName
+        );
+
         int getCount
         (
             void

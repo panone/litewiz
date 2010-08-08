@@ -32,12 +32,49 @@ class FileTreeView : public QTreeView
             FileTreeModel * model
         );
 
+    private:
+
+        void createActions
+        (
+            void
+        );
+
+        void connectSignals
+        (
+            void
+        );
+
+    private slots:
+
+        void remove
+        (
+            void
+        );
+
     public:
 
         virtual void reset
         (
             void
         );
+
+    private:
+
+        virtual void contextMenuEvent
+        (
+            QContextMenuEvent * event
+        );
+
+    signals:
+
+        void removeRequest
+        (
+            QModelIndexList const & selection
+        );
+
+    private:
+
+        QAction * removeAction;
 };
 
 /******************************************************************************/

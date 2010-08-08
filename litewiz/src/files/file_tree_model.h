@@ -65,6 +65,11 @@ class FileTreeModel : public QAbstractItemModel
             QModelIndex const & index
         );
 
+        void remove
+        (
+            QModelIndexList const & indexes
+        );
+
     public:
 
         virtual int rowCount

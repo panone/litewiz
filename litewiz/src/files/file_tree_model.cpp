@@ -4,6 +4,7 @@
 #include <QAbstractItemModel>
 #include <QMap>
 #include <QMimeData>
+#include <QSet>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
@@ -120,6 +121,38 @@ void FileTreeModel::expand
     {
         getItem( index )->expand( true );
     }
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void FileTreeModel::remove
+(
+    QModelIndexList const & indexes
+)
+{
+    QSet< FileTreeItem * > items;
+
+    foreach ( QModelIndex const & index, indexes )
+    {
+        if ( getItem( index ) != 0 )
+        {
+            items.insert( getItem( index ) );
+        }
+    }
+
+    foreach ( FileTreeItem * item, items )
+    {
+        if ( item->isDirectory() )
+        {
+            session->getFiles()->removeDirectory( item->getPathName() );
+        }
+        else
+        {
+            session->getFiles()->removeFile( item->getPathName() );
+        }
+    }
+
+    update();
 }
 
 /*******************************************************************************

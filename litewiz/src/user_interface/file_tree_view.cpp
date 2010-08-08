@@ -1,7 +1,9 @@
 /*******************************************************************************
 *******************************************************************************/
 
-#include <QDebug>
+#include <QAction>
+#include <QContextMenuEvent>
+#include <QMenu>
 #include <QTreeView>
 #include "file_tree_model.h"
 #include "file_tree_view.h"
@@ -14,6 +16,8 @@ FileTreeView::FileTreeView
 ) :
     QTreeView( parent )
 {
+    createActions();
+    connectSignals();
 }
 
 /*******************************************************************************
@@ -27,6 +31,37 @@ void FileTreeView::setModel
 
     connect( this, SIGNAL( expanded( QModelIndex ) ), model, SLOT( expand( QModelIndex ) ) );
     connect( this, SIGNAL( collapsed( QModelIndex ) ), model, SLOT( collapse( QModelIndex ) ) );
+    connect( this, SIGNAL( removeRequest( QModelIndexList ) ), model, SLOT( remove( QModelIndexList ) ) );
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void FileTreeView::createActions
+(
+    void
+)
+{
+    removeAction = new QAction( tr( "&Remove" ), this );
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void FileTreeView::connectSignals
+(
+    void
+)
+{
+    connect( removeAction, SIGNAL( triggered() ), this, SLOT( remove() ) );
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void FileTreeView::remove
+(
+    void
+)
+{
+    emit removeRequest( selectionModel()->selectedIndexes() );
 }
 
 /*******************************************************************************
@@ -50,6 +85,23 @@ void FileTreeView::reset
         }
 
         index = model()->sibling( index.row() + 1, 0, index );
+    }
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void FileTreeView::contextMenuEvent
+(
+    QContextMenuEvent * event
+)
+{
+    if ( selectionModel()->hasSelection() )
+    {
+        QMenu menu( this );
+
+        menu.addAction( removeAction );
+
+        menu.exec( event->globalPos() );
     }
 }
 
