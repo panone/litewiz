@@ -3,8 +3,10 @@
 
 #include <QDomDocument>
 #include <QDomElement>
+#include <QFile>
 #include <QString>
 #include <QStringList>
+#include <QTextStream>
 #include "file.h"
 #include "file_collection.h"
 #include "item.h"
@@ -64,18 +66,31 @@ void AetSession::setAudioDevice
 
 /*******************************************************************************
 *******************************************************************************/
-QString AetSession::toString
+bool AetSession::save
 (
-    void
+    QString const & fileName
 )
 {
-    document->clear();
-    document->appendChild( document->createProcessingInstruction( "xml", "version=\"1.0\" encoding=\"utf-8\" " ) );
-    document->appendChild( document->createElement( "Session" ) );
+    QFile file( fileName );
 
-    formatSession( document->lastChildElement() );
+    bool result = file.open( QIODevice::WriteOnly | QIODevice::Text );
 
-    return document->toString();
+    if ( result )
+    {
+        document->clear();
+        document->appendChild( document->createProcessingInstruction( "xml", "version=\"1.0\" encoding=\"utf-8\" " ) );
+        document->appendChild( document->createElement( "Session" ) );
+
+        formatSession( document->lastChildElement() );
+
+        QTextStream output( &file );
+
+        output << document->toString();
+
+        file.close();
+    }
+
+    return result;
 }
 
 /*******************************************************************************

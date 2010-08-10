@@ -2,12 +2,10 @@
 *******************************************************************************/
 
 #include <QDialog>
-#include <QFile>
 #include <QFileDialog>
 #include <QLineEdit>
 #include <QMessageBox>
 #include <QSettings>
-#include <QTextStream>
 #include <algorithm>
 #include "aet_session.h"
 #include "aet_export_dialog.h"
@@ -151,29 +149,20 @@ void AetExportDialog::saveSession
     void
 )
 {
-    QFile file( ui->fileNameEdit->lineEdit()->text() );
+    AetSession aetSession( session );
 
-    bool result = file.open( QIODevice::WriteOnly | QIODevice::Text );
+    aetSession.setTitle( ui->sectionTitleEdit->lineEdit()->text() );
+    aetSession.setAudioDevice( ui->audioDeviceEdit->lineEdit()->text() );
 
-    if ( result )
-    {
-        QTextStream   output( &file );
-        AetSession    aetSession( session );
+    QString fileName = ui->fileNameEdit->lineEdit()->text();
 
-        aetSession.setTitle( ui->sectionTitleEdit->lineEdit()->text() );
-        aetSession.setAudioDevice( ui->audioDeviceEdit->lineEdit()->text() );
-
-        output << aetSession.toString();
-
-        file.close();
-    }
-    else
+    if ( !aetSession.save( fileName ) )
     {
         QMessageBox::critical
         (
             this,
             tr( "AET Export" ),
-            tr( "Failed to save file '%1'." ).arg( file.fileName() )
+            tr( "Failed to save file '%1'." ).arg( fileName )
         );
     }
 }

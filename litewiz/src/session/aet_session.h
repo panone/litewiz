@@ -44,9 +44,9 @@ class AetSession
             QString const & deviceName
         );
 
-        QString toString
+        bool save
         (
-            void
+            QString const & fileName
         );
 
     private:
