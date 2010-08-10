@@ -1,6 +1,7 @@
 /*******************************************************************************
 *******************************************************************************/
 
+#include <QDir>
 #include <QDomDocument>
 #include <QDomElement>
 #include <QFile>
@@ -81,7 +82,9 @@ bool AetSession::save
         document->appendChild( document->createProcessingInstruction( "xml", "version=\"1.0\" encoding=\"utf-8\" " ) );
         document->appendChild( document->createElement( "Session" ) );
 
-        formatSession( document->lastChildElement() );
+        QFileInfo fileInfo( file.fileName() );
+
+        formatSession( document->lastChildElement(), fileInfo.canonicalPath() );
 
         QTextStream output( &file );
 
@@ -97,7 +100,8 @@ bool AetSession::save
 *******************************************************************************/
 void AetSession::formatSession
 (
-    QDomElement parent
+    QDomElement         parent,
+    QString     const & sessionPath
 )
 {
     parent.appendChild( createStringElement( "Title", title ) );
@@ -108,7 +112,7 @@ void AetSession::formatSession
     }
 
     formatVariants( parent );
-    formatItems( parent );
+    formatItems( parent, sessionPath );
 }
 
 /*******************************************************************************
@@ -155,7 +159,8 @@ void AetSession::formatVariants
 *******************************************************************************/
 void AetSession::formatItems
 (
-    QDomElement parent
+    QDomElement         parent,
+    QString     const & sessionPath
 )
 {
     ItemCollection const * items  = session->getItems();
@@ -172,7 +177,7 @@ void AetSession::formatItems
         {
             QDomElement item = document->createElement( "Item" );
 
-            formatItem( item, items->getItem( i ) );
+            formatItem( item, items->getItem( i ), sessionPath );
 
             tracks.appendChild( item );
         }
@@ -186,15 +191,17 @@ void AetSession::formatItems
 void AetSession::formatItem
 (
     QDomElement               parent,
-    Item        const * const item
+    Item        const * const item,
+    QString     const &       sessionPath
 )
 {
     FileList    files = session->getFiles()->getItemFiles( item, true, true );
+    QDir        sessionDirectory( sessionPath );
     QStringList names;
 
     foreach ( File const * file, files )
     {
-        names.append( file->getPathName() );
+        names.append( sessionDirectory.relativeFilePath( file->getPathName() ) );
     }
 
     parent.appendChild( createStringElement( "Title", item->getName() ) );

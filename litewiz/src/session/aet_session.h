@@ -53,7 +53,8 @@ class AetSession
 
         void formatSession
         (
-            QDomElement parent
+            QDomElement         parent,
+            QString     const & sessionPath
         );
 
         void formatVariants
@@ -63,13 +64,15 @@ class AetSession
 
         void formatItems
         (
-            QDomElement parent
+            QDomElement         parent,
+            QString     const & sessionPath
         );
 
         void formatItem
         (
             QDomElement               parent,
-            Item        const * const item
+            Item        const * const item,
+            QString     const &       sessionPath
         );
 
         QDomElement createStringElement
