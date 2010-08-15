@@ -9,6 +9,7 @@
 #include "file_collection.h"
 #include "item.h"
 #include "item_collection.h"
+#include "variant.h"
 #include "session.h"
 #include "step_session.h"
 
@@ -20,7 +21,8 @@ StepSession::StepSession
 ) :
     session( session )
 {
-    type = MushraSession;
+    type            = MushraSession;
+    hiddenReference = false;
 }
 
 /*******************************************************************************
@@ -31,6 +33,16 @@ void StepSession::setType
 )
 {
     this->type = type;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void StepSession::addHiddenReference
+(
+    bool const add
+)
+{
+    hiddenReference = add;
 }
 
 /*******************************************************************************
@@ -131,6 +143,12 @@ QString StepSession::formatItem
     if ( type == AbSession )
     {
         fileCount = qMin( fileCount, 2 );
+    }
+
+    if ( ( type == MushraSession ) && hiddenReference && files.value( 0 )->getVariant()->isReference() )
+    {
+        result += sessionDirectory.relativeFilePath( files.value( 0 )->getPathName() );
+        result += "\n";
     }
 
     for ( int f = 0; f < fileCount; f++ )

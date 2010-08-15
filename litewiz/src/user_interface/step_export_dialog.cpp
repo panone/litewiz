@@ -80,8 +80,9 @@ void StepExportDialog::saveState
 
     settings.beginGroup( "StepExport" );
 
-    settings.setValue( "SessionType", ui->sessionTypeCombo->currentIndex() );
     settings.setValue( "RecentFileNames", ui->fileNameEdit->getHistory() );
+    settings.setValue( "SessionType", ui->sessionTypeCombo->currentIndex() );
+    settings.setValue( "HiddenReference", ui->hiddenReferenceCheckBox->isChecked() );
 
     settings.endGroup();
 }
@@ -100,6 +101,7 @@ void StepExportDialog::restoreState
     setSessionType( settings.value( "SessionType" ).toInt() );
 
     ui->fileNameEdit->setHistory( settings.value( "RecentFileNames" ).toStringList() );
+    ui->hiddenReferenceCheckBox->setChecked( settings.value( "HiddenReference" ).toBool() );
 
     settings.endGroup();
 
@@ -116,6 +118,7 @@ void StepExportDialog::saveSession
     StepSession stepSession( session );
 
     stepSession.setType( ui->sessionTypeCombo->currentIndex() );
+    stepSession.addHiddenReference( ui->hiddenReferenceCheckBox->isChecked() );
 
     QString fileName = ui->fileNameEdit->lineEdit()->text();
 
@@ -159,7 +162,7 @@ void StepExportDialog::setSessionType
 {
     ui->sessionTypeCombo->setCurrentIndex( type );
 
-    if ( ( type == 1 ) && ( session->getCurrentVariance() != 2 ) )
+    if ( ( type == StepSession::AbSession ) && ( session->getCurrentVariance() != 2 ) )
     {
         ui->warningLabel->setVisible( true );
 
@@ -176,6 +179,8 @@ void StepExportDialog::setSessionType
     {
         ui->warningLabel->setVisible( false );
     }
+
+    ui->hiddenReferenceCheckBox->setEnabled( type == StepSession::MushraSession );
 }
 
 /*******************************************************************************

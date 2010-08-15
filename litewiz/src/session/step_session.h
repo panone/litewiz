@@ -36,6 +36,11 @@ class StepSession
             int const type
         );
 
+        void addHiddenReference
+        (
+            bool const add
+        );
+
         bool save
         (
             QString const & fileName
@@ -69,6 +74,7 @@ class StepSession
         Session * session;
 
         int       type;
+        bool      hiddenReference;
 };
 
 /******************************************************************************/
