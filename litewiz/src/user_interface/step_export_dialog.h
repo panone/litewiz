@@ -1,49 +1,41 @@
 /*******************************************************************************
 *******************************************************************************/
 
-#ifndef MAIN_WINDOW_H
-#define MAIN_WINDOW_H
+#ifndef STEP_EXPORT_DIALOG_H
+#define STEP_EXPORT_DIALOG_H
 
 /******************************************************************************/
 
-#include <QMainWindow>
+#include <QDialog>
 
 /******************************************************************************/
 
 namespace Ui
 {
-    class MainWindow;
+    class StepExportDialog;
 }
 
-class FileTreeModel;
-class ItemListModel;
-class VariantListModel;
 class Session;
 
 /*******************************************************************************
 *******************************************************************************/
-class MainWindow : public QMainWindow
+class StepExportDialog : public QDialog
 {
     Q_OBJECT
 
     public:
-
-        explicit MainWindow
+        explicit StepExportDialog
         (
-            QWidget * parent = 0
+            Session * const session,
+            QWidget * const parent = 0
         );
 
-        ~MainWindow
+        ~StepExportDialog
         (
             void
         );
 
     private:
-
-        void setupUi
-        (
-            void
-        );
 
         void connectSignals
         (
@@ -60,56 +52,50 @@ class MainWindow : public QMainWindow
             void
         );
 
+        void saveState
+        (
+            void
+        );
+
+        void restoreState
+        (
+            void
+        );
+
+        void saveSession
+        (
+            void
+        );
+
     private slots:
 
-        void addFiles
+        void browse
         (
             void
         );
 
-        void addDirectory
+        void setSessionType
         (
-            void
+            int const type
         );
 
-        void exportAetSession
+        void finalize
         (
-            void
+            int result
         );
 
-        void exportStepSession
-        (
-            void
-        );
-
-        void updateFileTreeView
-        (
-            void
-        );
-
-        void updateVariance
+        virtual void accept
         (
             void
         );
 
     private:
 
-        virtual void closeEvent
-        (
-            QCloseEvent * event
-        );
+        Ui::StepExportDialog * ui;
 
-    private:
-
-        Ui::MainWindow   * ui;
-
-        Session          * session;
-
-        FileTreeModel    * fileTreeModel;
-        ItemListModel    * itemListModel;
-        VariantListModel * variantListModel;
+        Session              * session;
 };
 
 /******************************************************************************/
 
-#endif /* MAIN_WINDOW_H */
+#endif /* STEP_EXPORT_DIALOG_H */
