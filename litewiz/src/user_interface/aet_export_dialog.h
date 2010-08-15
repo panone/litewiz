@@ -15,8 +15,6 @@ namespace Ui
     class AetExportDialog;
 }
 
-class QComboBox;
-class QStringList;
 class Session;
 
 /*******************************************************************************
@@ -63,11 +61,6 @@ class AetExportDialog : public QDialog
         void restoreState
         (
             void
-        );
-
-        QStringList getComboBoxItems
-        (
-            QComboBox const * const comboBox
         );
 
         void saveSession

@@ -30,7 +30,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout1">
      <item>
-      <widget class="QComboBox" name="fileNameEdit">
+      <widget class="HistoryComboBox" name="fileNameEdit">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -70,7 +70,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout2">
      <item>
-      <widget class="QComboBox" name="sectionTitleEdit">
+      <widget class="HistoryComboBox" name="sectionTitleEdit">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -124,7 +124,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QComboBox" name="audioDeviceEdit">
+      <widget class="HistoryComboBox" name="audioDeviceEdit">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -179,6 +179,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>HistoryComboBox</class>
+   <extends>QComboBox</extends>
+   <header>history_combo_box.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>

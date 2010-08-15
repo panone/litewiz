@@ -81,6 +81,7 @@ void StepExportDialog::saveState
     settings.beginGroup( "StepExport" );
 
     settings.setValue( "SessionType", ui->sessionTypeCombo->currentIndex() );
+    settings.setValue( "RecentFileNames", ui->fileNameEdit->getHistory() );
 
     settings.endGroup();
 }
@@ -97,6 +98,8 @@ void StepExportDialog::restoreState
     settings.beginGroup( "StepExport" );
 
     setSessionType( settings.value( "SessionType" ).toInt() );
+
+    ui->fileNameEdit->setHistory( settings.value( "RecentFileNames" ).toStringList() );
 
     settings.endGroup();
 
