@@ -95,7 +95,7 @@
      <item>
       <widget class="QLabel" name="warningLabel">
        <property name="pixmap">
-        <pixmap resource="../resources/resources.qrc">:/warning_22x20.png</pixmap>
+        <pixmap resource="../resources/resources.qrc">:/warning.png</pixmap>
        </property>
       </widget>
      </item>
