@@ -4,6 +4,7 @@
 SOURCES += \
     src/user_interface/aet_export_dialog.cpp \
     src/user_interface/context_menu_info.cpp \
+    src/user_interface/export_dialog.cpp \
     src/user_interface/file_cluster_list_view.cpp \
     src/user_interface/file_tree_view.cpp \
     src/user_interface/history_combo_box.cpp \
@@ -15,6 +16,7 @@ SOURCES += \
 HEADERS += \
     src/user_interface/aet_export_dialog.h \
     src/user_interface/context_menu_info.h \
+    src/user_interface/export_dialog.h \
     src/user_interface/file_cluster_list_view.h \
     src/user_interface/file_tree_view.h \
     src/user_interface/history_combo_box.h \

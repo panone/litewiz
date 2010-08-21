@@ -6,7 +6,7 @@
 
 /******************************************************************************/
 
-#include <QDialog>
+#include "export_dialog.h"
 
 /******************************************************************************/
 
@@ -15,76 +15,60 @@ namespace Ui
     class StepExportDialog;
 }
 
-class Session;
-
 /*******************************************************************************
 *******************************************************************************/
-class StepExportDialog : public QDialog
+class StepExportDialog : public ExportDialog
 {
     Q_OBJECT
 
     public:
+
         explicit StepExportDialog
         (
             Session * const session,
             QWidget * const parent = 0
         );
 
-        ~StepExportDialog
-        (
-            void
-        );
-
-    private:
-
-        void connectSignals
-        (
-            void
-        );
-
-        void saveGeometry
-        (
-            void
-        );
-
-        void restoreGeometry
-        (
-            void
-        );
-
-        void saveState
-        (
-            void
-        );
-
-        void restoreState
-        (
-            void
-        );
-
-        void saveSession
+        virtual ~StepExportDialog
         (
             void
         );
 
     private slots:
 
-        void browse
-        (
-            void
-        );
-
         void setSessionType
         (
             int const type
         );
 
-        void finalize
+    private:
+
+        virtual QString getSettingsName
         (
-            int result
+            void
         );
 
-        virtual void accept
+        virtual BrowseInfo getBrowseInfo
+        (
+            void
+        );
+
+        virtual void connectSignals
+        (
+            void
+        );
+
+        virtual void saveState
+        (
+            QSettings * const settings
+        );
+
+        virtual void restoreState
+        (
+            QSettings const & settings
+        );
+
+        virtual void saveSession
         (
             void
         );
@@ -92,8 +76,6 @@ class StepExportDialog : public QDialog
     private:
 
         Ui::StepExportDialog * ui;
-
-        Session              * session;
 };
 
 /******************************************************************************/

@@ -6,7 +6,7 @@
 
 /******************************************************************************/
 
-#include <QDialog>
+#include "export_dialog.h"
 
 /******************************************************************************/
 
@@ -15,11 +15,9 @@ namespace Ui
     class AetExportDialog;
 }
 
-class Session;
-
 /*******************************************************************************
 *******************************************************************************/
-class AetExportDialog : public QDialog
+class AetExportDialog : public ExportDialog
 {
     Q_OBJECT
 
@@ -31,56 +29,39 @@ class AetExportDialog : public QDialog
             QWidget * const parent = 0
         );
 
-        ~AetExportDialog
+        virtual ~AetExportDialog
         (
             void
         );
 
     private:
 
-        void connectSignals
+        virtual QString getSettingsName
         (
             void
         );
 
-        void saveGeometry
+        virtual BrowseInfo getBrowseInfo
         (
             void
         );
 
-        void restoreGeometry
+        virtual void connectSignals
         (
             void
         );
 
-        void saveState
+        virtual void saveState
         (
-            void
+            QSettings * const settings
         );
 
-        void restoreState
+        virtual void restoreState
         (
-            void
+            QSettings const & settings
         );
 
-        void saveSession
-        (
-            void
-        );
-
-    private slots:
-
-        void browse
-        (
-            void
-        );
-
-        void finalize
-        (
-            int result
-        );
-
-        virtual void accept
+        virtual void saveSession
         (
             void
         );
@@ -88,8 +69,6 @@ class AetExportDialog : public QDialog
     private:
 
         Ui::AetExportDialog * ui;
-
-        Session             * session;
 };
 
 /******************************************************************************/
