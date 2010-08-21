@@ -142,7 +142,8 @@ void StepExportDialog::browse
 {
     QString fileName = QFileDialog::getSaveFileName
     (
-        this, tr("Save STEP session"),
+        this,
+        tr("Save STEP session"),
         QString(),
         tr( "STEP Sessions (*.asi);;All files (*.*)" )
     );

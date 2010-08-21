@@ -148,7 +148,8 @@ void AetExportDialog::browse
 {
     QString fileName = QFileDialog::getSaveFileName
     (
-        this, tr("Save AET session"),
+        this,
+        tr("Save AET session"),
         QString(),
         tr( "AET Sessions (*.aets);;All files (*.*)" )
     );
