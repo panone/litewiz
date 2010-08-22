@@ -82,6 +82,11 @@ class MainWindow : public QMainWindow
             void
         );
 
+        void showOptionsDialog
+        (
+            void
+        );
+
         void updateFileTreeView
         (
             void

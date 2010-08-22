@@ -11,6 +11,7 @@
 #include "variant_list_model.h"
 #include "aet_export_dialog.h"
 #include "step_export_dialog.h"
+#include "options_dialog.h"
 #include "ui_main_window.h"
 #include "main_window.h"
 
@@ -79,6 +80,8 @@ void MainWindow::connectSignals
     connect( ui->aetExportAction, SIGNAL( triggered() ), this, SLOT( exportAetSession() ) );
     connect( ui->stepExportAction, SIGNAL( triggered() ), this, SLOT( exportStepSession() ) );
     connect( ui->exitAction, SIGNAL( triggered() ), qApp, SLOT( quit() ) );
+
+    connect( ui->optionsAction, SIGNAL( triggered() ), this, SLOT( showOptionsDialog() ) );
 
     connect( itemListModel, SIGNAL( dataChanged( QModelIndex, QModelIndex ) ), this, SLOT( updateFileTreeView() ) );
     connect( variantListModel, SIGNAL( dataChanged( QModelIndex, QModelIndex ) ), this, SLOT( updateFileTreeView() ) );
@@ -182,6 +185,18 @@ void MainWindow::exportStepSession
 )
 {
     StepExportDialog dialog( session, this );
+
+    dialog.exec();
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void MainWindow::showOptionsDialog
+(
+    void
+)
+{
+    OptionsDialog dialog( this );
 
     dialog.exec();
 }

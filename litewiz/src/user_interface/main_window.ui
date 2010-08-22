@@ -199,7 +199,16 @@
     <addaction name="separator"/>
     <addaction name="exitAction"/>
    </widget>
+   <widget class="QMenu" name="menuTools">
+    <property name="title">
+     <string>&amp;Tools</string>
+    </property>
+    <addaction name="classifyAction"/>
+    <addaction name="separator"/>
+    <addaction name="optionsAction"/>
+   </widget>
    <addaction name="fileMenu"/>
+   <addaction name="menuTools"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="addFilesAction">
@@ -225,6 +234,16 @@
   <action name="exitAction">
    <property name="text">
     <string>E&amp;xit</string>
+   </property>
+  </action>
+  <action name="optionsAction">
+   <property name="text">
+    <string>&amp;Options...</string>
+   </property>
+  </action>
+  <action name="classifyAction">
+   <property name="text">
+    <string>Classify</string>
    </property>
   </action>
  </widget>
