@@ -3,7 +3,7 @@
 
 #include <QFile>
 #include <QObject>
-#include <QRunnable>
+#include <QSet>
 #include <QSettings>
 #include <QStringList>
 #include <QTextStream>
@@ -13,6 +13,7 @@
 #include "file_collection.h"
 #include "item_collection.h"
 #include "variant_collection.h"
+#include "file_tree_item.h"
 #include "session.h"
 
 /*******************************************************************************
@@ -34,6 +35,23 @@ DEFINE_CONST_RUNNABLE_2( AddDirectory, FileCollection *, files, QString const &,
 DEFINE_CONST_RUNNABLE_2( AddUrls, FileCollection *, files, QList< QUrl > const &, urls )
 {
     files->addUrls( urls );
+}
+
+/*******************************************************************************
+*******************************************************************************/
+DEFINE_CONST_RUNNABLE_2( RemoveFiles, FileCollection *, files, QSet< FileTreeItem * > const &, items )
+{
+    foreach ( FileTreeItem * item, items )
+    {
+        if ( item->isDirectory() )
+        {
+            files->removeDirectory( item->getPathName() );
+        }
+        else
+        {
+            files->removeFile( item->getPathName() );
+        }
+    }
 }
 
 /*******************************************************************************
@@ -106,6 +124,16 @@ void Session::addUrls
 )
 {
     updateFileCollection( AddUrls( files, urls ) );
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void Session::removeFiles
+(
+    QSet< FileTreeItem * > const & items
+)
+{
+    updateFileCollection( RemoveFiles( files, items ) );
 }
 
 /*******************************************************************************

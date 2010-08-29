@@ -7,6 +7,7 @@
 /******************************************************************************/
 
 #include <QObject>
+#include <QSet>
 #include "utility.h"
 
 /******************************************************************************/
@@ -17,6 +18,7 @@ class FileCollection;
 class ItemCollection;
 class VariantCollection;
 class Classifier;
+class FileTreeItem;
 
 /*******************************************************************************
 *******************************************************************************/
@@ -56,6 +58,11 @@ class Session : public QObject
         void addUrls
         (
             QList< QUrl > const & fileName
+        );
+
+        void removeFiles
+        (
+            QSet< FileTreeItem * > const & items
         );
 
         FileCollection * getFiles

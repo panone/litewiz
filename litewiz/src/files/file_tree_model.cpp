@@ -140,19 +140,7 @@ void FileTreeModel::remove
         }
     }
 
-    foreach ( FileTreeItem * item, items )
-    {
-        if ( item->isDirectory() )
-        {
-            session->getFiles()->removeDirectory( item->getPathName() );
-        }
-        else
-        {
-            session->getFiles()->removeFile( item->getPathName() );
-        }
-    }
-
-    update();
+    session->removeFiles( items );
 }
 
 /*******************************************************************************
