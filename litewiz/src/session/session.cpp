@@ -168,27 +168,6 @@ VariantCollection * Session::getVariants
 
 /*******************************************************************************
 *******************************************************************************/
-void Session::classify
-(
-    void
-)
-{
-    QStringList fileNames = files->getNames();
-
-    classifier->classify( fileNames );
-
-    variance = classifier->getPossibleVariance();
-
-    setItems( classifier->getDefaultVariance() );
-    setVariants( classifier->getDefaultVariance() );
-
-    isClassified = true;
-
-    emit classified();
-}
-
-/*******************************************************************************
-*******************************************************************************/
 QIntList Session::getPossibleVariance
 (
     void
@@ -350,6 +329,27 @@ void Session::loadSettings
     autoClassify = settings.value( "AutoClassify", true ).toBool();
 
     applySettings();
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void Session::classify
+(
+    void
+)
+{
+    QStringList fileNames = files->getNames();
+
+    classifier->classify( fileNames );
+
+    variance = classifier->getPossibleVariance();
+
+    setItems( classifier->getDefaultVariance() );
+    setVariants( classifier->getDefaultVariance() );
+
+    isClassified = true;
+
+    emit classified();
 }
 
 /*******************************************************************************

@@ -80,11 +80,6 @@ class Session : public QObject
             void
         );
 
-        void classify
-        (
-            void
-        );
-
         QIntList getPossibleVariance
         (
             void
@@ -130,6 +125,11 @@ class Session : public QObject
     public slots:
 
         void loadSettings
+        (
+            void
+        );
+
+        void classify
         (
             void
         );

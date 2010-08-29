@@ -81,6 +81,7 @@ void MainWindow::connectSignals
     connect( ui->stepExportAction, SIGNAL( triggered() ), this, SLOT( exportStepSession() ) );
     connect( ui->exitAction, SIGNAL( triggered() ), qApp, SLOT( quit() ) );
 
+    connect( ui->classifyAction, SIGNAL( triggered() ), session, SLOT( classify() ) );
     connect( ui->optionsAction, SIGNAL( triggered() ), this, SLOT( showOptionsDialog() ) );
 
     connect( this, SIGNAL( settingsChanged() ), session, SLOT( loadSettings() ) );
