@@ -16,159 +16,145 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout1">
     <item>
-     <widget class="QTabWidget" name="tabWidget">
-      <property name="currentIndex">
-       <number>0</number>
-      </property>
-      <widget class="QWidget" name="tab">
-       <attribute name="title">
-        <string>Files</string>
-       </attribute>
-       <layout class="QHBoxLayout" name="horizontalLayout2">
-        <item>
-         <widget class="QSplitter" name="splitter1">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="childrenCollapsible">
-           <bool>false</bool>
-          </property>
-          <widget class="FileTreeView" name="fileTreeView">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-             <horstretch>3</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>250</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="dragDropMode">
-            <enum>QAbstractItemView::DropOnly</enum>
-           </property>
-           <property name="defaultDropAction">
-            <enum>Qt::CopyAction</enum>
-           </property>
-           <property name="selectionMode">
-            <enum>QAbstractItemView::ExtendedSelection</enum>
-           </property>
-           <property name="rootIsDecorated">
-            <bool>false</bool>
-           </property>
-           <property name="allColumnsShowFocus">
-            <bool>true</bool>
-           </property>
-          </widget>
-          <widget class="QSplitter" name="splitter2">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-             <horstretch>2</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="childrenCollapsible">
-            <bool>false</bool>
-           </property>
-           <widget class="QGroupBox" name="groupBox1">
-            <property name="title">
-             <string> Items </string>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout2">
-             <item>
-              <widget class="ItemListView" name="itemListView">
-               <property name="minimumSize">
-                <size>
-                 <width>120</width>
-                 <height>60</height>
-                </size>
-               </property>
-               <property name="dragEnabled">
-                <bool>true</bool>
-               </property>
-               <property name="dragDropMode">
-                <enum>QAbstractItemView::InternalMove</enum>
-               </property>
-               <property name="selectionMode">
-                <enum>QAbstractItemView::ExtendedSelection</enum>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-           <widget class="QGroupBox" name="groupBox2">
-            <property name="title">
-             <string> Variants </string>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout3">
-             <item>
-              <widget class="VariantListView" name="variantListView">
-               <property name="minimumSize">
-                <size>
-                 <width>120</width>
-                 <height>60</height>
-                </size>
-               </property>
-               <property name="dragEnabled">
-                <bool>true</bool>
-               </property>
-               <property name="dragDropMode">
-                <enum>QAbstractItemView::InternalMove</enum>
-               </property>
-               <property name="selectionMode">
-                <enum>QAbstractItemView::ExtendedSelection</enum>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout3">
-               <item>
-                <widget class="QSlider" name="varianceSlider">
-                 <property name="pageStep">
-                  <number>1</number>
-                 </property>
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLineEdit" name="varianceEdit">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>40</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignCenter</set>
-                 </property>
-                 <property name="readOnly">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-            </layout>
-           </widget>
-          </widget>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-     </widget>
+	 <widget class="QSplitter" name="splitter1">
+	  <property name="orientation">
+	   <enum>Qt::Horizontal</enum>
+	  </property>
+	  <property name="childrenCollapsible">
+	   <bool>false</bool>
+	  </property>
+	  <widget class="FileTreeView" name="fileTreeView">
+	   <property name="sizePolicy">
+		<sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+		 <horstretch>3</horstretch>
+		 <verstretch>0</verstretch>
+		</sizepolicy>
+	   </property>
+	   <property name="minimumSize">
+		<size>
+		 <width>250</width>
+		 <height>0</height>
+		</size>
+	   </property>
+	   <property name="dragDropMode">
+		<enum>QAbstractItemView::DropOnly</enum>
+	   </property>
+	   <property name="defaultDropAction">
+		<enum>Qt::CopyAction</enum>
+	   </property>
+	   <property name="selectionMode">
+		<enum>QAbstractItemView::ExtendedSelection</enum>
+	   </property>
+	   <property name="rootIsDecorated">
+		<bool>false</bool>
+	   </property>
+	   <property name="allColumnsShowFocus">
+		<bool>true</bool>
+	   </property>
+	  </widget>
+	  <widget class="QSplitter" name="splitter2">
+	   <property name="sizePolicy">
+		<sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+		 <horstretch>2</horstretch>
+		 <verstretch>0</verstretch>
+		</sizepolicy>
+	   </property>
+	   <property name="orientation">
+		<enum>Qt::Vertical</enum>
+	   </property>
+	   <property name="childrenCollapsible">
+		<bool>false</bool>
+	   </property>
+	   <widget class="QGroupBox" name="groupBox1">
+		<property name="title">
+		 <string> Items </string>
+		</property>
+		<layout class="QVBoxLayout" name="verticalLayout2">
+		 <item>
+		  <widget class="ItemListView" name="itemListView">
+		   <property name="minimumSize">
+			<size>
+			 <width>120</width>
+			 <height>60</height>
+			</size>
+		   </property>
+		   <property name="dragEnabled">
+			<bool>true</bool>
+		   </property>
+		   <property name="dragDropMode">
+			<enum>QAbstractItemView::InternalMove</enum>
+		   </property>
+		   <property name="selectionMode">
+			<enum>QAbstractItemView::ExtendedSelection</enum>
+		   </property>
+		  </widget>
+		 </item>
+		</layout>
+	   </widget>
+	   <widget class="QGroupBox" name="groupBox2">
+		<property name="title">
+		 <string> Variants </string>
+		</property>
+		<layout class="QVBoxLayout" name="verticalLayout3">
+		 <item>
+		  <widget class="VariantListView" name="variantListView">
+		   <property name="minimumSize">
+			<size>
+			 <width>120</width>
+			 <height>60</height>
+			</size>
+		   </property>
+		   <property name="dragEnabled">
+			<bool>true</bool>
+		   </property>
+		   <property name="dragDropMode">
+			<enum>QAbstractItemView::InternalMove</enum>
+		   </property>
+		   <property name="selectionMode">
+			<enum>QAbstractItemView::ExtendedSelection</enum>
+		   </property>
+		  </widget>
+		 </item>
+		 <item>
+		  <layout class="QHBoxLayout" name="horizontalLayout3">
+		   <item>
+			<widget class="QSlider" name="varianceSlider">
+			 <property name="pageStep">
+			  <number>1</number>
+			 </property>
+			 <property name="orientation">
+			  <enum>Qt::Horizontal</enum>
+			 </property>
+			</widget>
+		   </item>
+		   <item>
+			<widget class="QLineEdit" name="varianceEdit">
+			 <property name="sizePolicy">
+			  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+			   <horstretch>0</horstretch>
+			   <verstretch>0</verstretch>
+			  </sizepolicy>
+			 </property>
+			 <property name="maximumSize">
+			  <size>
+			   <width>40</width>
+			   <height>16777215</height>
+			  </size>
+			 </property>
+			 <property name="alignment">
+			  <set>Qt::AlignCenter</set>
+			 </property>
+			 <property name="readOnly">
+			  <bool>true</bool>
+			 </property>
+			</widget>
+		   </item>
+		  </layout>
+		 </item>
+		</layout>
+	   </widget>
+	  </widget>
+	 </widget>
     </item>
    </layout>
   </widget>
