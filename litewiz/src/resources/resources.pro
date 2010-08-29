@@ -2,3 +2,5 @@
 ################################################################################
 
 RESOURCES = src/resources/resources.qrc
+
+RC_FILE = src/resources/resources.rc
