@@ -3,6 +3,8 @@
 
 #include <QFile>
 #include <QObject>
+#include <QRunnable>
+#include <QSettings>
 #include <QStringList>
 #include <QTextStream>
 #include "classifier.h"
@@ -15,16 +17,42 @@
 
 /*******************************************************************************
 *******************************************************************************/
+DEFINE_CONST_RUNNABLE_2( AddFiles, FileCollection *, files, QStringList const &, fileNames )
+{
+    files->addFiles( fileNames );
+}
+
+/*******************************************************************************
+*******************************************************************************/
+DEFINE_CONST_RUNNABLE_2( AddDirectory, FileCollection *, files, QString const &, fileName )
+{
+    files->addDirectory( fileName );
+}
+
+/*******************************************************************************
+*******************************************************************************/
+DEFINE_CONST_RUNNABLE_2( AddUrls, FileCollection *, files, QList< QUrl > const &, urls )
+{
+    files->addUrls( urls );
+}
+
+/*******************************************************************************
+*******************************************************************************/
 Session::Session
 (
     QObject * parent
 ) :
     QObject( parent )
 {
+    autoClassify = true;
+    isClassified = false;
+
     files      = new FileCollection;
     items      = new ItemCollection;
     variants   = new VariantCollection;
     classifier = new Classifier;
+
+    loadSettings();
 }
 
 /*******************************************************************************
@@ -47,9 +75,7 @@ void Session::loadFileList
     QString const & fileName
 )
 {
-    files->addFiles( getTextFileContents( fileName ) );
-
-    classify();
+    addFiles( getTextFileContents( fileName ) );
 }
 
 /*******************************************************************************
@@ -59,14 +85,7 @@ void Session::addFiles
     QStringList const & fileNames
 )
 {
-    int count = files->getCount();
-
-    files->addFiles( fileNames );
-
-    if ( files->getCount() > count )
-    {
-        emit fileCollectionUpdated();
-    }
+    updateFileCollection( AddFiles( files, fileNames ) );
 }
 
 /*******************************************************************************
@@ -76,14 +95,7 @@ void Session::addDirectory
     QString const & fileName
 )
 {
-    int count = files->getCount();
-
-    files->addDirectory( fileName );
-
-    if ( files->getCount() > count )
-    {
-        emit fileCollectionUpdated();
-    }
+    updateFileCollection( AddDirectory( files, fileName ) );
 }
 
 /*******************************************************************************
@@ -93,14 +105,7 @@ void Session::addUrls
     QList< QUrl > const & urls
 )
 {
-    int count = files->getCount();
-
-    files->addUrls( urls );
-
-    if ( files->getCount() > count )
-    {
-        emit fileCollectionUpdated();
-    }
+    updateFileCollection( AddUrls( files, urls ) );
 }
 
 /*******************************************************************************
@@ -149,6 +154,8 @@ void Session::classify
     setItems( classifier->getDefaultVariance() );
     setVariants( classifier->getDefaultVariance() );
 
+    isClassified = true;
+
     emit classified();
 }
 
@@ -170,6 +177,48 @@ int Session::getCurrentVariance
 )
 {
     return variants->getCount();
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void Session::applySettings
+(
+    void
+)
+{
+    if ( files->getCount() > 0 )
+    {
+        if ( autoClassify && !isClassified )
+        {
+            classify();
+        }
+    }
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void Session::updateFileCollection
+(
+    ConstRunnable const & update
+)
+{
+    int count = files->getCount();
+
+    update.run();
+
+    if ( files->getCount() != count )
+    {
+        if ( autoClassify )
+        {
+            classify();
+        }
+        else
+        {
+            invalidateClassification();
+        }
+
+        emit fileCollectionUpdated();
+    }
 }
 
 /*******************************************************************************
@@ -216,6 +265,23 @@ void Session::setVariants
 
 /*******************************************************************************
 *******************************************************************************/
+void Session::invalidateClassification
+(
+    void
+)
+{
+    if ( isClassified )
+    {
+        variance.clear();
+
+        isClassified = false;
+
+        emit classified();
+    }
+}
+
+/*******************************************************************************
+*******************************************************************************/
 QStringList Session::getTextFileContents
 (
     QString const & fileName
@@ -240,6 +306,22 @@ QStringList Session::getTextFileContents
     }
 
     return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void Session::loadSettings
+(
+    void
+)
+{
+    QSettings settings;
+
+    settings.beginGroup( "Options" );
+
+    autoClassify = settings.value( "AutoClassify", true ).toBool();
+
+    applySettings();
 }
 
 /*******************************************************************************

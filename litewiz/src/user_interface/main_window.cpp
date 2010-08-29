@@ -83,6 +83,8 @@ void MainWindow::connectSignals
 
     connect( ui->optionsAction, SIGNAL( triggered() ), this, SLOT( showOptionsDialog() ) );
 
+    connect( this, SIGNAL( settingsChanged() ), session, SLOT( loadSettings() ) );
+
     connect( itemListModel, SIGNAL( dataChanged( QModelIndex, QModelIndex ) ), this, SLOT( updateFileTreeView() ) );
     connect( variantListModel, SIGNAL( dataChanged( QModelIndex, QModelIndex ) ), this, SLOT( updateFileTreeView() ) );
 
@@ -198,7 +200,10 @@ void MainWindow::showOptionsDialog
 {
     OptionsDialog dialog( this );
 
-    dialog.exec();
+    if ( dialog.exec() == QDialog::Accepted )
+    {
+        emit settingsChanged();
+    }
 }
 
 /*******************************************************************************

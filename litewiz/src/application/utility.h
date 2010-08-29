@@ -14,6 +14,29 @@ typedef QList< int > QIntList;
 
 /*******************************************************************************
 *******************************************************************************/
+class ConstRunnable
+{
+    public:
+
+        virtual void run
+        (
+            void
+        )
+        const
+        = 0;
+};
+
+/*******************************************************************************
+*******************************************************************************/
+#define DEFINE_CONST_RUNNABLE_2( name, type1, name1, type2, name2 ) \
+class name : public ConstRunnable { \
+public: name( type1 name1, type2 name2 ) : name1( name1 ), name2( name2 ){} \
+public: virtual void run( void ) const; \
+protected: type1 name1; type2 name2; }; \
+void name::run( void ) const
+
+/*******************************************************************************
+*******************************************************************************/
 template< typename Type >
 Type qMin
 (

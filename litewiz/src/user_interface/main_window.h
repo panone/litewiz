@@ -97,6 +97,13 @@ class MainWindow : public QMainWindow
             void
         );
 
+    signals:
+
+        void settingsChanged
+        (
+            void
+        );
+
     private:
 
         virtual void closeEvent

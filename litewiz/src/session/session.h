@@ -90,6 +90,16 @@ class Session : public QObject
 
     private:
 
+        void applySettings
+        (
+            void
+        );
+
+        void updateFileCollection
+        (
+            ConstRunnable const & update
+        );
+
         void setItems
         (
             int const variance
@@ -100,12 +110,22 @@ class Session : public QObject
             int const variance
         );
 
+        void invalidateClassification
+        (
+            void
+        );
+
         QStringList getTextFileContents
         (
             QString const & fileName
         );
 
     public slots:
+
+        void loadSettings
+        (
+            void
+        );
 
         void setCurrentVariance
         (
@@ -130,6 +150,8 @@ class Session : public QObject
         ItemCollection    * items;
         VariantCollection * variants;
 
+        bool                autoClassify;
+        bool                isClassified;
         Classifier        * classifier;
 
         QIntList            variance;
