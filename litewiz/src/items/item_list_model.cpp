@@ -15,7 +15,7 @@ ItemListModel::ItemListModel
 ) :
     FileClusterListModel( session->getItems(), parent )
 {
-    connect( session, SIGNAL( classified() ), this, SLOT( update() ) );
+    connect( session, SIGNAL( classificationChanged() ), this, SLOT( update() ) );
 }
 
 /******************************************************************************/

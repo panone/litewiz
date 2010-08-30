@@ -63,7 +63,7 @@ Session::Session
     QObject( parent )
 {
     autoClassify = true;
-    isClassified = false;
+    classified   = false;
 
     files      = new FileCollection;
     items      = new ItemCollection;
@@ -195,7 +195,7 @@ void Session::applySettings
 {
     if ( files->getCount() > 0 )
     {
-        if ( autoClassify && !isClassified )
+        if ( autoClassify && !classified )
         {
             classify();
         }
@@ -277,13 +277,13 @@ void Session::invalidateClassification
     void
 )
 {
-    if ( isClassified )
+    if ( classified )
     {
         variance.clear();
 
-        isClassified = false;
+        classified = false;
 
-        emit classified();
+        emit classificationChanged();
     }
 }
 
@@ -347,9 +347,9 @@ void Session::classify
     setItems( classifier->getDefaultVariance() );
     setVariants( classifier->getDefaultVariance() );
 
-    isClassified = true;
+    classified = true;
 
-    emit classified();
+    emit classificationChanged();
 }
 
 /*******************************************************************************
@@ -364,7 +364,7 @@ void Session::setCurrentVariance
         setItems( variance.value( varianceIndex ) );
         setVariants( variance.value( varianceIndex ) );
 
-        emit classified();
+        emit classificationChanged();
     }
 }
 

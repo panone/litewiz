@@ -91,7 +91,7 @@ void MainWindow::connectSignals
 
     connect( ui->varianceSlider, SIGNAL( valueChanged( int ) ), session, SLOT( setCurrentVariance( int ) ) );
 
-    connect( session, SIGNAL( classified() ), this, SLOT( updateVariance() ) );
+    connect( session, SIGNAL( classificationChanged() ), this, SLOT( updateVariance() ) );
 }
 
 /*******************************************************************************

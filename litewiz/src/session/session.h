@@ -146,7 +146,7 @@ class Session : public QObject
             void
         );
 
-        void classified
+        void classificationChanged
         (
             void
         );
@@ -158,7 +158,7 @@ class Session : public QObject
         VariantCollection * variants;
 
         bool                autoClassify;
-        bool                isClassified;
+        bool                classified;
         Classifier        * classifier;
 
         QIntList            variance;

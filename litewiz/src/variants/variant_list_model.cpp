@@ -20,7 +20,7 @@ VariantListModel::VariantListModel
 {
     variants = session->getVariants();
 
-    connect( session, SIGNAL( classified() ), this, SLOT( update() ) );
+    connect( session, SIGNAL( classificationChanged() ), this, SLOT( update() ) );
 }
 
 /*******************************************************************************
