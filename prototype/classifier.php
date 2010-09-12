@@ -63,15 +63,14 @@ class Classifier
             $this->fileName[ $fn ] = new FileNameMatch( $fn, $fileName );
         }
 
-        $possibleCodecCount1   = $this->GetPossibleCodecCounts1();
-        $possibleCodecCount2   = $this->GetPossibleCodecCounts2();
-        $codecCountProbability = $this->GetCodecCountProbability( $possibleCodecCount1, $possibleCodecCount2 );
+        $codecCountProbability = $this->GetCodecCountProbability();
         $clusterSizeCount      = $this->GetClusterSizeCount();
         $unmatchedClusterSize  = $this->GetUnmatchedClusterSize();
         $stemClusterCount      = $this->GetStemClusterCount( $fileName );
 
         $this->SetCodecCountProbability( $codecCountProbability );
-        $this->SelectPopularClusterSizes( $clusterSizeCount );
+        $this->SelectPopularClusterSizes1( $clusterSizeCount );
+        $this->SelectPopularClusterSizes2();
         $this->DetectClusterSizeStep( array_keys( $clusterSizeCount ) );
         $this->DetectUniqueItemClusterSize( $unmatchedClusterSize );
         $this->DetectUnmatchedClusterSize( $unmatchedClusterSize );
@@ -91,47 +90,18 @@ class Classifier
 
     /***************************************************************************
     ***************************************************************************/
-    private function GetPossibleCodecCounts1()
+    private function GetCodecCountProbability()
     {
         $files  = count( $this->fileName );
         $factor = pairfact( $files );
 
         foreach ( $factor as $pair )
         {
-            $result[] = $pair[ 0 ];
-            $result[] = $pair[ 1 ];
+            $codecCount[] = $pair[ 0 ];
+            $codecCount[] = $pair[ 1 ];
         }
 
-        asort( $result );
-
-        return $result;
-    }
-
-    /***************************************************************************
-    ***************************************************************************/
-    private function GetPossibleCodecCounts2()
-    {
-        foreach ( $this->fileName as $fn )
-        {
-            $clusterSize[] = $fn->GetAccumulatedClusterSize();
-        }
-
-        $result = array_shift( $clusterSize );
-
-        foreach ( $clusterSize as $size )
-        {
-            $result = array_intersect( $result, $size );
-        }
-
-        return $result;
-    }
-
-    /***************************************************************************
-    ***************************************************************************/
-    private function GetCodecCountProbability( $codecCount1, $codecCount2 )
-    {
-        $codecCount = array_intersect( $codecCount1, $codecCount2 );
-        $files      = count( $this->fileName );
+        asort( $codecCount );
 
         foreach ( $codecCount as $codecs )
         {
@@ -197,7 +167,7 @@ class Classifier
 
     /***************************************************************************
     ***************************************************************************/
-    private function SelectPopularClusterSizes( $clusterSizeCount )
+    private function SelectPopularClusterSizes1( $clusterSizeCount )
     {
         if ( isset( $clusterSizeCount[ 1 ] ) )
         {
@@ -223,7 +193,22 @@ class Classifier
             @$this->codecCount[ $size ] += $gain * $weight[ $size ];
         }
 
-        $this->log->LogCodecCount( 'SelectPopularClusterSizes', $this->codecCount );
+        $this->log->LogCodecCount( 'SelectPopularClusterSizes1', $this->codecCount );
+    }
+
+    /***************************************************************************
+    ***************************************************************************/
+    private function SelectPopularClusterSizes2()
+    {
+        foreach ( $this->fileName as $fn )
+        {
+            foreach ( $fn->GetAccumulatedClusterSize() as $size )
+            {
+                @$clusterSizeCount[ $size ] += 1;
+            }
+        }
+
+        ksort( $clusterSizeCount );
     }
 
     /***************************************************************************
@@ -527,7 +512,7 @@ class FileNameMatch
         {
             $sum += count( $cluster );
 
-            if ( $sum == $codecs )
+            if ( ( $sum >= $codecs ) && ( ( $sum % $codecs ) == 0 ) )
             {
                 break;
             }
