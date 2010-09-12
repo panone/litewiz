@@ -209,6 +209,22 @@ class Classifier
         }
 
         ksort( $clusterSizeCount );
+
+        $this->log->LogClusterSize( $clusterSizeCount );
+
+        $files = count( $this->fileName );
+
+        unset( $clusterSizeCount[ 1 ] );
+        unset( $clusterSizeCount[ $files ] );
+
+        foreach ( $clusterSizeCount as $size => $count )
+        {
+            $weight = $count / $files;
+
+            @$this->codecCount[ $size ] += $weight * $weight;
+        }
+
+        $this->log->LogCodecCount( 'SelectPopularClusterSizes2', $this->codecCount );
     }
 
     /***************************************************************************
@@ -634,6 +650,7 @@ class ClassifierLog
     public function RenderReport( $sink )
     {
         $this->RenderClusterSize( $sink, $this->clusterSize[ 0 ] );
+        $this->RenderClusterSize( $sink, $this->clusterSize[ 1 ] );
         $this->RenderCodecCount( $sink );
 
         $sink->Write( '<div class="clearer"></div>' );
