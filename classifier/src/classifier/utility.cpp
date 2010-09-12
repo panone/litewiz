@@ -4,6 +4,7 @@
 #include <QList>
 #include <QMap>
 #include <QPair>
+#include <QSet>
 #include <QString>
 #include <math.h>
 #include "utility.h"
@@ -146,6 +147,79 @@ float cosfade
         else
         {
             result = 0.5f * ( cos( pi * ( value - fadeStart ) / ( fadeEnd - fadeStart ) ) + 1.0f );
+        }
+    }
+
+    return result;
+}
+
+/*******************************************************************************
+    Returns gretest common divider of two positive integers
+*******************************************************************************/
+int gcd
+(
+    int const number1,
+    int const number2
+)
+{
+    int   result   = qMin( number1, number2 );
+    int   dividend = qMax( number1, number2 );
+    int   reminder = dividend % result;
+
+    while ( reminder != 0 )
+    {
+        dividend = result;
+        result   = reminder;
+        reminder = dividend % result;
+    }
+
+    return result;
+}
+
+/*******************************************************************************
+    Returns gretest common divider of list of positive integers
+*******************************************************************************/
+int gcd
+(
+    QIntList const & numbers
+)
+{
+    int result = 0;
+
+    if ( numbers.count() > 0 )
+    {
+        QIntListIterator iterator( numbers );
+
+        result = iterator.next();
+
+        while ( ( result > 1 ) && iterator.hasNext() )
+        {
+            result = gcd( result, iterator.next() );
+        }
+    }
+
+    return result;
+}
+
+/*******************************************************************************
+    Returns gretest common divider of set of positive integers
+*******************************************************************************/
+int gcd
+(
+    QIntSet const & numbers
+)
+{
+    int result = 0;
+
+    if ( numbers.count() > 0 )
+    {
+        QIntSetIterator iterator( numbers );
+
+        result = iterator.next();
+
+        while ( ( result > 1 ) && iterator.hasNext() )
+        {
+            result = gcd( result, iterator.next() );
         }
     }
 

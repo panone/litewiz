@@ -13,10 +13,30 @@
 
 /******************************************************************************/
 
+class ClassificationInfo;
+class StemInfo;
+
+/******************************************************************************/
+
 typedef QList< QIntList > QIntList2;
 typedef QMap< int, int > QIntMap;
+typedef QMapIterator< int, int > QIntMapIterator;
 typedef QList< QIntMap > QIntMapList;
 typedef QMap< int, float > QIntFloatMap;
+typedef QMapIterator< int, float > QIntFloatMapIterator;
+typedef QMap< QString, int > QStringIntMap;
+typedef QList< StemInfo > StemInfoList;
+
+/*******************************************************************************
+*******************************************************************************/
+class StemInfo
+{
+    public:
+
+        int       stemLength;
+        int       clusters;
+        QIntSet   clusterSize;
+};
 
 /*******************************************************************************
 *******************************************************************************/
@@ -51,19 +71,55 @@ class ClassifierImplementation
             void
         );
 
+        ClassificationInfo getClassification
+        (
+            int const variance
+        );
+
     private:
+
+        void initializeFileDescriptions
+        (
+            QStringList const & fileNames
+        );
 
         void extractClusters
         (
             void
         );
 
-        QIntList extractFactorVariance
+        QIntFloatMap getVarianceProbablity
         (
             void
         );
 
-        QIntList extractFrontVariance
+        QIntMap getClusterSizeCount
+        (
+            void
+        );
+
+        QIntSet getUnmatchedClusterSize
+        (
+            void
+        );
+
+        StemInfoList getStemClusterInfo
+        (
+            void
+        );
+
+        void initializeVariance
+        (
+            QIntFloatMap const & varianceProbability
+        );
+
+        void addVarianceProbability
+        (
+            int   const variance,
+            float const probability
+        );
+
+        void detectPopularClusterSizes1
         (
             void
         );
@@ -73,10 +129,54 @@ class ClassifierImplementation
             QIntMap const & clusterSize
         );
 
-        QIntFloatMap getVarianceProbablity
+        void detectPopularClusterSizes2
         (
-            QIntList const & factorVariance,
-            QIntList const & frontVariance
+            QIntMap const & clusterSizeCount
+        );
+
+        void detectClusterSizeStep
+        (
+            QIntMap const & clusterSizeCount
+        );
+
+        QIntList getRelevantClusterSizes
+        (
+            QIntList const & clusterSize
+        );
+
+        void detectUniqueTrackClusterSize
+        (
+            QIntSet const & clusterSize
+        );
+
+        void detectUnmatchedClusterSize
+        (
+            QIntSet const & clusterSize
+        );
+
+        void detectSingleTrack1
+        (
+            QIntSet const & clusterSize
+        );
+
+        void detectTrackClusterSize
+        (
+            StemInfoList const & stemClusterInfo
+        );
+
+        void detectSingleTrack2
+        (
+            StemInfoList const & stemClusterInfo
+        );
+
+        void applyVarianceProbability
+        (
+            QIntFloatMap const & varianceProbability
+        );
+
+        float accumulateProbability
+        (
+            QIntFloatMap const & probability
         );
 
     private:
