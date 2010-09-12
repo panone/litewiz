@@ -2,10 +2,7 @@
 *******************************************************************************/
 
 #include <QStringList>
-#include <QVariant>
-#include "extractor.h"
-#include "clusters_extractor.h"
-#include "factor_variance_extractor.h"
+#include "utility.h"
 #include "classifier_implementation.h"
 
 /*******************************************************************************
@@ -15,8 +12,6 @@ ClassifierImplementation::ClassifierImplementation
     void
 )
 {
-    extractors[ ClassifierData::Clusters ] = new ClustersExtractor( this );
-    extractors[ ClassifierData::FactorVariance ] = new FactorVarianceExtractor( this );
 }
 
 /*******************************************************************************
@@ -26,10 +21,6 @@ ClassifierImplementation::~ClassifierImplementation
     void
 )
 {
-    foreach ( Extractor * extractor, extractors )
-    {
-        delete extractor;
-    }
 }
 
 /*******************************************************************************
@@ -41,10 +32,12 @@ void ClassifierImplementation::classify
 {
     this->fileNames = fileNames;
 
-    foreach ( Extractor * extractor, extractors )
-    {
-        extractor->extract();
-    }
+    extractClusters();
+
+    QIntList   factorVariance = extractFactorVariance();
+    QIntList   frontVariance  = extractFrontVariance();
+
+    VarianceProbability varianceProbability = getVarianceProbablity( factorVariance, frontVariance );
 }
 
 /*******************************************************************************
@@ -59,23 +52,136 @@ int ClassifierImplementation::getDefaultVariance
 
 /*******************************************************************************
 *******************************************************************************/
-QVariantList ClassifierImplementation::getData
+void ClassifierImplementation::extractClusters
 (
-    ClassifierData::Identifier const identifier
+    void
 )
 {
-    QVariantList result;
+    clusters.clear();
 
-    if ( identifier == ClassifierData::FileNames )
+    foreach ( QString fileName1, fileNames )
     {
-        foreach ( QString fileName, fileNames )
+        ClusterSizeMap clusterSize;
+
+        foreach ( QString fileName2, fileNames )
         {
-            result.append( fileName );
+            int offset = difference( fileName1, fileName2 );
+
+            clusterSize[ offset ] += 1;
+        }
+
+        clusters.append( clusterSize );
+    }
+}
+
+/*******************************************************************************
+*******************************************************************************/
+QIntList ClassifierImplementation::extractFactorVariance
+(
+    void
+)
+{
+    QIntPairList   factors = pairFactor( fileNames.count() );
+    QIntList       result;
+
+    foreach ( QIntPair pair, factors )
+    {
+        result.append( pair.first );
+        result.append( pair.second );
+    }
+
+    qSort( result );
+
+    return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+QIntList ClassifierImplementation::extractFrontVariance
+(
+    void
+)
+{
+    QIntList            result;
+    QList< QIntList >   accumulatedClusterSize;
+
+    foreach ( ClusterSizeMap const & clusterSize, clusters )
+    {
+        accumulatedClusterSize.append( getAccumulatedClusterSize( clusterSize ) );
+    }
+
+    QIntList reference = accumulatedClusterSize.first();
+
+    foreach ( int variance, reference )
+    {
+        bool valid = true;
+
+        foreach ( QIntList size, accumulatedClusterSize )
+        {
+            if ( size.indexOf( variance ) == -1 )
+            {
+                valid = false;
+                break;
+            }
+        }
+
+        if ( valid )
+        {
+            result.append( variance );
         }
     }
-    else
+
+    return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+QIntList ClassifierImplementation::getAccumulatedClusterSize
+(
+    ClusterSizeMap const & clusterSize
+)
+{
+    QIntList                           result;
+    QMap< int, int >::const_iterator   i;
+    int                                sum = 0;
+
+    for ( i = clusterSize.constEnd(); i != clusterSize.constBegin(); )
     {
-        result = extractors[ identifier ]->getData();
+        sum += *( --i );
+
+        result.append( sum );
+    }
+
+    return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+VarianceProbability ClassifierImplementation::getVarianceProbablity
+(
+    QIntList const & factorVariance,
+    QIntList const & frontVariance
+)
+{
+    QIntList variance;
+
+    foreach ( int v, factorVariance )
+    {
+        if ( frontVariance.indexOf( v ) != -1 )
+        {
+            variance.append( v );
+        }
+    }
+
+    VarianceProbability result;
+
+    foreach ( int v, variance )
+    {
+        int     items                = fileNames.count() / v;
+        float   varianceProbability  = 0.9f * cosfade( v, 5, 15 ) + 0.1f;
+        float   itemCountProbability = 0.9f * cosfade( items, 10, 40 ) + 0.1f;
+
+        result[ v ] = varianceProbability * itemCountProbability;
     }
 
     return result;

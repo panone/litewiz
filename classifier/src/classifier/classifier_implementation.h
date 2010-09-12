@@ -6,24 +6,15 @@
 
 /******************************************************************************/
 
+#include <QList>
 #include <QMap>
 #include <QStringList>
-#include <QVariant>
-#include "extractor.h"
+#include "utility.h"
 
-/*******************************************************************************
-*******************************************************************************/
-class ClassifierData
-{
-    public:
+/******************************************************************************/
 
-        enum Identifier
-        {
-            FileNames,
-            Clusters,
-            FactorVariance
-        };
-};
+typedef QMap< int, int > ClusterSizeMap;
+typedef QMap< int, float > VarianceProbability;
 
 /*******************************************************************************
 *******************************************************************************/
@@ -53,16 +44,38 @@ class ClassifierImplementation
             void
         );
 
-        QVariantList getData
+    private:
+
+        void extractClusters
         (
-            ClassifierData::Identifier const identifier
+            void
+        );
+
+        QIntList extractFactorVariance
+        (
+            void
+        );
+
+        QIntList extractFrontVariance
+        (
+            void
+        );
+
+        QIntList getAccumulatedClusterSize
+        (
+            ClusterSizeMap const & clusterSize
+        );
+
+        VarianceProbability getVarianceProbablity
+        (
+            QIntList const & factorVariance,
+            QIntList const & frontVariance
         );
 
     private:
 
-        QStringList                                       fileNames;
-
-        QMap< ClassifierData::Identifier, Extractor * >   extractors;
+        QStringList               fileNames;
+        QList< ClusterSizeMap >   clusters;
 };
 
 /******************************************************************************/

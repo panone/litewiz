@@ -9,11 +9,9 @@ QT -= gui
 CONFIG += staticlib
 
 INCLUDEPATH += \
-    src/classifier \
-    src/extractors
+    src/classifier
 
 HEADERS += \
     classifier.h
 
 include(src/classifier/classifier.pro)
-include(src/extractors/extractors.pro)
