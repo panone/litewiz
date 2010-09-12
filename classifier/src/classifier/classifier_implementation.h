@@ -13,8 +13,10 @@
 
 /******************************************************************************/
 
-typedef QMap< int, int > ClusterSizeMap;
-typedef QMap< int, float > VarianceProbability;
+typedef QList< QIntList > QIntList2;
+typedef QMap< int, int > QIntMap;
+typedef QList< QIntMap > QIntMapList;
+typedef QMap< int, float > QIntFloatMap;
 
 /*******************************************************************************
 *******************************************************************************/
@@ -63,10 +65,10 @@ class ClassifierImplementation
 
         QIntList getAccumulatedClusterSize
         (
-            ClusterSizeMap const & clusterSize
+            QIntMap const & clusterSize
         );
 
-        VarianceProbability getVarianceProbablity
+        QIntFloatMap getVarianceProbablity
         (
             QIntList const & factorVariance,
             QIntList const & frontVariance
@@ -74,8 +76,9 @@ class ClassifierImplementation
 
     private:
 
-        QStringList               fileNames;
-        QList< ClusterSizeMap >   clusters;
+        QStringList    fileDescriptions;
+        QIntMapList    clusters;
+        QIntFloatMap   variance;
 };
 
 /******************************************************************************/

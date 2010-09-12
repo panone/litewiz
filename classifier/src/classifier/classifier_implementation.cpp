@@ -30,14 +30,14 @@ void ClassifierImplementation::classify
     QStringList const & fileNames
 )
 {
-    this->fileNames = fileNames;
+    fileDescriptions = fileNames;
 
     extractClusters();
 
     QIntList   factorVariance = extractFactorVariance();
     QIntList   frontVariance  = extractFrontVariance();
 
-    VarianceProbability varianceProbability = getVarianceProbablity( factorVariance, frontVariance );
+    QIntFloatMap varianceProbability = getVarianceProbablity( factorVariance, frontVariance );
 }
 
 /*******************************************************************************
@@ -59,11 +59,11 @@ void ClassifierImplementation::extractClusters
 {
     clusters.clear();
 
-    foreach ( QString fileName1, fileNames )
+    foreach ( QString fileName1, fileDescriptions )
     {
-        ClusterSizeMap clusterSize;
+        QIntMap clusterSize;
 
-        foreach ( QString fileName2, fileNames )
+        foreach ( QString fileName2, fileDescriptions )
         {
             int offset = difference( fileName1, fileName2 );
 
@@ -81,7 +81,7 @@ QIntList ClassifierImplementation::extractFactorVariance
     void
 )
 {
-    QIntPairList   factors = pairFactor( fileNames.count() );
+    QIntPairList   factors = pairFactor( fileDescriptions.count() );
     QIntList       result;
 
     foreach ( QIntPair pair, factors )
@@ -102,10 +102,10 @@ QIntList ClassifierImplementation::extractFrontVariance
     void
 )
 {
-    QIntList            result;
-    QList< QIntList >   accumulatedClusterSize;
+    QIntList    result;
+    QIntList2   accumulatedClusterSize;
 
-    foreach ( ClusterSizeMap const & clusterSize, clusters )
+    foreach ( QIntMap const & clusterSize, clusters )
     {
         accumulatedClusterSize.append( getAccumulatedClusterSize( clusterSize ) );
     }
@@ -138,7 +138,7 @@ QIntList ClassifierImplementation::extractFrontVariance
 *******************************************************************************/
 QIntList ClassifierImplementation::getAccumulatedClusterSize
 (
-    ClusterSizeMap const & clusterSize
+    QIntMap const & clusterSize
 )
 {
     QIntList                           result;
@@ -157,7 +157,7 @@ QIntList ClassifierImplementation::getAccumulatedClusterSize
 
 /*******************************************************************************
 *******************************************************************************/
-VarianceProbability ClassifierImplementation::getVarianceProbablity
+QIntFloatMap ClassifierImplementation::getVarianceProbablity
 (
     QIntList const & factorVariance,
     QIntList const & frontVariance
@@ -173,11 +173,11 @@ VarianceProbability ClassifierImplementation::getVarianceProbablity
         }
     }
 
-    VarianceProbability result;
+    QIntFloatMap result;
 
     foreach ( int v, variance )
     {
-        int     items                = fileNames.count() / v;
+        int     items                = fileDescriptions.count() / v;
         float   varianceProbability  = 0.9f * cosfade( v, 5, 15 ) + 0.1f;
         float   itemCountProbability = 0.9f * cosfade( items, 10, 40 ) + 0.1f;
 
