@@ -66,7 +66,7 @@ class Classifier
         $codecCountProbability = $this->GetCodecCountProbability();
         $clusterSizeCount      = $this->GetClusterSizeCount();
         $unmatchedClusterSize  = $this->GetUnmatchedClusterSize();
-        $stemClusterCount      = $this->GetStemClusterCount( $fileName );
+        $stemClusterCount      = $this->GetStemClusterCount();
 
         $this->SetCodecCountProbability( $codecCountProbability );
         $this->SelectPopularClusterSizes1( $clusterSizeCount );
@@ -309,9 +309,11 @@ class Classifier
 
     /***************************************************************************
     ***************************************************************************/
-    private function GetStemClusterCount( $fileName )
+    private function GetStemClusterCount()
     {
         static $stemLength = array( 1, 3, 5, 10 );
+
+        $fileName = array_keys( $this->fileName );
 
         foreach ( $stemLength as $length )
         {
