@@ -42,12 +42,50 @@ void ClassifierImplementation::classify
 
 /*******************************************************************************
 *******************************************************************************/
+QIntList ClassifierImplementation::getPossibleVariance
+(
+    void
+)
+{
+    QMapIterator< int, float >   iterator( variance );
+    QIntList                     result;
+
+    while ( iterator.hasNext() )
+    {
+        iterator.next();
+
+        if ( iterator.value() > 0.0f )
+        {
+            result.append( iterator.key() );
+        }
+    }
+
+    return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
 int ClassifierImplementation::getDefaultVariance
 (
     void
 )
 {
-    return 42;
+    QMapIterator< int, float >   iterator( variance );
+    float                        maxProbability = 0.0f;
+    int                          result         = 0;
+
+    while ( iterator.hasNext() )
+    {
+        iterator.next();
+
+        if ( maxProbability < iterator.value() )
+        {
+            maxProbability = iterator.value();
+            result         = iterator.key();
+        }
+    }
+
+    return result;
 }
 
 /*******************************************************************************

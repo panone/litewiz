@@ -41,6 +41,11 @@ class ClassifierImplementation
             QStringList const & fileNames
         );
 
+        QIntList getPossibleVariance
+        (
+            void
+        );
+
         int getDefaultVariance
         (
             void
