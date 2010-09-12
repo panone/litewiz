@@ -1,0 +1,6 @@
+.workspace/*
+test/*
+litewiz/bld/*
+testbench/bld/*
+*.user
+*.memo
