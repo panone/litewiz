@@ -176,21 +176,18 @@ class Classifier
 
         arsort( $clusterSizeCount );
 
-        $count            = count( $clusterSizeCount );
-        $gain             = min( 0.125 * $count, 1 );
-        $clusterSizeCount = array_slice( $clusterSizeCount, 0, min( $count, 4 ), TRUE );
-        $maxCount         = max( $clusterSizeCount );
+        $i = 0;
 
         foreach ( $clusterSizeCount as $size => $count )
         {
-            $weight[ $size ] = $count / $maxCount;
+            $weight[ $size ] = $count * cosfade( ++$i, 3, 7 );
         }
 
-        $gain *= 2.0 / array_sum( $weight );
+        $gain = min( 0.5 * count( $clusterSizeCount ), 2.0 ) / array_sum( $weight );
 
-        foreach ( $clusterSizeCount as $size => $count )
+        foreach ( $weight as $size => $w )
         {
-            @$this->codecCount[ $size ] += $gain * $weight[ $size ];
+            @$this->codecCount[ $size ] += $gain * $w;
         }
 
         $this->log->LogCodecCount( 'SelectPopularClusterSizes1', $this->codecCount );
