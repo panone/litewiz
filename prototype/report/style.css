@@ -67,14 +67,9 @@ div.test-case div.clearer {
     overflow: hidden;
 }
 
-div.test-case div.cluster-size {
+div.test-case div.chart {
     float: left;
-    width: 420px;
-}
-
-div.test-case div.codec-count {
-    float: left;
-    margin-left: 1em;
+    margin-right: 1em;
     width: 420px;
 }
 

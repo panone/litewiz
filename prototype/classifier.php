@@ -558,7 +558,7 @@ class ClassifierLog
     ***************************************************************************/
     public function LogClusterSize( $clusterSize )
     {
-        $this->clusterSize = $clusterSize;
+        $this->clusterSize[] = $clusterSize;
     }
 
     /***************************************************************************
@@ -633,7 +633,7 @@ class ClassifierLog
     ***************************************************************************/
     public function RenderReport( $sink )
     {
-        $this->RenderClusterSize( $sink );
+        $this->RenderClusterSize( $sink, $this->clusterSize[ 0 ] );
         $this->RenderCodecCount( $sink );
 
         $sink->Write( '<div class="clearer"></div>' );
@@ -646,22 +646,22 @@ class ClassifierLog
 
     /***************************************************************************
     ***************************************************************************/
-    private function RenderClusterSize( $sink )
+    private function RenderClusterSize( $sink, $clusterSize )
     {
-        $max = ceil( max( $this->clusterSize ) / 10 ) * 10;
+        $max = ceil( max( $clusterSize ) / 10 ) * 10;
         $chart[] = 'chs=400x200';
         $chart[] = 'cht=bvs';
-        $chart[] = 'chd=t:' . implode( ',', $this->clusterSize );
+        $chart[] = 'chd=t:' . implode( ',', $clusterSize );
         $chart[] = "chds=0,$max";
         $chart[] = 'chco=4D89F9';
         $chart[] = 'chxt=x,y';
         $chart[] = "chxr=1,0,$max";
-        $chart[] = 'chxl=0:|' . implode( '|', array_keys( $this->clusterSize ) );
+        $chart[] = 'chxl=0:|' . implode( '|', array_keys( $clusterSize ) );
         $chart[] = 'chm=N,FFFFFF,0,,9,,c';
 
         $image = '<img src="http://chart.apis.google.com/chart?' . implode( '&amp;', $chart ) . '" />';
 
-        $sink->OpenReportBlock( 'Cluster size distribution', 'cluster-size' );
+        $sink->OpenReportBlock( 'Cluster size distribution', 'chart' );
         $sink->Write( $image );
         $sink->CloseReportBlock();
     }
@@ -670,12 +670,13 @@ class ClassifierLog
     ***************************************************************************/
     private function RenderCodecCount( $sink )
     {
-        static $color = array( '4D89F9', 'FFCEB4', 'BEF3A9', '96DEE4', 'DEB3FF', 'FF94C1', 'DDDB4A', '22C778', 'A6C7E3' );
+        static $palette = array( '4D89F9', 'FFCEB4', 'BEF3A9', '96DEE4', 'DEB3FF', 'FF94C1', 'DDDB4A', '22C778', 'A6C7E3' );
 
         ksort( $this->codecCount );
 
         $snapshots = count( $this->label );
         $max       = ceil( $this->GetMaxCodecCountWight() + 0.5 );
+        $color     = array();
 
         for ( $i = 0; $i < $snapshots; $i++ )
         {
@@ -687,20 +688,29 @@ class ClassifierLog
             }
 
             $data[] = implode( ',', $series );
+
+            if ( $this->label[ $i ] == 'ApplyCodecCountProbability' )
+            {
+                $color[] = 'CC0000';
+            }
+            else
+            {
+                $color[] = $palette[ $i ];
+            }
         }
 
         $chart[] = 'chs=400x200';
         $chart[] = 'cht=lc';
         $chart[] = 'chd=t:' . implode( '|', $data );
         $chart[] = "chds=0,$max";
-        $chart[] = 'chco=' . implode( ',', array_slice( $color, 0, $snapshots ) );
+        $chart[] = 'chco=' . implode( ',', $color );
         $chart[] = 'chxt=x,y';
         $chart[] = "chxr=1,0,$max";
         $chart[] = 'chxl=0:|' . implode( '|', array_keys( $this->codecCount ) );
 
         $image = '<img src="http://chart.apis.google.com/chart?' . implode( '&amp;', $chart ) . '" />';
 
-        $sink->OpenReportBlock( 'Codecs number probability distribution', 'codec-count' );
+        $sink->OpenReportBlock( 'Codecs number probability distribution', 'chart' );
         $sink->Write( $image );
         $sink->CloseReportBlock();
     }
