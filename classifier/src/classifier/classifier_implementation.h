@@ -25,6 +25,8 @@ typedef QList< QIntMap > QIntMapList;
 typedef QMap< int, float > QIntFloatMap;
 typedef QMapIterator< int, float > QIntFloatMapIterator;
 typedef QMap< QString, int > QStringIntMap;
+typedef QMap< QString, QIntList > QStringIntListMap;
+typedef QMap< QString, QString > QStringMap;
 typedef QList< StemInfo > StemInfoList;
 
 /*******************************************************************************
@@ -172,6 +174,21 @@ class ClassifierImplementation
         void applyVarianceProbability
         (
             QIntFloatMap const & varianceProbability
+        );
+
+        QIntList getSplitIndices
+        (
+            int const variance
+        );
+
+        QStringMap getItemNames
+        (
+            QStringList const & stems
+        );
+
+        QStringMap getVariantNames
+        (
+            QStringList const & stems
         );
 
         float accumulateProbability

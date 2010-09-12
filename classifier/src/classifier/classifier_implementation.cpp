@@ -13,6 +13,8 @@
 
 #define ARRAY_LENGTH( a )               static_cast< int >( sizeof( a ) / sizeof( a[ 0 ] ) )
 
+#define FILE_NAME_SEPARATORS            "_-. |"
+
 #define CLASSIFIER_TUNING
 
 /*******************************************************************************
@@ -110,7 +112,50 @@ ClassificationInfo ClassifierImplementation::getClassification
     int const variance
 )
 {
+    QIntList            splitIndices = getSplitIndices( variance );
+    QStringIntListMap   items;
+    QStringIntListMap   variants;
+
+    for ( int i = 0; i < fileDescriptions.count(); i++ )
+    {
+        QString description = fileDescriptions[ i ];
+
+        items[ description.left( splitIndices[ i ] ) ].append( i );
+        variants[ description.mid( splitIndices[ i ] ) ].append( i );
+    }
+
+    QStringList   itemStems    = items.keys();
+    QStringList   variantStems = variants.keys();
+
+    //TODO: SortItems( itemStems );
+    //TODO: SortVariants( variantStems );
+
+    QStringMap   itemNames    = getItemNames( itemStems );
+    QStringMap   variantNames = getVariantNames( variantStems );
+
     ClassificationInfo result;
+
+    foreach ( QString const & stem, items.keys() )
+    {
+        ItemInfo info;
+
+        info.name  = itemNames[ stem ];
+        info.stem  = stem;
+        info.files = items[ stem ];
+
+        result.items.append( info );
+    }
+
+    foreach ( QString const & stem, variants.keys() )
+    {
+        VariantInfo info;
+
+        info.name  = variantNames[ stem ];
+        info.stem  = stem;
+        info.files = variants[ stem ];
+
+        result.variants.append( info );
+    }
 
     return result;
 }
@@ -134,13 +179,13 @@ void ClassifierImplementation::extractClusters
 {
     clusters.clear();
 
-    foreach ( QString fileName1, fileDescriptions )
+    foreach ( QString description1, fileDescriptions )
     {
         QIntMap clusterSize;
 
-        foreach ( QString fileName2, fileDescriptions )
+        foreach ( QString description2, fileDescriptions )
         {
-            int offset = difference( fileName1, fileName2 );
+            int offset = difference( description1, description2 );
 
             clusterSize[ offset ] += 1;
         }
@@ -326,15 +371,15 @@ QIntList ClassifierImplementation::getAccumulatedClusterSize
 {
     QIntList          result;
     QIntMapIterator   iterator( clusterSize );
-    int               sum = 0;
+    int               accumulated = 0;
 
     iterator.toBack();
 
     while ( iterator.hasPrevious() )
     {
-        sum += iterator.previous().value();
+        accumulated += iterator.previous().value();
 
-        result.append( sum );
+        result.append( accumulated );
     }
 
     return result;
@@ -555,6 +600,58 @@ void ClassifierImplementation::applyVarianceProbability
             variance[ v ] = 0.0f;
         }
     }
+}
+
+/*******************************************************************************
+*******************************************************************************/
+QIntList ClassifierImplementation::getSplitIndices
+(
+    int const variance
+)
+{
+    QIntList result;
+
+    foreach ( QIntMap const & clusterSize, clusters )
+    {
+        int accumulated = 0;
+
+        foreach ( int size, clusterSize.keys() )
+        {
+            accumulated += clusterSize[ size ];
+
+            if ( ( accumulated >= variance ) && ( ( accumulated % variance ) == 0 ) )
+            {
+                result.append( size );
+                break;
+            }
+        }
+    }
+
+    return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+QStringMap ClassifierImplementation::getItemNames
+(
+    QStringList const & stems
+)
+{
+    QStringMap result;
+
+    return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+QStringMap ClassifierImplementation::getVariantNames
+(
+    QStringList const & stems
+)
+{
+    QStringMap result;
+
+    return result;
 }
 
 /*******************************************************************************
