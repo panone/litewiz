@@ -16,7 +16,7 @@ class QStringList;
 
 /*******************************************************************************
 *******************************************************************************/
-class ClassificationInfo
+class ClusterInfo
 {
     public:
 
@@ -27,17 +27,27 @@ class ClassificationInfo
 
 /*******************************************************************************
 *******************************************************************************/
-class ItemInfo : public ClassificationInfo
+class ItemInfo : public ClusterInfo
 {
 };
 
 /*******************************************************************************
 *******************************************************************************/
-class VariantInfo : public ClassificationInfo
+class VariantInfo : public ClusterInfo
 {
     public:
 
         bool reference;
+};
+
+/*******************************************************************************
+*******************************************************************************/
+class ClassificationInfo
+{
+    public:
+
+        QList< ItemInfo >      items;
+        QList< VariantInfo >   variants;
 };
 
 /*******************************************************************************
@@ -73,12 +83,7 @@ class Classifier
             void
         );
 
-        QList< ItemInfo > getItems
-        (
-            int variance
-        );
-
-        QList< VariantInfo > getVariants
+        ClassificationInfo getClassification
         (
             int variance
         );

@@ -74,12 +74,12 @@ int Classifier::getDefaultVariance
 
 /*******************************************************************************
 *******************************************************************************/
-QList< ItemInfo > Classifier::getItems
+ClassificationInfo Classifier::getClassification
 (
     int variance
 )
 {
-    QList< ItemInfo > result;
+    ClassificationInfo result;
 
     int items = files / variance;
 
@@ -95,22 +95,8 @@ QList< ItemInfo > Classifier::getItems
             info.files.append( v * items + i );
         }
 
-        result.append( info );
+        result.items.append( info );
     }
-
-    return result;
-}
-
-/*******************************************************************************
-*******************************************************************************/
-QList< VariantInfo > Classifier::getVariants
-(
-    int variance
-)
-{
-    QList< VariantInfo > result;
-
-    int items = files / variance;
 
     for ( int v = 0; v < variance; v++ )
     {
@@ -126,7 +112,7 @@ QList< VariantInfo > Classifier::getVariants
             info.files.append( v * items + i );
         }
 
-        result.append( info );
+        result.variants.append( info );
     }
 
     return result;

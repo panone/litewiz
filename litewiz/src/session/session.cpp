@@ -232,12 +232,12 @@ void Session::updateFileCollection
 *******************************************************************************/
 void Session::setItems
 (
-    int const variance
+    ClassificationInfo const & classification
 )
 {
     items->clear();
 
-    foreach ( ItemInfo const & info, classifier->getItems( variance ) )
+    foreach ( ItemInfo const & info, classification.items )
     {
         Item * item = items->addItem( info );
 
@@ -252,12 +252,12 @@ void Session::setItems
 *******************************************************************************/
 void Session::setVariants
 (
-    int const variance
+    ClassificationInfo const & classification
 )
 {
     variants->clear();
 
-    foreach ( VariantInfo const & info, classifier->getVariants( variance ) )
+    foreach ( VariantInfo const & info, classification.variants )
     {
         Variant * variant = variants->addVariant( info );
 
@@ -344,8 +344,10 @@ void Session::classify
 
     variance = classifier->getPossibleVariance();
 
-    setItems( classifier->getDefaultVariance() );
-    setVariants( classifier->getDefaultVariance() );
+    ClassificationInfo classification = classifier->getClassification( classifier->getDefaultVariance() );
+
+    setItems( classification );
+    setVariants( classification );
 
     classified = true;
 
@@ -361,8 +363,10 @@ void Session::setCurrentVariance
 {
     if ( ( varianceIndex >= 0 ) && ( varianceIndex < variance.count() ) )
     {
-        setItems( variance.value( varianceIndex ) );
-        setVariants( variance.value( varianceIndex ) );
+        ClassificationInfo classification = classifier->getClassification( variance.value( varianceIndex ) );
+
+        setItems( classification );
+        setVariants( classification );
 
         emit classificationChanged();
     }

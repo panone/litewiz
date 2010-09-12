@@ -18,6 +18,7 @@ class FileCollection;
 class ItemCollection;
 class VariantCollection;
 class Classifier;
+class ClassificationInfo;
 class FileTreeItem;
 
 /*******************************************************************************
@@ -104,12 +105,12 @@ class Session : public QObject
 
         void setItems
         (
-            int const variance
+            ClassificationInfo const & classification
         );
 
         void setVariants
         (
-            int const variance
+            ClassificationInfo const & classification
         );
 
         void invalidateClassification
