@@ -1,17 +1,11 @@
 ################################################################################
 ################################################################################
 
-TARGET = classifier
-TEMPLATE = lib
-
-QT -= gui
-
-CONFIG += staticlib
-
-INCLUDEPATH += \
-    src/classifier
+SOURCES += \
+    src/classifier.cpp \
+    src/classifier_implementation.cpp \
+    src/utility.cpp
 
 HEADERS += \
-    classifier.h
-
-include(src/classifier.pro)
+    src/classifier_implementation.h \
+    src/utility.h
