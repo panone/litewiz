@@ -625,7 +625,7 @@ void ClassifierImplementation::validateVariance
         {
             QIntList splitIndices = getSplitIndices( v );
 
-            if ( splitIndices.indexOf( 0 ) != -1 )
+            if ( splitIndices.contains( 0 ) )
             {
                 variance[ v ] = 0.0f;
                 continue;
@@ -692,7 +692,7 @@ QStringMap ClassifierImplementation::getItemNames
     QString         stem   = stems[ 0 ];
 
     /* Find first separator within identical suffixes */
-    while ( ( offset > 0 ) && ( separators.indexOf( stem[ stem.length() - offset ] ) == -1 ) )
+    while ( ( offset > 0 ) && !separators.contains( stem[ stem.length() - offset ] ) )
     {
         offset--;
     }
