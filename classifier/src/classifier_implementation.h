@@ -8,6 +8,7 @@
 
 #include <QList>
 #include <QMap>
+#include <QSet>
 #include <QStringList>
 #include "utility.h"
 
@@ -27,6 +28,7 @@ typedef QMapIterator< int, float > QIntFloatMapIterator;
 typedef QMap< QString, int > QStringIntMap;
 typedef QMap< QString, QIntList > QStringIntListMap;
 typedef QMap< QString, QString > QStringMap;
+typedef QSet< QString > QStringSet;
 typedef QList< StemInfo > StemInfoList;
 
 /*******************************************************************************
@@ -44,18 +46,6 @@ class StemInfo
 *******************************************************************************/
 class ClassifierImplementation
 {
-    public:
-
-        ClassifierImplementation
-        (
-            void
-        );
-
-        ~ClassifierImplementation
-        (
-            void
-        );
-
     public:
 
         void classify
@@ -85,7 +75,7 @@ class ClassifierImplementation
             QStringList const & fileNames
         );
 
-        void extractClusters
+        void initializeClusters
         (
             void
         );
@@ -146,7 +136,7 @@ class ClassifierImplementation
             QIntList const & clusterSize
         );
 
-        void detectUniqueTrackClusterSize
+        void detectUniqueItemClusterSize
         (
             QIntSet const & clusterSize
         );
@@ -156,17 +146,17 @@ class ClassifierImplementation
             QIntSet const & clusterSize
         );
 
-        void detectSingleTrack1
+        void detectSingleItem1
         (
             QIntSet const & clusterSize
         );
 
-        void detectTrackClusterSize
+        void detectItemClusterSize
         (
             StemInfoList const & stemClusterInfo
         );
 
-        void detectSingleTrack2
+        void detectSingleItem2
         (
             StemInfoList const & stemClusterInfo
         );
@@ -174,6 +164,11 @@ class ClassifierImplementation
         void applyVarianceProbability
         (
             QIntFloatMap const & varianceProbability
+        );
+
+        void validateVariance
+        (
+            void
         );
 
         QIntList getSplitIndices

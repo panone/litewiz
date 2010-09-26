@@ -1,6 +1,7 @@
 /*******************************************************************************
 *******************************************************************************/
 
+#include <QFileInfo>
 #include <QList>
 #include <QMap>
 #include <QSet>
@@ -19,31 +20,13 @@
 
 /*******************************************************************************
 *******************************************************************************/
-ClassifierImplementation::ClassifierImplementation
-(
-    void
-)
-{
-}
-
-/*******************************************************************************
-*******************************************************************************/
-ClassifierImplementation::~ClassifierImplementation
-(
-    void
-)
-{
-}
-
-/*******************************************************************************
-*******************************************************************************/
 void ClassifierImplementation::classify
 (
     QStringList const & fileNames
 )
 {
     initializeFileDescriptions( fileNames );
-    extractClusters();
+    initializeClusters();
 
     QIntFloatMap   varianceProbability  = getVarianceProbablity();
     QIntMap        clusterSizeCount     = getClusterSizeCount();
@@ -54,13 +37,14 @@ void ClassifierImplementation::classify
     detectPopularClusterSizes1();
     detectPopularClusterSizes2( clusterSizeCount );
     detectClusterSizeStep( clusterSizeCount );
-    detectUniqueTrackClusterSize( unmatchedClusterSize );
+    detectUniqueItemClusterSize( unmatchedClusterSize );
     detectUnmatchedClusterSize( unmatchedClusterSize );
-    detectSingleTrack1( unmatchedClusterSize );
-    detectTrackClusterSize( stemClusterInfo );
-    detectSingleTrack2( stemClusterInfo );
+    detectSingleItem1( unmatchedClusterSize );
+    detectItemClusterSize( stemClusterInfo );
+    detectSingleItem2( stemClusterInfo );
 
     applyVarianceProbability( varianceProbability );
+    validateVariance();
 }
 
 /*******************************************************************************
@@ -167,12 +151,33 @@ void ClassifierImplementation::initializeFileDescriptions
     QStringList const & fileNames
 )
 {
-    fileDescriptions = fileNames;
+    fileDescriptions.clear();
+
+    QStringListEx directories;
+
+    foreach ( QString const & fileName, fileNames )
+    {
+        QFileInfo fileInfo( fileName );
+
+        fileDescriptions.append( fileInfo.baseName() );
+        directories.append( fileInfo.path() );
+    }
+
+    directories.trimMatchingLeft();
+    directories.trimLeft( "\\" );
+
+    for ( int i = 0; i < fileNames.count(); i++ )
+    {
+        if ( !directories[ i ].isEmpty() )
+        {
+            fileDescriptions[ i ] += '|' + directories[ i ];
+        }
+    }
 }
 
 /*******************************************************************************
 *******************************************************************************/
-void ClassifierImplementation::extractClusters
+void ClassifierImplementation::initializeClusters
 (
     void
 )
@@ -478,7 +483,7 @@ QIntList ClassifierImplementation::getRelevantClusterSizes
 
 /*******************************************************************************
 *******************************************************************************/
-void ClassifierImplementation::detectUniqueTrackClusterSize
+void ClassifierImplementation::detectUniqueItemClusterSize
 (
     QIntSet const & clusterSize
 )
@@ -509,7 +514,7 @@ void ClassifierImplementation::detectUnmatchedClusterSize
 
 /*******************************************************************************
 *******************************************************************************/
-void ClassifierImplementation::detectSingleTrack1
+void ClassifierImplementation::detectSingleItem1
 (
     QIntSet const & clusterSize
 )
@@ -522,7 +527,7 @@ void ClassifierImplementation::detectSingleTrack1
 
 /*******************************************************************************
 *******************************************************************************/
-void ClassifierImplementation::detectTrackClusterSize
+void ClassifierImplementation::detectItemClusterSize
 (
     StemInfoList const & stemClusterInfo
 )
@@ -565,7 +570,7 @@ void ClassifierImplementation::detectTrackClusterSize
 
 /*******************************************************************************
 *******************************************************************************/
-void ClassifierImplementation::detectSingleTrack2
+void ClassifierImplementation::detectSingleItem2
 (
     StemInfoList const & stemClusterInfo
 )
@@ -598,6 +603,40 @@ void ClassifierImplementation::applyVarianceProbability
         else
         {
             variance[ v ] = 0.0f;
+        }
+    }
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void ClassifierImplementation::validateVariance
+(
+    void
+)
+{
+    foreach ( int v, variance.keys() )
+    {
+        if ( variance[ v ] > 0.0f )
+        {
+            QIntList splitIndices = getSplitIndices( v );
+
+            if ( splitIndices.indexOf( 0 ) != -1 )
+            {
+                variance[ v ] = 0.0f;
+                continue;
+            }
+
+            QStringSet names;
+
+            for ( int j = 0; j < fileDescriptions.count(); j++ )
+            {
+                names.insert( fileDescriptions[ j ].mid( splitIndices[ j ] ) );
+            }
+
+            if ( names.count() != v )
+            {
+                variance[ v ] = 0.0f;
+            }
         }
     }
 }
@@ -637,7 +676,31 @@ QStringMap ClassifierImplementation::getItemNames
     QStringList const & stems
 )
 {
+    QStringListEx   temp( stems );
+    QString         separators( FILE_NAME_SEPARATORS );
+    int             offset = temp.findReverseFirstDifference();
+    QString         stem   = stems[ 0 ];
+
+    /* Find first separator within identical suffixes */
+    while ( ( offset > 0 ) && ( separators.indexOf( stem[ stem.length() - offset ] ) == -1 ) )
+    {
+        offset--;
+    }
+
     QStringMap result;
+
+    foreach ( QString stem, stems )
+    {
+        QString   name      = stem.left( stem.length() - offset );
+        int       separator = name.indexOf( '|' );
+
+        if ( separator != -1 )
+        {
+            name = name.left( separator );
+        }
+
+        result[ stem ] = name;
+    }
 
     return result;
 }
@@ -649,7 +712,45 @@ QStringMap ClassifierImplementation::getVariantNames
     QStringList const & stems
 )
 {
+    QStringListEx names( stems );
+
+    names.trimLeft( FILE_NAME_SEPARATORS );
+
+    QStringIntMap nameCount;
+
+    foreach ( QString const & name, names )
+    {
+        int separator = name.indexOf( '|' );
+
+        if ( separator != -1 )
+        {
+            nameCount[ name.left( separator ) ] += 1;
+        }
+        else
+        {
+            nameCount[ name ] += 1;
+        }
+    }
+
     QStringMap result;
+
+    for ( int i = 0; i < stems.count(); i++ )
+    {
+        QString   name      = names[ i ];
+        int       separator = name.indexOf( '|' );
+
+        if ( separator != -1 )
+        {
+            name = name.left( separator );
+
+            if ( nameCount[ name ] > 1 )
+            {
+                name = names[ i ].mid( separator + 1 ) + '\\' + name;
+            }
+        }
+
+        result[ stems[ i ] ] = name;
+    }
 
     return result;
 }
