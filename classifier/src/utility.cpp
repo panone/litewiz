@@ -6,8 +6,191 @@
 #include <QPair>
 #include <QSet>
 #include <QString>
+#include <QStringList>
 #include <math.h>
 #include "utility.h"
+
+/*******************************************************************************
+*******************************************************************************/
+QStringListEx::QStringListEx
+(
+    void
+) :
+    QStringList()
+{
+}
+
+/*******************************************************************************
+*******************************************************************************/
+QStringListEx::QStringListEx
+(
+    QStringList const & other
+) :
+    QStringList( other )
+{
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void QStringListEx::trimLeft
+(
+    QString const & target
+)
+{
+    QMutableListIterator< QString > iterator( *this );
+
+    while ( iterator.hasNext() )
+    {
+        QString & string = iterator.next();
+        int       index  = 0;
+
+        while ( target.indexOf( string[ index ] ) != -1 )
+        {
+            index++;
+        }
+
+        if ( index > 0 )
+        {
+            string = string.mid( index );
+        }
+    }
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void QStringListEx::trimRight
+(
+    int const count
+)
+{
+    QMutableListIterator< QString > iterator( *this );
+
+    while ( iterator.hasNext() )
+    {
+        QString & string = iterator.next();
+
+        string = string.left( string.length() - count );
+    }
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void QStringListEx::trimMatchingLeft
+(
+    void
+)
+{
+    int left = findFirstDifference();
+
+    if ( left > 0 )
+    {
+        QMutableListIterator< QString > iterator( *this );
+
+        while ( iterator.hasNext() )
+        {
+            QString & string = iterator.next();
+
+            string = string.mid( left );
+        }
+    }
+}
+
+/*******************************************************************************
+*******************************************************************************/
+int QStringListEx::findFirstDifference
+(
+    void
+)
+    const
+{
+    int    length     = getMinLength();
+    bool   difference = false;
+    int    offset;
+
+    for ( offset = 0; offset < length; offset++ )
+    {
+        QChar reference = at( 0 )[ offset ];
+
+        foreach ( QString const & string, *this )
+        {
+            if ( string[ offset ] != reference )
+            {
+                difference = true;
+                break;
+            }
+        }
+
+        if ( difference )
+        {
+            break;
+        }
+    }
+
+    return offset;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+int QStringListEx::findReverseFirstDifference
+(
+    void
+)
+    const
+{
+    int   length = getMinLength();
+    int   offset = 0;
+
+    if ( length > 0 )
+    {
+        bool difference = false;
+
+        for ( offset = 1; offset <= length; offset++ )
+        {
+            QChar reference = at( 0 )[ at( 0 ).length() - offset ];
+
+            foreach ( QString const & string, *this )
+            {
+                if ( string[ string.length() - offset ] != reference )
+                {
+                    difference = true;
+                    break;
+                }
+            }
+
+            if ( difference )
+            {
+                break;
+            }
+        }
+    }
+
+    return offset - 1;
+}
+
+/*******************************************************************************
+*******************************************************************************/
+int QStringListEx::getMinLength
+(
+    void
+)
+    const
+{
+    int result = 0;
+
+    if ( count() > 0 )
+    {
+        QListIterator< QString > iterator( *this );
+
+        result = iterator.next().length();
+
+        while ( iterator.hasNext() )
+        {
+            result = qMin( result, iterator.next().length() );
+        }
+    }
+
+    return result;
+}
 
 /*******************************************************************************
     Returns character offset of the first mismatch between two strings

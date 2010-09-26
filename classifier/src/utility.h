@@ -9,6 +9,7 @@
 #include <QList>
 #include <QPair>
 #include <QSet>
+#include <QStringList>
 
 /******************************************************************************/
 
@@ -19,7 +20,57 @@ typedef QSetIterator< int > QIntSetIterator;
 typedef QPair< int, int > QIntPair;
 typedef QList< QIntPair > QIntPairList;
 
-class QString;
+/*******************************************************************************
+*******************************************************************************/
+class QStringListEx : public QStringList
+{
+    public:
+
+        QStringListEx
+        (
+            void
+        );
+
+        QStringListEx
+        (
+            QStringList const & other
+        );
+
+    public:
+
+        void trimLeft
+        (
+            QString const & target
+        );
+
+        void trimRight
+        (
+            int const count
+        );
+
+        void trimMatchingLeft
+        (
+            void
+        );
+
+        int findFirstDifference
+        (
+            void
+        )
+        const;
+
+        int findReverseFirstDifference
+        (
+            void
+        )
+        const;
+
+        int getMinLength
+        (
+            void
+        )
+        const;
+};
 
 /******************************************************************************/
 
