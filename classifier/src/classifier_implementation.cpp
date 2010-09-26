@@ -319,7 +319,7 @@ void ClassifierImplementation::initializeVariance
 
     foreach ( int v, varianceProbability.keys() )
     {
-        variance[ v ] += gain * varianceProbability[ v ];
+        variance[ v ] = gain * varianceProbability[ v ];
     }
 }
 
@@ -490,7 +490,11 @@ void ClassifierImplementation::detectUniqueItemClusterSize
 {
     if ( clusterSize.size() > 0 )
     {
-        int size = clusterSize.values().last();
+        QIntList values = clusterSize.values();
+
+        qSort( values );
+
+        int size = values.last();
 
         if ( size > 0 )
         {
@@ -652,15 +656,20 @@ QIntList ClassifierImplementation::getSplitIndices
 
     foreach ( QIntMap const & clusterSize, clusters )
     {
-        int accumulated = 0;
+        QIntMapIterator   iterator( clusterSize );
+        int               accumulated = 0;
 
-        foreach ( int size, clusterSize.keys() )
+        iterator.toBack();
+
+        while ( iterator.hasPrevious() )
         {
-            accumulated += clusterSize[ size ];
+            iterator.previous();
+
+            accumulated += iterator.value();
 
             if ( ( accumulated >= variance ) && ( ( accumulated % variance ) == 0 ) )
             {
-                result.append( size );
+                result.append( iterator.key() );
                 break;
             }
         }
@@ -766,7 +775,7 @@ float ClassifierImplementation::accumulateProbability
 
     foreach ( float p, probability )
     {
-        result = p;
+        result += p;
     }
 
     return result;
