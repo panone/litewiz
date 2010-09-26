@@ -91,9 +91,6 @@ class Classifier
     private:
 
         ClassifierImplementation * implementation;
-
-        int                        files;
-        QList< int >               variance;
 };
 
 /******************************************************************************/
