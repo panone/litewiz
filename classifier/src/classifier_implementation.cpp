@@ -134,9 +134,10 @@ ClassificationInfo ClassifierImplementation::getClassification
     {
         VariantInfo info;
 
-        info.name  = variantNames[ stem ];
-        info.stem  = stem;
-        info.files = variants[ stem ];
+        info.name      = variantNames[ stem ];
+        info.stem      = stem;
+        info.files     = variants[ stem ];
+        info.reference = ( info.name == "-ref-" );
 
         result.variants.append( info );
     }
@@ -755,6 +756,18 @@ QStringMap ClassifierImplementation::getVariantNames
             if ( nameCount[ name ] > 1 )
             {
                 name = names[ i ].mid( separator + 1 ) + '\\' + name;
+            }
+        }
+
+        if ( name.isEmpty() )
+        {
+            if ( i == 0 )
+            {
+                name = "-ref-";
+            }
+            else
+            {
+                name = QString( "-%1-" ).arg( 'A' + i - 1 );
             }
         }
 

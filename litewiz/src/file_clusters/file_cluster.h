@@ -58,7 +58,7 @@ class FileCluster
         )
         const;
 
-    private:
+    protected:
 
         QString                        name;
         QString                        stem;
