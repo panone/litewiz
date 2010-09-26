@@ -235,7 +235,7 @@ QStringList FileCollection::getNames
 
     foreach ( File const * file, files )
     {
-        result.append( file->getName() );
+        result.append( file->getPathName() );
     }
 
     return result;
