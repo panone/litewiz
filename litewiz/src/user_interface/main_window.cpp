@@ -160,10 +160,19 @@ void MainWindow::addDirectory
     void
 )
 {
-    QString directoryName =  QFileDialog::getExistingDirectory( this, tr( "Select a directory" ) );
+    QSettings settings;
 
-    if ( !directoryName.isNull() )
+    QString directoryName =  QFileDialog::getExistingDirectory
+    (
+        this,
+        tr( "Select a directory" ),
+        settings.value( "LastSelectedDir" ).toString()
+    );
+
+    if ( !directoryName.isEmpty() )
     {
+        settings.setValue( "LastSelectedDir", directoryName );
+
         session->addDirectory( directoryName );
     }
 }
