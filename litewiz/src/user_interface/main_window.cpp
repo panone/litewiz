@@ -77,6 +77,7 @@ void MainWindow::connectSignals
 )
 {
     connect( ui->fileMenu, SIGNAL( aboutToShow() ), this, SLOT( enableExport() ) );
+    connect( ui->toolsMenu, SIGNAL( aboutToShow() ), this, SLOT( enableClassify() ) );
 
     connect( ui->addFilesAction, SIGNAL( triggered() ), this, SLOT( addFiles() ) );
     connect( ui->addDirectoryAction, SIGNAL( triggered() ), this, SLOT( addDirectory() ) );
@@ -143,6 +144,16 @@ void MainWindow::enableExport
 )
 {
     ui->exportMenu->setEnabled( session->getFiles()->getIncludedCount() > 0 );
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void MainWindow::enableClassify
+(
+    void
+)
+{
+    ui->classifyAction->setEnabled( session->getFiles()->getCount() > 0 );
 }
 
 /*******************************************************************************

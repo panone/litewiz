@@ -67,6 +67,11 @@ class MainWindow : public QMainWindow
             void
         );
 
+        void enableClassify
+        (
+            void
+        );
+
         void addFiles
         (
             void

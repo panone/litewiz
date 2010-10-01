@@ -185,7 +185,7 @@
     <addaction name="separator"/>
     <addaction name="exitAction"/>
    </widget>
-   <widget class="QMenu" name="menuTools">
+   <widget class="QMenu" name="toolsMenu">
     <property name="title">
      <string>&amp;Tools</string>
     </property>
@@ -194,7 +194,7 @@
     <addaction name="optionsAction"/>
    </widget>
    <addaction name="fileMenu"/>
-   <addaction name="menuTools"/>
+   <addaction name="toolsMenu"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="addFilesAction">
