@@ -102,6 +102,9 @@
    </item>
    <item>
     <widget class="QCheckBox" name="listeningTestCheckBox">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="text">
       <string>Listening test mode</string>
      </property>
