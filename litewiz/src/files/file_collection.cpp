@@ -160,6 +160,27 @@ int FileCollection::getCount
 
 /*******************************************************************************
 *******************************************************************************/
+int FileCollection::getIncludedCount
+(
+    void
+)
+    const
+{
+    int result = 0;
+
+    foreach ( File const * file, files )
+    {
+        if ( !file->isExcluded() )
+        {
+            result++;
+        }
+    }
+
+    return result;
+}
+
+/*******************************************************************************
+*******************************************************************************/
 File * FileCollection::getFile
 (
     int const index

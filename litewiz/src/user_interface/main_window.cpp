@@ -6,6 +6,7 @@
 #include <QSettings>
 #include "utility.h"
 #include "session.h"
+#include "file_collection.h"
 #include "file_tree_model.h"
 #include "item_list_model.h"
 #include "variant_list_model.h"
@@ -75,6 +76,8 @@ void MainWindow::connectSignals
     void
 )
 {
+    connect( ui->fileMenu, SIGNAL( aboutToShow() ), this, SLOT( enableExport() ) );
+
     connect( ui->addFilesAction, SIGNAL( triggered() ), this, SLOT( addFiles() ) );
     connect( ui->addDirectoryAction, SIGNAL( triggered() ), this, SLOT( addDirectory() ) );
     connect( ui->aetExportAction, SIGNAL( triggered() ), this, SLOT( exportAetSession() ) );
@@ -130,6 +133,16 @@ void MainWindow::restoreGeometry
     ui->fileTreeView->header()->restoreState( settings.value( "FileTreeView" ).toByteArray() );
 
     settings.endGroup();
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void MainWindow::enableExport
+(
+    void
+)
+{
+    ui->exportMenu->setEnabled( session->getFiles()->getIncludedCount() > 0 );
 }
 
 /*******************************************************************************

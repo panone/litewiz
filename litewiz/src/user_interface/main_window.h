@@ -62,6 +62,11 @@ class MainWindow : public QMainWindow
 
     private slots:
 
+        void enableExport
+        (
+            void
+        );
+
         void addFiles
         (
             void

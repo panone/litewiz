@@ -75,6 +75,12 @@ class FileCollection
         )
         const;
 
+        int getIncludedCount
+        (
+            void
+        )
+        const;
+
         File * getFile
         (
             int const index
