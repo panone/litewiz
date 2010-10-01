@@ -44,6 +44,11 @@ class AetSession
             QString const & deviceName
         );
 
+        void setRangeSelection
+        (
+            bool const selection
+        );
+
         bool save
         (
             QString const & fileName
@@ -75,6 +80,12 @@ class AetSession
             QString     const &       sessionPath
         );
 
+        QDomElement createIntegerElement
+        (
+            QString const &       name,
+            int             const value
+        );
+
         QDomElement createStringElement
         (
             QString const & name,
@@ -94,6 +105,7 @@ class AetSession
 
         QString        title;
         QString        audioDevice;
+        bool           rangeSelection;
 };
 
 /******************************************************************************/

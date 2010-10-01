@@ -112,6 +112,7 @@ void AetExportDialog::saveSession
 
     aetSession.setTitle( ui->sectionTitleEdit->lineEdit()->text() );
     aetSession.setAudioDevice( ui->audioDeviceEdit->lineEdit()->text() );
+    aetSession.setRangeSelection( ui->rangeSelectCheckBox->isChecked() );
 
     QString fileName = ui->fileNameEdit->lineEdit()->text();
 

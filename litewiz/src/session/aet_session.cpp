@@ -25,8 +25,9 @@ AetSession::AetSession
 ) :
     session( session )
 {
-    document = new QDomDocument();
-    title    = "Session";
+    document       = new QDomDocument();
+    title          = "Session";
+    rangeSelection = false;
 }
 
 /*******************************************************************************
@@ -63,6 +64,16 @@ void AetSession::setAudioDevice
     {
         audioDevice = deviceName;
     }
+}
+
+/*******************************************************************************
+*******************************************************************************/
+void AetSession::setRangeSelection
+(
+    bool const selection
+)
+{
+    rangeSelection = selection;
 }
 
 /*******************************************************************************
@@ -109,6 +120,11 @@ void AetSession::formatSession
     if ( !audioDevice.isEmpty() )
     {
         parent.appendChild( createStringElement( "AudioDevice", audioDevice ) );
+    }
+
+    if ( rangeSelection )
+    {
+        parent.appendChild( createIntegerElement( "RangeSelection", 1 ) );
     }
 
     formatVariants( parent );
@@ -206,6 +222,22 @@ void AetSession::formatItem
 
     parent.appendChild( createStringElement( "Title", item->getName() ) );
     parent.appendChild( createStringListElement( "Files", names ) );
+}
+
+/*******************************************************************************
+*******************************************************************************/
+QDomElement AetSession::createIntegerElement
+(
+    QString const &       name,
+    int             const value
+)
+{
+    QDomElement result = document->createElement( name );
+
+    result.setAttribute( "type", "integer" );
+    result.setAttribute( "value", value );
+
+    return result;
 }
 
 /*******************************************************************************
